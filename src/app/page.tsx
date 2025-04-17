@@ -110,43 +110,45 @@ export default function Home() {
           <CardTitle>Daily Docket</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="date">Date</Label>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant={"outline"}
-                  className={cn(
-                    "w-[240px] justify-start text-left font-normal",
-                    !date && "text-muted-foreground"
-                  )}
-                >
-                  {date ? format(date, "PPP") : (
-                    <span>Pick a date</span>
-                  )}
-                  <Icons.calendar className="ml-auto h-4 w-4 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  mode="single"
-                  defaultMonth={date}
-                  selected={date}
-                  onSelect={setDate}
-                  disabled={{after: new Date()}}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="shiftLead">Shift Lead</Label>
-            <Input
-              id="shiftLead"
-              placeholder="Enter shift lead name"
-              value={shiftLead}
-              onChange={(e) => setShiftLead(e.target.value)}
-            />
+          <div className="flex space-x-4">
+            <div className="grid gap-2">
+              <Label htmlFor="date">Date</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-[240px] justify-start text-left font-normal",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    {date ? format(date, "PPP") : (
+                      <span>Pick a date</span>
+                    )}
+                    <Icons.calendar className="ml-auto h-4 w-4 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    defaultMonth={date}
+                    selected={date}
+                    onSelect={setDate}
+                    disabled={{after: new Date()}}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="shiftLead">Shift Lead</Label>
+              <Input
+                id="shiftLead"
+                placeholder="Enter shift lead name"
+                value={shiftLead}
+                onChange={(e) => setShiftLead(e.target.value)}
+              />
+            </div>
           </div>
           <div className="grid gap-2">
             <Label htmlFor="salesData1">Sales Data 1</Label>
