@@ -118,7 +118,7 @@ export default function Home() {
                   <Button
                     variant={"outline"}
                     className={cn(
-                      "w-[120px] justify-start text-left font-normal",
+                      "w-36 justify-start text-left font-normal",
                       !date && "text-muted-foreground"
                     )}
                   >
@@ -145,7 +145,7 @@ export default function Home() {
               <Input
                 id="shiftLead"
                 placeholder="Enter shift lead name"
-                className="w-[280px]"
+                className="w-36"
                 value={shiftLead}
                 onChange={(e) => setShiftLead(e.target.value)}
               />
