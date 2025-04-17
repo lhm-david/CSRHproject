@@ -107,7 +107,7 @@ export default function Home() {
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <Card className="w-full max-w-md space-y-4">
         <CardHeader>
-          <CardTitle>Daily Docket</CardTitle>
+          <CardTitle>Chubby Skewers Daily Report</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-4">
           <div className="flex space-x-4">
@@ -141,7 +141,7 @@ export default function Home() {
               </Popover>
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="shiftLead">Shift Lead</Label>
+              <Label htmlFor="shiftLead">Shift Lead: </Label>
               <Input
                 id="shiftLead"
                 placeholder="Enter shift lead name"
