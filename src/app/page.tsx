@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -29,6 +29,17 @@ export default function Home() {
   const [salesData6, setSalesData6] = useState("");
   const [salesData7, setSalesData7] = useState("");
   const [salesData8, setSalesData8] = useState("");
+  const [salesDataPercentage, setSalesDataPercentage] = useState("0.00");
+
+  useEffect(() => {
+    const num1 = parseFloat(salesData1);
+    const num2 = parseFloat(salesData2);
+    if (!isNaN(num1) && !isNaN(num2) && num2 !== 0) {
+      setSalesDataPercentage((num1 / num2 * 100).toFixed(2));
+    } else {
+      setSalesDataPercentage("0.00");
+    }
+  }, [salesData1, salesData2]);
 
   const generateReportText = () => {
     return `
@@ -100,6 +111,15 @@ export default function Home() {
               placeholder="Enter sales data 2"
               value={salesData2}
               onChange={(e) => setSalesData2(e.target.value)}
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="salesDataPercentage">Sales Data Percentage</Label>
+            <Input
+              id="salesDataPercentage"
+              placeholder="Sales Data Percentage"
+              value={`${salesDataPercentage}%`}
+              readOnly
             />
           </div>
           <div className="grid gap-2">
