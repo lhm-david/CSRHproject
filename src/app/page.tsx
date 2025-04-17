@@ -20,6 +20,16 @@ export default function Home() {
   const [isGenerating, setIsGenerating] = useState(false);
   const { toast } = useToast();
 
+  // Sales Data Fields
+  const [salesData1, setSalesData1] = useState("");
+  const [salesData2, setSalesData2] = useState("");
+  const [salesData3, setSalesData3] = useState("");
+  const [salesData4, setSalesData4] = useState("");
+  const [salesData5, setSalesData5] = useState("");
+  const [salesData6, setSalesData6] = useState("");
+  const [salesData7, setSalesData7] = useState("");
+  const [salesData8, setSalesData8] = useState("");
+
   const generateReportText = () => {
     return `
       Daily Report:
@@ -74,6 +84,78 @@ export default function Home() {
           <CardTitle>Daily Docket</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-4">
+          <div className="grid gap-2">
+            <Label htmlFor="salesData1">Sales Data 1</Label>
+            <Input
+              id="salesData1"
+              placeholder="Enter sales data 1"
+              value={salesData1}
+              onChange={(e) => setSalesData1(e.target.value)}
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="salesData2">Sales Data 2</Label>
+            <Input
+              id="salesData2"
+              placeholder="Enter sales data 2"
+              value={salesData2}
+              onChange={(e) => setSalesData2(e.target.value)}
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="salesData3">Sales Data 3</Label>
+            <Input
+              id="salesData3"
+              placeholder="Enter sales data 3"
+              value={salesData3}
+              onChange={(e) => setSalesData3(e.target.value)}
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="salesData4">Sales Data 4</Label>
+            <Input
+              id="salesData4"
+              placeholder="Enter sales data 4"
+              value={salesData4}
+              onChange={(e) => setSalesData4(e.target.value)}
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="salesData5">Sales Data 5</Label>
+            <Input
+              id="salesData5"
+              placeholder="Enter sales data 5"
+              value={salesData5}
+              onChange={(e) => setSalesData5(e.target.value)}
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="salesData6">Sales Data 6</Label>
+            <Input
+              id="salesData6"
+              placeholder="Enter sales data 6"
+              value={salesData6}
+              onChange={(e) => setSalesData6(e.target.value)}
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="salesData7">Sales Data 7</Label>
+            <Input
+              id="salesData7"
+              placeholder="Enter sales data 7"
+              value={salesData7}
+              onChange={(e) => setSalesData7(e.target.value)}
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="salesData8">Sales Data 8</Label>
+            <Input
+              id="salesData8"
+              placeholder="Enter sales data 8"
+              value={salesData8}
+              onChange={(e) => setSalesData8(e.target.value)}
+            />
+          </div>
           <div className="grid gap-2">
             <Label htmlFor="accomplishments">Accomplishments</Label>
             <Textarea
