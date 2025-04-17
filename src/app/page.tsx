@@ -10,13 +10,17 @@ import { sendEmail } from "@/services/email";
 import { generatePdf } from "@/services/pdf";
 import { useToast } from "@/hooks/use-toast";
 import { Icons } from "@/components/icons";
-import { summarizeReport } from "@/ai/flows/summarize-report";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+import { SummarizeReportOutput, summarizeReport } from "@/ai/flows/summarize-report";
 
 export default function Home() {
   const [accomplishments, setAccomplishments] = useState("");
   const [challenges, setChallenges] = useState("");
   const [plans, setPlans] = useState("");
-  const [reportSummary, setReportSummary] = useState("");
+  const [reportSummary, setReportSummary] = useState<string>("");
   const [isGenerating, setIsGenerating] = useState(false);
   const { toast } = useToast();
 
@@ -31,6 +35,15 @@ export default function Home() {
   const [salesData8, setSalesData8] = useState("");
   const [salesDataPercentage, setSalesDataPercentage] = useState("0.00");
 
+  //New field
+  const [date, setDate] = useState<Date | undefined>(() => {
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    return yesterday;
+  });
+
+  const [shiftLead, setShiftLead] = useState("");
+
   useEffect(() => {
     const num1 = parseFloat(salesData1);
     const num2 = parseFloat(salesData2);
@@ -44,6 +57,8 @@ export default function Home() {
   const generateReportText = () => {
     return `
       Daily Report:
+      Date: ${date ? format(date, "PPP") : "No date selected"}
+      Shift Lead: ${shiftLead}
       Accomplishments: ${accomplishments}
       Challenges: ${challenges}
       Plans: ${plans}
@@ -95,6 +110,44 @@ export default function Home() {
           <CardTitle>Daily Docket</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-4">
+          <div className="grid gap-2">
+            <Label htmlFor="date">Date</Label>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant={"outline"}
+                  className={cn(
+                    "w-[240px] justify-start text-left font-normal",
+                    !date && "text-muted-foreground"
+                  )}
+                >
+                  {date ? format(date, "PPP") : (
+                    <span>Pick a date</span>
+                  )}
+                  <Icons.calendar className="ml-auto h-4 w-4 opacity-50" />
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  defaultMonth={date}
+                  selected={date}
+                  onSelect={setDate}
+                  disabled={{after: new Date()}}
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="shiftLead">Shift Lead</Label>
+            <Input
+              id="shiftLead"
+              placeholder="Enter shift lead name"
+              value={shiftLead}
+              onChange={(e) => setShiftLead(e.target.value)}
+            />
+          </div>
           <div className="grid gap-2">
             <Label htmlFor="salesData1">Sales Data 1</Label>
             <Input
