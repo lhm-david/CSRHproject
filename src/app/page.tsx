@@ -18,9 +18,6 @@ import { SummarizeReportOutput, summarizeReport } from "@/ai/flows/summarize-rep
 import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
-  const [accomplishments, setAccomplishments] = useState("");
-  const [challenges, setChallenges] = useState("");
-  const [plans, setPlans] = useState("");
   const [reportSummary, setReportSummary] = useState<string>("");
   const [isGenerating, setIsGenerating] = useState(false);
   const { toast } = useToast();
@@ -110,9 +107,6 @@ export default function Home() {
       Daily Report:
       Date: ${formattedDate}
       Shift Lead: ${shiftLead}
-      Accomplishments: ${accomplishments}
-      Challenges: ${challenges}
-      Plans: ${plans}
     `;
   };
 
@@ -183,7 +177,6 @@ export default function Home() {
                     mode="single"
                     defaultMonth={date}
                     selected={date}
-                    onSelect={setDate}
                     disabled={{ after: new Date() }}
                     initialFocus
                   />
@@ -389,34 +382,6 @@ export default function Home() {
             />
           </div>
 
-          <Separator/>
-          <div className="grid gap-2">
-            <Label htmlFor="accomplishments">Accomplishments</Label>
-            <Textarea
-              id="accomplishments"
-              placeholder="List today's accomplishments"
-              value={accomplishments}
-              onChange={(e) => setAccomplishments(e.target.value)}
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="challenges">Challenges</Label>
-            <Textarea
-              id="challenges"
-              placeholder="List any challenges faced today"
-              value={challenges}
-              onChange={(e) => setChallenges(e.target.value)}
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="plans">Plans for Tomorrow</Label>
-            <Textarea
-              id="plans"
-              placeholder="List plans for tomorrow"
-              value={plans}
-              onChange={(e) => setPlans(e.target.value)}
-            />
-          </div>
           <Separator/>
           <div className="grid gap-2">
             <Label htmlFor="report-summary">Report Summary</Label>
