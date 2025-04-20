@@ -110,7 +110,7 @@ export default function Home() {
           <CardTitle>Chubby Skewers Daily Report</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-4">
-          <div className="flex  space-x-4">
+          <div className="flex items-center space-x-4">
             <div className="grid gap-2">
               <div className="flex items-center space-x-2">
                 <Label htmlFor="date">Date</Label>
@@ -142,15 +142,15 @@ export default function Home() {
                 </Popover>
               </div>
             </div>
-           </div>
-           <div className="flex  space-x-4">
+          </div>
+          <div className="flex items-center space-x-4">
             <div className="grid gap-2">
               <div className="flex items-center space-x-2">
                 <Label htmlFor="shiftLead">Shift Lead: </Label>
                 <Input
                   id="shiftLead"
                   placeholder="Enter shift lead name"
-                  className="w-36"
+                  className="w-full"
                   value={shiftLead}
                   onChange={(e) => setShiftLead(e.target.value)}
                 />
