@@ -287,13 +287,23 @@ export default function Home() {
               onChange={(e) => setAlcoholSales(e.target.value)}
             />
           </div>
-          
+
           <div className="grid gap-2">
             <Label htmlFor="alcoholSalesPercentage">Alcohol Sales per guest</Label>
             <Input
               id="alcoholSalesPercentage"
               placeholder="Alcohol Sales per guest"
               value={`${alcoholSalesPerGuest}`}
+              readOnly
+            />
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="alcoholSalesPercentage">Alcohol Sales Percentage</Label>
+            <Input
+              id="alcoholSalesPercentage"
+              placeholder="Alcohol Sales Percentage"
+              value={`${alcoholSalesPercentage}`}
               readOnly
             />
           </div>
