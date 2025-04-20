@@ -159,24 +159,26 @@ export default function Home() {
             </div>
           </div>
           
-          <div className="grid gap-2">
-            <Label htmlFor="totalTable">Total Table:</Label>
-            <Input
-              id="totalTable"
-              placeholder="Enter total tables"
-              value={totalTable}
-              onChange={(e) => setTotalTable(e.target.value)}
-            />
-          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <div className="grid gap-2">
+              <Label htmlFor="totalTable">Total Table:</Label>
+              <Input
+                id="totalTable"
+                placeholder="Enter total tables"
+                value={totalTable}
+                onChange={(e) => setTotalTable(e.target.value)}
+              />
+            </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="totalGuest">Total Guest:</Label>
-            <Input
-              id="totalGuest"
-              placeholder="Enter total guests"
-              value={totalGuest}
-              onChange={(e) => setTotalGuest(e.target.value)}
-            />
+            <div className="grid gap-2">
+              <Label htmlFor="totalGuest">Total Guest:</Label>
+              <Input
+                id="totalGuest"
+                placeholder="Enter total guests"
+                value={totalGuest}
+                onChange={(e) => setTotalGuest(e.target.value)}
+              />
+            </div>
           </div>
 
           <div className="grid gap-2">
@@ -324,5 +326,3 @@ export default function Home() {
     </div>
   );
 }
-
-
