@@ -15,6 +15,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { SummarizeReportOutput, summarizeReport } from "@/ai/flows/summarize-report";
+import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
   const [accomplishments, setAccomplishments] = useState("");
@@ -141,7 +142,9 @@ export default function Home() {
                   </PopoverContent>
                 </Popover>
               </div>
-              <div className="grid gap-2">
+              
+            </div>
+            <div className="grid gap-2">
                 
                   <Label htmlFor="shiftLead">Shift Lead: </Label>
                   <Input
@@ -153,7 +156,6 @@ export default function Home() {
                   />
                 
               </div>
-            </div>
           
           
           <div className="grid gap-2">
@@ -192,15 +194,7 @@ export default function Home() {
               onChange={(e) => setCreditCardSales(e.target.value)}
             />
           </div>
-          <div className="grid gap-2">
-            <Label htmlFor="alcoholSalesPercentage">Alcohol Sales Percentage</Label>
-            <Input
-              id="alcoholSalesPercentage"
-              placeholder="Alcohol Sales Percentage"
-              value={`${alcoholSalesPercentage}%`}
-              readOnly
-            />
-          </div>
+
           <div className="grid gap-2">
             <Label htmlFor="alcoholSales">Alcohol Sales</Label>
             <Input
@@ -208,6 +202,15 @@ export default function Home() {
               placeholder="Enter alcohol sales"
               value={alcoholSales}
               onChange={(e) => setAlcoholSales(e.target.value)}
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="alcoholSalesPercentage">Alcohol Sales Percentage</Label>
+            <Input
+              id="alcoholSalesPercentage"
+              placeholder="Alcohol Sales Percentage"
+              value={`${alcoholSalesPercentage}%`}
+              readOnly
             />
           </div>
           
@@ -239,6 +242,7 @@ export default function Home() {
               onChange={(e) => setSalesData8(e.target.value)}
             />
           </div>
+          <Separator/>
           <div className="grid gap-2">
             <Label htmlFor="accomplishments">Accomplishments</Label>
             <Textarea
@@ -266,6 +270,7 @@ export default function Home() {
               onChange={(e) => setPlans(e.target.value)}
             />
           </div>
+          <Separator/>
           <div className="grid gap-2">
             <Label htmlFor="report-summary">Report Summary</Label>
             <Textarea
