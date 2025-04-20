@@ -55,6 +55,11 @@ export default function Home() {
   const [totalTable, setTotalTable] = useState("");
   const [totalGuest, setTotalGuest] = useState("");
 
+  //New Input Fields
+  const [salesPerGuest, setSalesPerGuest] = useState("");
+  const [totalAmountCancelled, setTotalAmountCancelled] = useState("");
+  const [reasonForCancelled, setReasonForCancelled] = useState("");
+
   useEffect(() => {
     const num1 = parseFloat(alcoholSales);
     const num2 = parseFloat(grossSales);
@@ -85,6 +90,12 @@ export default function Home() {
       setTipsPercentage((num6 / num2 * 100).toFixed(2));
     } else {
       setTipsPercentage("0.00");
+    }
+
+    if (!isNaN(num2) && !isNaN(num3) && num3 !== 0) {
+      setSalesPerGuest((num2 / num3).toFixed(2));
+    } else {
+      setSalesPerGuest("0.00");
     }
 
 
@@ -344,6 +355,36 @@ export default function Home() {
               placeholder="Tips Percentage"
               value={`${tipsPercentage}`}
               readOnly
+            />
+          </div>
+          
+          <div className="grid gap-2">
+            <Label htmlFor="salesPerGuest">Sales Per Guest:</Label>
+            <Input
+              id="salesPerGuest"
+              placeholder="Sales Per Guest"
+              value={salesPerGuest}
+              readOnly
+            />
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="totalAmountCancelled">Total amount cancelled:</Label>
+            <Input
+              id="totalAmountCancelled"
+              placeholder="Enter total amount cancelled"
+              value={totalAmountCancelled}
+              onChange={(e) => setTotalAmountCancelled(e.target.value)}
+            />
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="reasonForCancelled">Reason for cancelled:</Label>
+            <Input
+              id="reasonForCancelled"
+              placeholder="Enter reason for cancelled"
+              value={reasonForCancelled}
+              onChange={(e) => setReasonForCancelled(e.target.value)}
             />
           </div>
 
