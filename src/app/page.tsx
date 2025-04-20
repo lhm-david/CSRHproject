@@ -25,15 +25,15 @@ export default function Home() {
   const { toast } = useToast();
 
   // Sales Data Fields
-  const [salesData1, setSalesData1] = useState("");
-  const [salesData2, setSalesData2] = useState("");
-  const [salesData3, setSalesData3] = useState("");
-  const [salesData4, setSalesData4] = useState("");
-  const [salesData5, setSalesData5] = useState("");
+  const [totalSales, setTotalSales] = useState("");
+  const [grossSales, setGrossSales] = useState("");
+  const [cashSales, setCashSales] = useState("");
+  const [creditCardSales, setCreditCardSales] = useState("");
+  const [alcoholSales, setAlcoholSales] = useState("");
+  const [alcoholSalesPercentage, setAlcoholSalesPercentage] = useState("0.00");
   const [salesData6, setSalesData6] = useState("");
   const [salesData7, setSalesData7] = useState("");
   const [salesData8, setSalesData8] = useState("");
-  const [salesDataPercentage, setSalesDataPercentage] = useState("0.00");
 
   //New field
   const [date, setDate] = useState<Date | undefined>(() => {
@@ -45,14 +45,14 @@ export default function Home() {
   const [shiftLead, setShiftLead] = useState("");
 
   useEffect(() => {
-    const num1 = parseFloat(salesData1);
-    const num2 = parseFloat(salesData2);
+    const num1 = parseFloat(totalSales);
+    const num2 = parseFloat(grossSales);
     if (!isNaN(num1) && !isNaN(num2) && num2 !== 0) {
-      setSalesDataPercentage((num1 / num2 * 100).toFixed(2));
+      setAlcoholSalesPercentage((num1 / num2 * 100).toFixed(2));
     } else {
-      setSalesDataPercentage("0.00");
+      setAlcoholSalesPercentage("0.00");
     }
-  }, [salesData1, salesData2]);
+  }, [totalSales, grossSales]);
 
   const generateReportText = () => {
     return `
@@ -111,7 +111,7 @@ export default function Home() {
         </CardHeader>
         <CardContent className="grid gap-4">
           
-            <div className="grid gap-2">
+            <div className="grid grid-cols-2 gap-2">
               <div className="flex items-center space-x-2">
                 <Label htmlFor="date">Date</Label>
                 <Popover>
@@ -141,76 +141,76 @@ export default function Home() {
                   </PopoverContent>
                 </Popover>
               </div>
+              <div className="grid gap-2">
+                
+                  <Label htmlFor="shiftLead">Shift Lead: </Label>
+                  <Input
+                    id="shiftLead"
+                    placeholder="Enter shift lead name"
+                    className="w-full"
+                    value={shiftLead}
+                    onChange={(e) => setShiftLead(e.target.value)}
+                  />
+                
+              </div>
             </div>
           
           
-            <div className="grid gap-2">
-              
-                <Label htmlFor="shiftLead">Shift Lead: </Label>
-                <Input
-                  id="shiftLead"
-                  placeholder="Enter shift lead name"
-                  className="w-full"
-                  value={shiftLead}
-                  onChange={(e) => setShiftLead(e.target.value)}
-                />
-              
-            </div>
-          
           <div className="grid gap-2">
-            <Label htmlFor="salesData1">Total Sales</Label>
+            <Label htmlFor="totalSales">Total Sales</Label>
             <Input
-              id="salesData1"
-              placeholder="Enter sales data 1"
-              value={salesData1}
-              onChange={(e) => setSalesData1(e.target.value)}
+              id="totalSales"
+              placeholder="Enter total sales"
+              value={totalSales}
+              onChange={(e) => setTotalSales(e.target.value)}
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="salesData2">Gross Sales</Label>
+            <Label htmlFor="grossSales">Gross Sales</Label>
             <Input
-              id="salesData2"
-              placeholder="Enter sales data 2"
-              value={salesData2}
-              onChange={(e) => setSalesData2(e.target.value)}
+              id="grossSales"
+              placeholder="Enter gross sales"
+              value={grossSales}
+              onChange={(e) => setGrossSales(e.target.value)}
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="salesDataPercentage">Alcohol Sales Percentage</Label>
+            <Label htmlFor="cashSales">Cash Sales</Label>
             <Input
-              id="salesDataPercentage"
+              id="cashSales"
+              placeholder="Enter cash sales"
+              value={cashSales}
+              onChange={(e) => setCashSales(e.target.value)}
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="creditCardSales">Credit Card Sales</Label>
+            <Input
+              id="creditCardSales"
+              placeholder="Enter credit card sales"
+              value={creditCardSales}
+              onChange={(e) => setCreditCardSales(e.target.value)}
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="alcoholSalesPercentage">Alcohol Sales Percentage</Label>
+            <Input
+              id="alcoholSalesPercentage"
               placeholder="Alcohol Sales Percentage"
-              value={`${salesDataPercentage}%`}
+              value={`${alcoholSalesPercentage}%`}
               readOnly
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="salesData5">Alcohol Sales</Label>
+            <Label htmlFor="alcoholSales">Alcohol Sales</Label>
             <Input
-              id="salesData5"
-              placeholder="Enter sales data 5"
-              value={salesData5}
-              onChange={(e) => setSalesData5(e.target.value)}
+              id="alcoholSales"
+              placeholder="Enter alcohol sales"
+              value={alcoholSales}
+              onChange={(e) => setAlcoholSales(e.target.value)}
             />
           </div>
-          <div className="grid gap-2">
-            <Label htmlFor="salesData3">Cash Sales</Label>
-            <Input
-              id="salesData3"
-              placeholder="Enter sales data 3"
-              value={salesData3}
-              onChange={(e) => setSalesData3(e.target.value)}
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="salesData4">Credit Card Sales</Label>
-            <Input
-              id="salesData4"
-              placeholder="Enter sales data 4"
-              value={salesData4}
-              onChange={(e) => setSalesData4(e.target.value)}
-            />
-          </div>
+          
           
           <div className="grid gap-2">
             <Label htmlFor="salesData6">Sales Data 6</Label>
