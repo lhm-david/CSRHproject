@@ -42,23 +42,28 @@ export default function Home() {
     yesterday.setDate(yesterday.getDate() - 1);
     return yesterday;
   });
+  const [formattedDate, setFormattedDate] = useState(date ? format(date, "PPP") : "Pick a date");
 
   const [shiftLead, setShiftLead] = useState("");
 
   useEffect(() => {
-    const num1 = parseFloat(totalSales);
+    const num1 = parseFloat(alcoholSales);
     const num2 = parseFloat(grossSales);
     if (!isNaN(num1) && !isNaN(num2) && num2 !== 0) {
       setAlcoholSalesPercentage((num1 / num2 * 100).toFixed(2));
     } else {
       setAlcoholSalesPercentage("0.00");
     }
-  }, [totalSales, grossSales]);
+  }, [alcoholSales, grossSales]);
+
+  useEffect(() => {
+    setFormattedDate(date ? format(date, "PPP") : "Pick a date");
+  }, [date]);
 
   const generateReportText = () => {
     return `
       Daily Report:
-      Date: ${date ? format(date, "PPP") : "No date selected"}
+      Date: ${formattedDate}
       Shift Lead: ${shiftLead}
       Accomplishments: ${accomplishments}
       Challenges: ${challenges}
@@ -112,52 +117,46 @@ export default function Home() {
         </CardHeader>
         <CardContent className="grid gap-4">
           
-            <div className="grid grid-cols-2 gap-2">
-              <div className="flex items-center space-x-2">
-                <Label htmlFor="date">Date</Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant={"outline"}
-                      className={cn(
-                        "w-36 justify-start text-left font-normal",
-                        !date && "text-muted-foreground"
-                      )}
-                    >
-                      {date ? format(date, "PPP") : (
-                        <span>Pick a date</span>
-                      )}
-                      <Icons.calendar className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      defaultMonth={date}
-                      selected={date}
-                      onSelect={setDate}
-                      disabled={{after: new Date()}}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
-              
+          <div className="grid grid-cols-2 gap-2">
+            <div className="flex items-center space-x-2">
+              <Label htmlFor="date">Date</Label>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-36 justify-start text-left font-normal",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    {formattedDate}
+                    <Icons.calendar className="ml-auto h-4 w-4 opacity-50" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    defaultMonth={date}
+                    selected={date}
+                    onSelect={setDate}
+                    disabled={{ after: new Date() }}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
             <div className="grid gap-2">
-                
-                  <Label htmlFor="shiftLead">Shift Lead: </Label>
-                  <Input
-                    id="shiftLead"
-                    placeholder="Enter shift lead name"
-                    className="w-full"
-                    value={shiftLead}
-                    onChange={(e) => setShiftLead(e.target.value)}
-                  />
-                
-              </div>
-          
-          
+              <Label htmlFor="shiftLead">Shift Lead:</Label>
+              <Input
+                id="shiftLead"
+                placeholder="Enter shift lead name"
+                className="w-full"
+                value={shiftLead}
+                onChange={(e) => setShiftLead(e.target.value)}
+              />
+            </div>
+          </div>
+
           <div className="grid gap-2">
             <Label htmlFor="totalSales">Total Sales</Label>
             <Input
@@ -194,7 +193,6 @@ export default function Home() {
               onChange={(e) => setCreditCardSales(e.target.value)}
             />
           </div>
-
           <div className="grid gap-2">
             <Label htmlFor="alcoholSales">Alcohol Sales</Label>
             <Input
