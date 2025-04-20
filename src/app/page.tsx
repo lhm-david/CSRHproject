@@ -35,6 +35,7 @@ export default function Home() {
   const [alcoholSalesPerGuest, setAlcoholSalesPerGuest] = useState("0.00");
   const [creditCardTips, setCreditCardTips] = useState("");
   const [cashTips, setCashTips] = useState("");
+  const [totalTips, setTotalTips] = useState("0.00");
 
   //New Sales Data Fields
   const [giftCardSales, setGiftCardSales] = useState("");
@@ -57,6 +58,9 @@ export default function Home() {
     const num1 = parseFloat(alcoholSales);
     const num2 = parseFloat(grossSales);
     const num3 = parseFloat(totalGuest);
+    const num4 = parseFloat(creditCardTips);
+    const num5 = parseFloat(cashTips);
+
     if (!isNaN(num1) && !isNaN(num2) && num2 !== 0) {
       setAlcoholSalesPercentage((num1 / num2 * 100).toFixed(2));
     } else {
@@ -69,7 +73,13 @@ export default function Home() {
       setAlcoholSalesPerGuest("0.00");
     }
 
-  }, [alcoholSales, grossSales, totalGuest]);
+    if (!isNaN(num4) && !isNaN(num5)) {
+      setTotalTips((num4 + num5).toFixed(2));
+    } else {
+      setTotalTips("0.00");
+    }
+
+  }, [alcoholSales, grossSales, totalGuest, creditCardTips, cashTips]);
 
   useEffect(() => {
     setFormattedDate(date ? format(date, "PPP") : "Pick a date");
@@ -297,6 +307,17 @@ export default function Home() {
               onChange={(e) => setCashTips(e.target.value)}
             />
           </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="totalTips">Total Tips</Label>
+            <Input
+              id="totalTips"
+              placeholder="Total tips"
+              value={`${totalTips}`}
+              readOnly
+            />
+          </div>
+
           <Separator/>
           <div className="grid gap-2">
             <Label htmlFor="accomplishments">Accomplishments</Label>
@@ -357,6 +378,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 
