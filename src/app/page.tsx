@@ -214,7 +214,7 @@ export default function Home() {
           
           
           <div className="grid gap-2">
-            <Label htmlFor="salesData6">Sales Data 6</Label>
+            <Label htmlFor="salesData6">Alcohol Sales per guest</Label>
             <Input
               id="salesData6"
               placeholder="Enter sales data 6"
@@ -300,3 +300,4 @@ export default function Home() {
     </div>
   );
 }
+
