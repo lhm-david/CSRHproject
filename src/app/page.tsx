@@ -178,6 +178,10 @@ export default function Home() {
     );
   };
 
+  const handleRemoveReason = (id: number) => {
+    setOtherReasons(otherReasons.filter((reason) => reason.id !== id));
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <Card className="w-full max-w-md space-y-4">
@@ -442,7 +446,7 @@ export default function Home() {
           </div>
 
           {otherReasons.map((reason, index) => (
-            <div className="grid grid-cols-2 gap-2" key={reason.id}>
+            <div className="grid grid-cols-3 gap-2" key={reason.id}>
               <div className="grid gap-2">
                 <Label htmlFor={`otherReason-${reason.id}`}>Reason {index + 1}:</Label>
                 <Input
@@ -461,6 +465,9 @@ export default function Home() {
                   onChange={(e) => handleValueChange(reason.id, e.target.value)}
                 />
               </div>
+              <Button type="button" onClick={() => handleRemoveReason(reason.id)} variant="destructive" size="sm">
+                <Icons.trash className="h-4 w-4" />
+              </Button>
             </div>
           ))}
 
