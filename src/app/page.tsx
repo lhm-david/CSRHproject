@@ -33,8 +33,8 @@ export default function Home() {
   const [alcoholSales, setAlcoholSales] = useState("");
   const [alcoholSalesPercentage, setAlcoholSalesPercentage] = useState("0.00");
   const [alcoholSalesPerGuest, setAlcoholSalesPerGuest] = useState("0.00");
-  const [salesData7, setSalesData7] = useState("");
-  const [salesData8, setSalesData8] = useState("");
+  const [creditCardTips, setCreditCardTips] = useState("");
+  const [cashTips, setCashTips] = useState("");
 
   //New Sales Data Fields
   const [giftCardSales, setGiftCardSales] = useState("");
@@ -230,6 +230,7 @@ export default function Home() {
               onChange={(e) => setCreditCardSales(e.target.value)}
             />
           </div>
+          
           <div className="grid gap-2">
             <Label htmlFor="giftCardSales">Gift Card Sales</Label>
             <Input
@@ -257,6 +258,7 @@ export default function Home() {
               onChange={(e) => setOnlineSales(e.target.value)}
             />
           </div>
+
           <div className="grid gap-2">
             <Label htmlFor="alcoholSales">Alcohol Sales</Label>
             <Input
@@ -278,21 +280,21 @@ export default function Home() {
           </div>
           
           <div className="grid gap-2">
-            <Label htmlFor="salesData7">Sales Data 7</Label>
+            <Label htmlFor="creditCardTips">Credit Card Tips</Label>
             <Input
-              id="salesData7"
+              id="creditCardTips"
               placeholder="Enter sales data 7"
-              value={salesData7}
-              onChange={(e) => setSalesData7(e.target.value)}
+              value={creditCardTips}
+              onChange={(e) => setCreditCardTips(e.target.value)}
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="salesData8">Sales Data 8</Label>
+            <Label htmlFor="cashTips">Cash Tips</Label>
             <Input
-              id="salesData8"
+              id="cashTips"
               placeholder="Enter sales data 8"
-              value={salesData8}
-              onChange={(e) => setSalesData8(e.target.value)}
+              value={cashTips}
+              onChange={(e) => setCashTips(e.target.value)}
             />
           </div>
           <Separator/>
@@ -355,5 +357,6 @@ export default function Home() {
     </div>
   );
 }
+
 
 
