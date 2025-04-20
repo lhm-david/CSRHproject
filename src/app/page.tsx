@@ -45,6 +45,8 @@ export default function Home() {
   const [formattedDate, setFormattedDate] = useState(date ? format(date, "PPP") : "Pick a date");
 
   const [shiftLead, setShiftLead] = useState("");
+  const [totalTable, setTotalTable] = useState("");
+  const [totalGuest, setTotalGuest] = useState("");
 
   useEffect(() => {
     const num1 = parseFloat(alcoholSales);
@@ -156,6 +158,26 @@ export default function Home() {
               />
             </div>
           </div>
+          
+          <div className="grid gap-2">
+            <Label htmlFor="totalTable">Total Table:</Label>
+            <Input
+              id="totalTable"
+              placeholder="Enter total tables"
+              value={totalTable}
+              onChange={(e) => setTotalTable(e.target.value)}
+            />
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="totalGuest">Total Guest:</Label>
+            <Input
+              id="totalGuest"
+              placeholder="Enter total guests"
+              value={totalGuest}
+              onChange={(e) => setTotalGuest(e.target.value)}
+            />
+          </div>
 
           <div className="grid gap-2">
             <Label htmlFor="totalSales">Total Sales</Label>
@@ -193,6 +215,7 @@ export default function Home() {
               onChange={(e) => setCreditCardSales(e.target.value)}
             />
           </div>
+
           <div className="grid gap-2">
             <Label htmlFor="alcoholSales">Alcohol Sales</Label>
             <Input
@@ -202,6 +225,7 @@ export default function Home() {
               onChange={(e) => setAlcoholSales(e.target.value)}
             />
           </div>
+          
           <div className="grid gap-2">
             <Label htmlFor="alcoholSalesPercentage">Alcohol Sales Percentage</Label>
             <Input
@@ -300,4 +324,5 @@ export default function Home() {
     </div>
   );
 }
+
 
