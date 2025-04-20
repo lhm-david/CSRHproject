@@ -297,6 +297,36 @@ export default function Home() {
           </div>
 
           <div className="grid gap-2">
+            <Label htmlFor="giftCardSales">Gift Card Sales</Label>
+            <Input
+              id="giftCardSales"
+              placeholder="Enter gift card sales"
+              value={giftCardSales}
+              onChange={(e) => setGiftCardSales(e.target.value)}
+            />
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="prepaidCardSales">Pre-paid Card Sales</Label>
+            <Input
+              id="prepaidCardSales"
+              placeholder="Enter prepaid card sales"
+              value={prepaidCardSales}
+              onChange={(e) => setPrepaidCardSales(e.target.value)}
+            />
+          </div>
+          
+          <div className="grid gap-2">
+            <Label htmlFor="onlineSales">Online Sales</Label>
+            <Input
+              id="onlineSales"
+              placeholder="Enter online sales"
+              value={onlineSales}
+              onChange={(e) => setOnlineSales(e.target.value)}
+            />
+          </div>
+
+          <div className="grid gap-2">
             <Label htmlFor="alcoholSales">Alcohol Sales</Label>
             <Input
               id="alcoholSales"
@@ -398,36 +428,6 @@ export default function Home() {
 
           <Separator/>
 
-          <div className="grid gap-2">
-            <Label htmlFor="totalDiscount">Total Discount:</Label>
-            <Input
-              id="totalDiscount"
-              placeholder="Enter total discount"
-              value={totalDiscount}
-              onChange={(e) => setTotalDiscount(e.target.value)}
-            />
-          </div>
-
-          <div className="grid gap-2">
-            <Label htmlFor="nftValue">NFT:</Label>
-            <Input
-              id="nftValue"
-              placeholder="Enter NFT value"
-              value={nftValue}
-              onChange={(e) => setNftValue(e.target.value)}
-            />
-          </div>
-
-          <div className="grid gap-2">
-            <Label htmlFor="otherValue">Other:</Label>
-            <Input
-              id="otherValue"
-              placeholder="Enter other value"
-              value={otherValue}
-              onChange={(e) => setOtherValue(e.target.value)}
-            />
-          </div>
-
             <div className="grid gap-2">
                 <Label htmlFor="newChubbyMember">New Chubby Member:</Label>
                 <Input
@@ -488,6 +488,38 @@ export default function Home() {
                 />
             </div>
 
+          <Separator/>
+
+          <div className="grid gap-2">
+            <Label htmlFor="totalDiscount">Total Discount:</Label>
+            <Input
+              id="totalDiscount"
+              placeholder="Enter total discount"
+              value={totalDiscount}
+              onChange={(e) => setTotalDiscount(e.target.value)}
+            />
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="nftValue">NFT:</Label>
+            <Input
+              id="nftValue"
+              placeholder="Enter NFT value"
+              value={nftValue}
+              onChange={(e) => setNftValue(e.target.value)}
+            />
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="otherValue">Other:</Label>
+            <Input
+              id="otherValue"
+              placeholder="Enter other value"
+              value={otherValue}
+              onChange={(e) => setOtherValue(e.target.value)}
+            />
+          </div>
+
           {otherReasons.map((reason, index) => (
             <div className="grid grid-cols-3 gap-2" key={reason.id}>
               <div className="grid gap-2">
@@ -522,7 +554,6 @@ export default function Home() {
             </svg>
           </Button>
 
-          <Separator/>
           <div className="grid gap-2">
             <Label htmlFor="report-summary">Report Summary</Label>
             <Textarea
