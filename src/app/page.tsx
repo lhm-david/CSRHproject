@@ -176,12 +176,21 @@ export default function Home() {
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="salesDataPercentage">Sales Data Percentage</Label>
+            <Label htmlFor="salesDataPercentage">Alcohol Sales Percentage</Label>
             <Input
               id="salesDataPercentage"
-              placeholder="Sales Data Percentage"
+              placeholder="Alcohol Sales Percentage"
               value={`${salesDataPercentage}%`}
               readOnly
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="salesData5">Alcohol Sales</Label>
+            <Input
+              id="salesData5"
+              placeholder="Enter sales data 5"
+              value={salesData5}
+              onChange={(e) => setSalesData5(e.target.value)}
             />
           </div>
           <div className="grid gap-2">
@@ -202,15 +211,7 @@ export default function Home() {
               onChange={(e) => setSalesData4(e.target.value)}
             />
           </div>
-          <div className="grid gap-2">
-            <Label htmlFor="salesData5">Sales Data 5</Label>
-            <Input
-              id="salesData5"
-              placeholder="Enter sales data 5"
-              value={salesData5}
-              onChange={(e) => setSalesData5(e.target.value)}
-            />
-          </div>
+          
           <div className="grid gap-2">
             <Label htmlFor="salesData6">Sales Data 6</Label>
             <Input
