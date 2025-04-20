@@ -167,7 +167,7 @@ export default function Home() {
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="salesData2">Sales Data 2</Label>
+            <Label htmlFor="salesData2">Gross Sales</Label>
             <Input
               id="salesData2"
               placeholder="Enter sales data 2"
@@ -185,7 +185,7 @@ export default function Home() {
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="salesData3">Sales Data 3</Label>
+            <Label htmlFor="salesData3">Cash Sales</Label>
             <Input
               id="salesData3"
               placeholder="Enter sales data 3"
@@ -194,7 +194,7 @@ export default function Home() {
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="salesData4">Sales Data 4</Label>
+            <Label htmlFor="salesData4">Credit Card Sales</Label>
             <Input
               id="salesData4"
               placeholder="Enter sales data 4"
