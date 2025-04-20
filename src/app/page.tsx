@@ -415,6 +415,8 @@ export default function Home() {
             />
           </div>
 
+          <Separator/>
+
           <div className="grid gap-2">
             <Label htmlFor="totalDiscount">Total Discount:</Label>
             <Input
