@@ -33,9 +33,13 @@ export default function Home() {
   const [alcoholSales, setAlcoholSales] = useState("");
   const [alcoholSalesPercentage, setAlcoholSalesPercentage] = useState("0.00");
   const [alcoholSalesPerGuest, setAlcoholSalesPerGuest] = useState("0.00");
-  const [salesData6, setSalesData6] = useState("");
   const [salesData7, setSalesData7] = useState("");
   const [salesData8, setSalesData8] = useState("");
+
+  //New Sales Data Fields
+  const [giftCardSales, setGiftCardSales] = useState("");
+  const [prepaidCardSales, setPrepaidCardSales] = useState("");
+  const [onlineSales, setOnlineSales] = useState("");
 
   //New field
   const [date, setDate] = useState<Date | undefined>(() => {
@@ -226,7 +230,33 @@ export default function Home() {
               onChange={(e) => setCreditCardSales(e.target.value)}
             />
           </div>
-
+          <div className="grid gap-2">
+            <Label htmlFor="giftCardSales">Gift Card Sales</Label>
+            <Input
+              id="giftCardSales"
+              placeholder="Enter gift card sales"
+              value={giftCardSales}
+              onChange={(e) => setGiftCardSales(e.target.value)}
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="prepaidCardSales">Pre-paid Card Sales</Label>
+            <Input
+              id="prepaidCardSales"
+              placeholder="Enter pre-paid card sales"
+              value={prepaidCardSales}
+              onChange={(e) => setPrepaidCardSales(e.target.value)}
+            />
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="onlineSales">Online Sales</Label>
+            <Input
+              id="onlineSales"
+              placeholder="Enter online sales"
+              value={onlineSales}
+              onChange={(e) => setOnlineSales(e.target.value)}
+            />
+          </div>
           <div className="grid gap-2">
             <Label htmlFor="alcoholSales">Alcohol Sales</Label>
             <Input
@@ -238,19 +268,9 @@ export default function Home() {
           </div>
           
           <div className="grid gap-2">
-            <Label htmlFor="alcoholSalesPercentage">Alcohol Sales Percentage</Label>
+            <Label htmlFor="alcoholSalesPercentage">Alcohol Sales per guest</Label>
             <Input
               id="alcoholSalesPercentage"
-              placeholder="Alcohol Sales Percentage"
-              value={`${alcoholSalesPercentage}%`}
-              readOnly
-            />
-          </div>
-
-          <div className="grid gap-2">
-            <Label htmlFor="salesData6">Alcohol Sales per guest</Label>
-            <Input
-              id="salesData6"
               placeholder="Alcohol Sales per guest"
               value={`${alcoholSalesPerGuest}`}
               readOnly
@@ -335,4 +355,5 @@ export default function Home() {
     </div>
   );
 }
+
 
