@@ -62,6 +62,10 @@ export default function Home() {
   const [nftValue, setNftValue] = useState("");
   const [otherValue, setOtherValue] = useState("");
 
+  // Dynamic Input Fields
+  const [otherReasons, setOtherReasons] = useState<{ id: number; reason: string; value: string }[]>([]);
+  const [nextReasonId, setNextReasonId] = useState(1);
+
   useEffect(() => {
     const num1 = parseFloat(alcoholSales);
     const num2 = parseFloat(grossSales);
@@ -151,6 +155,27 @@ export default function Home() {
       title: "Report saved locally!",
       description: "Your daily report has been saved as a text file.",
     });
+  };
+
+  const handleAddReason = () => {
+    setOtherReasons([...otherReasons, { id: nextReasonId, reason: "", value: "" }]);
+    setNextReasonId(nextReasonId + 1);
+  };
+
+  const handleReasonChange = (id: number, reason: string) => {
+    setOtherReasons(
+      otherReasons.map((item) =>
+        item.id === id ? { ...item, reason } : item
+      )
+    );
+  };
+
+  const handleValueChange = (id: number, value: string) => {
+    setOtherReasons(
+      otherReasons.map((item) =>
+        item.id === id ? { ...item, value } : item
+      )
+    );
   };
 
   return (
@@ -296,23 +321,22 @@ export default function Home() {
               onChange={(e) => setAlcoholSales(e.target.value)}
             />
           </div>
-
-          <div className="grid gap-2">
-            <Label htmlFor="alcoholSalesPercentage">Alcohol Sales per guest</Label>
-            <Input
-              id="alcoholSalesPercentage"
-              placeholder="Alcohol Sales per guest"
-              value={`${alcoholSalesPerGuest}`}
-              readOnly
-            />
-          </div>
-
           <div className="grid gap-2">
             <Label htmlFor="alcoholSalesPercentage">Alcohol Sales Percentage</Label>
             <Input
               id="alcoholSalesPercentage"
               placeholder="Alcohol Sales Percentage"
               value={`${alcoholSalesPercentage}`}
+              readOnly
+            />
+          </div>
+          
+          <div className="grid gap-2">
+            <Label htmlFor="alcoholSalesPercentage">Alcohol Sales per guest</Label>
+            <Input
+              id="alcoholSalesPercentage"
+              placeholder="Alcohol Sales per guest"
+              value={`${alcoholSalesPerGuest}`}
               readOnly
             />
           </div>
@@ -416,6 +440,37 @@ export default function Home() {
               onChange={(e) => setOtherValue(e.target.value)}
             />
           </div>
+
+          {otherReasons.map((reason, index) => (
+            <div className="grid grid-cols-2 gap-2" key={reason.id}>
+              <div className="grid gap-2">
+                <Label htmlFor={`otherReason-${reason.id}`}>Reason {index + 1}:</Label>
+                <Input
+                  id={`otherReason-${reason.id}`}
+                  placeholder="Enter reason"
+                  value={reason.reason}
+                  onChange={(e) => handleReasonChange(reason.id, e.target.value)}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor={`otherValue-${reason.id}`}>Value {index + 1}:</Label>
+                <Input
+                  id={`otherValue-${reason.id}`}
+                  placeholder="Enter value"
+                  value={reason.value}
+                  onChange={(e) => handleValueChange(reason.id, e.target.value)}
+                />
+              </div>
+            </div>
+          ))}
+
+          <Button type="button" onClick={handleAddReason} className="w-full">
+            Add Reason
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="ml-2">
+              <path d="M12 5V19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </Button>
 
           <Separator/>
           <div className="grid gap-2">
