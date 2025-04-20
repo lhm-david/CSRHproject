@@ -57,6 +57,11 @@ export default function Home() {
   const [totalAmountCancelled, setTotalAmountCancelled] = useState("");
   const [reasonForCancelled, setReasonForCancelled] = useState("");
 
+  //Discount Fields
+  const [totalDiscount, setTotalDiscount] = useState("");
+  const [nftValue, setNftValue] = useState("");
+  const [otherValue, setOtherValue] = useState("");
+
   useEffect(() => {
     const num1 = parseFloat(alcoholSales);
     const num2 = parseFloat(grossSales);
@@ -379,6 +384,36 @@ export default function Home() {
               placeholder="Enter reason for cancelled"
               value={reasonForCancelled}
               onChange={(e) => setReasonForCancelled(e.target.value)}
+            />
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="totalDiscount">Total Discount:</Label>
+            <Input
+              id="totalDiscount"
+              placeholder="Enter total discount"
+              value={totalDiscount}
+              onChange={(e) => setTotalDiscount(e.target.value)}
+            />
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="nftValue">NFT:</Label>
+            <Input
+              id="nftValue"
+              placeholder="Enter NFT value"
+              value={nftValue}
+              onChange={(e) => setNftValue(e.target.value)}
+            />
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="otherValue">Other:</Label>
+            <Input
+              id="otherValue"
+              placeholder="Enter other value"
+              value={otherValue}
+              onChange={(e) => setOtherValue(e.target.value)}
             />
           </div>
 
