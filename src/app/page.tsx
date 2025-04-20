@@ -32,6 +32,7 @@ export default function Home() {
   const [creditCardSales, setCreditCardSales] = useState("");
   const [alcoholSales, setAlcoholSales] = useState("");
   const [alcoholSalesPercentage, setAlcoholSalesPercentage] = useState("0.00");
+  const [alcoholSalesPerGuest, setAlcoholSalesPerGuest] = useState("0.00");
   const [salesData6, setSalesData6] = useState("");
   const [salesData7, setSalesData7] = useState("");
   const [salesData8, setSalesData8] = useState("");
@@ -51,12 +52,20 @@ export default function Home() {
   useEffect(() => {
     const num1 = parseFloat(alcoholSales);
     const num2 = parseFloat(grossSales);
+    const num3 = parseFloat(totalGuest);
     if (!isNaN(num1) && !isNaN(num2) && num2 !== 0) {
       setAlcoholSalesPercentage((num1 / num2 * 100).toFixed(2));
     } else {
       setAlcoholSalesPercentage("0.00");
     }
-  }, [alcoholSales, grossSales]);
+
+    if (!isNaN(num1) && !isNaN(num3) && num3 !== 0) {
+      setAlcoholSalesPerGuest((num1 / num3).toFixed(2));
+    } else {
+      setAlcoholSalesPerGuest("0.00");
+    }
+
+  }, [alcoholSales, grossSales, totalGuest]);
 
   useEffect(() => {
     setFormattedDate(date ? format(date, "PPP") : "Pick a date");
@@ -237,17 +246,17 @@ export default function Home() {
               readOnly
             />
           </div>
-          
-          
+
           <div className="grid gap-2">
             <Label htmlFor="salesData6">Alcohol Sales per guest</Label>
             <Input
               id="salesData6"
-              placeholder="Enter sales data 6"
-              value={salesData6}
-              onChange={(e) => setSalesData6(e.target.value)}
+              placeholder="Alcohol Sales per guest"
+              value={`${alcoholSalesPerGuest}`}
+              readOnly
             />
           </div>
+          
           <div className="grid gap-2">
             <Label htmlFor="salesData7">Sales Data 7</Label>
             <Input
@@ -326,3 +335,4 @@ export default function Home() {
     </div>
   );
 }
+
