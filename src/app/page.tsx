@@ -380,7 +380,7 @@ export default function Home() {
 
           <div className="grid gap-2">
             <Label htmlFor="reasonForCancelled">Reason for cancelled:</Label>
-            <Input
+            <Textarea
               id="reasonForCancelled"
               placeholder="Enter reason for cancelled"
               value={reasonForCancelled}
@@ -448,3 +448,4 @@ export default function Home() {
     </div>
   );
 }
+
