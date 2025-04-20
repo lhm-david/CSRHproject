@@ -358,6 +358,7 @@ export default function Home() {
             />
           </div>
           
+          <Separator/>
           <div className="grid gap-2">
             <Label htmlFor="salesPerGuest">Sales Per Guest:</Label>
             <Input
@@ -448,4 +449,3 @@ export default function Home() {
     </div>
   );
 }
-
