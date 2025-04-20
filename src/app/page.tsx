@@ -62,6 +62,14 @@ export default function Home() {
   const [nftValue, setNftValue] = useState("");
   const [otherValue, setOtherValue] = useState("");
 
+    // Chubby Member
+    const [newChubbyMember, setNewChubbyMember] = useState("");
+    const [chubbyPlus, setChubbyPlus] = useState("");
+    const [chubbyOne, setChubbyOne] = useState("");
+    const [totayTotalScan, setTotayTotalScan] = useState("");
+    const [scanRate, setScanRate] = useState("");
+    const [totalMembersToToday, setTotalMembersToToday] = useState("");
+
   // Dynamic Input Fields
   const [otherReasons, setOtherReasons] = useState<{ id: number; reason: string; value: string }[]>([]);
   const [nextReasonId, setNextReasonId] = useState(1);
@@ -287,34 +295,6 @@ export default function Home() {
               onChange={(e) => setCreditCardSales(e.target.value)}
             />
           </div>
-          
-          <div className="grid gap-2">
-            <Label htmlFor="giftCardSales">Gift Card Sales</Label>
-            <Input
-              id="giftCardSales"
-              placeholder="Enter gift card sales"
-              value={giftCardSales}
-              onChange={(e) => setGiftCardSales(e.target.value)}
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="prepaidCardSales">Pre-paid Card Sales</Label>
-            <Input
-              id="prepaidCardSales"
-              placeholder="Enter pre-paid card sales"
-              value={prepaidCardSales}
-              onChange={(e) => setPrepaidCardSales(e.target.value)}
-            />
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="onlineSales">Online Sales</Label>
-            <Input
-              id="onlineSales"
-              placeholder="Enter online sales"
-              value={onlineSales}
-              onChange={(e) => setOnlineSales(e.target.value)}
-            />
-          </div>
 
           <div className="grid gap-2">
             <Label htmlFor="alcoholSales">Alcohol Sales</Label>
@@ -325,6 +305,7 @@ export default function Home() {
               onChange={(e) => setAlcoholSales(e.target.value)}
             />
           </div>
+
           <div className="grid gap-2">
             <Label htmlFor="alcoholSalesPercentage">Alcohol Sales Percentage</Label>
             <Input
@@ -446,6 +427,66 @@ export default function Home() {
               onChange={(e) => setOtherValue(e.target.value)}
             />
           </div>
+
+            <div className="grid gap-2">
+                <Label htmlFor="newChubbyMember">New Chubby Member:</Label>
+                <Input
+                    id="newChubbyMember"
+                    placeholder="Enter new chubby member"
+                    value={newChubbyMember}
+                    onChange={(e) => setNewChubbyMember(e.target.value)}
+                />
+            </div>
+
+            <div className="grid gap-2">
+                <Label htmlFor="chubbyPlus">Chubby plus:</Label>
+                <Input
+                    id="chubbyPlus"
+                    placeholder="Enter chubby plus"
+                    value={chubbyPlus}
+                    onChange={(e) => setChubbyPlus(e.target.value)}
+                />
+            </div>
+
+            <div className="grid gap-2">
+                <Label htmlFor="chubbyOne">Chubby one:</Label>
+                <Input
+                    id="chubbyOne"
+                    placeholder="Enter chubby one"
+                    value={chubbyOne}
+                    onChange={(e) => setChubbyOne(e.target.value)}
+                />
+            </div>
+
+            <div className="grid gap-2">
+                <Label htmlFor="totayTotalScan">Today total Scan:</Label>
+                <Input
+                    id="totayTotalScan"
+                    placeholder="Enter today total scan"
+                    value={totayTotalScan}
+                    onChange={(e) => setTotayTotalScan(e.target.value)}
+                />
+            </div>
+
+            <div className="grid gap-2">
+                <Label htmlFor="scanRate">Scan Rate:</Label>
+                <Input
+                    id="scanRate"
+                    placeholder="Enter scan rate"
+                    value={scanRate}
+                    onChange={(e) => setScanRate(e.target.value)}
+                />
+            </div>
+
+            <div className="grid gap-2">
+                <Label htmlFor="totalMembersToToday">Total Members to Today:</Label>
+                <Input
+                    id="totalMembersToToday"
+                    placeholder="Enter total members to today"
+                    value={totalMembersToToday}
+                    onChange={(e) => setTotalMembersToToday(e.target.value)}
+                />
+            </div>
 
           {otherReasons.map((reason, index) => (
             <div className="grid grid-cols-3 gap-2" key={reason.id}>
