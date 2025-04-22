@@ -261,12 +261,17 @@ export default function Home() {
 
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="totalSales" className="justify-self-start">Total Sales</Label>
-            <Input
-              id="totalSales"
-              className=""
-              value={totalSales}
-              onChange={(e) => setTotalSales(e.target.value)}
-            />
+            <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                    $
+                </div>
+                <Input
+                  id="totalSales"
+                  className="pl-7"
+                  value={totalSales}
+                  onChange={(e) => setTotalSales(e.target.value)}
+                />
+            </div>
           </div>
           
           <div className="grid grid-cols-2 gap-2 items-center">
@@ -588,4 +593,5 @@ export default function Home() {
     </div>
   );
 }
+
 
