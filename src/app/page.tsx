@@ -225,6 +225,7 @@ export default function Home() {
                 </PopoverContent>
               </Popover>
             </div>
+            
             <div className="grid gap-2">
               <Label htmlFor="shiftLead">Shift Lead:</Label>
               <Input
@@ -261,185 +262,190 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="totalSales">Total Sales</Label>
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <Label htmlFor="totalSales" className="justify-self-start">Total Sales</Label>
             <Input
               id="totalSales"
               placeholder="Enter total sales"
-              className="text-right"
+              className="text-right justify-self-end"
               value={totalSales}
               onChange={(e) => setTotalSales(e.target.value)}
             />
           </div>
-          <div className="grid gap-2">
-            <Label htmlFor="grossSales">Gross Sales</Label>
+          
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <Label htmlFor="grossSales" className="justify-self-start">Gross Sales</Label>
             <Input
               id="grossSales"
               placeholder="Enter gross sales"
-              className="text-right"
+              className="text-right justify-self-end"
               value={grossSales}
               onChange={(e) => setGrossSales(e.target.value)}
             />
           </div>
-          <div className="grid gap-2">
-            <Label htmlFor="cashSales">Cash Sales</Label>
+
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <Label htmlFor="cashSales" className="justify-self-start">Cash Sales</Label>
             <Input
               id="cashSales"
               placeholder="Enter cash sales"
-              className="text-right"
+              className="text-right justify-self-end"
               value={cashSales}
               onChange={(e) => setCashSales(e.target.value)}
             />
           </div>
-          <div className="grid gap-2">
-            <Label htmlFor="creditCardSales">Credit Card Sales</Label>
+
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <Label htmlFor="creditCardSales" className="justify-self-start">Credit Card Sales</Label>
             <Input
               id="creditCardSales"
               placeholder="Enter credit card sales"
-              className="text-right"
+              className="text-right justify-self-end"
               value={creditCardSales}
               onChange={(e) => setCreditCardSales(e.target.value)}
             />
           </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="giftCardSales">Gift Card Sales</Label>
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <Label htmlFor="giftCardSales" className="justify-self-start">Gift Card Sales</Label>
             <Input
               id="giftCardSales"
               placeholder="Enter gift card sales"
-              className="text-right"
+              className="text-right justify-self-end"
               value={giftCardSales}
               onChange={(e) => setGiftCardSales(e.target.value)}
             />
           </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="prepaidCardSales">Pre-paid Card Sales</Label>
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <Label htmlFor="prepaidCardSales" className="justify-self-start">Pre-paid Card Sales</Label>
             <Input
               id="prepaidCardSales"
               placeholder="Enter prepaid card sales"
-              className="text-right"
+              className="text-right justify-self-end"
               value={prepaidCardSales}
               onChange={(e) => setPrepaidCardSales(e.target.value)}
             />
           </div>
           
-          <div className="grid gap-2">
-            <Label htmlFor="onlineSales">Online Sales</Label>
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <Label htmlFor="onlineSales" className="justify-self-start">Online Sales</Label>
             <Input
               id="onlineSales"
               placeholder="Enter online sales"
-              className="text-right"
+              className="text-right justify-self-end"
               value={onlineSales}
               onChange={(e) => setOnlineSales(e.target.value)}
             />
           </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="alcoholSales">Alcohol Sales</Label>
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <Label htmlFor="alcoholSales" className="justify-self-start">Alcohol Sales</Label>
             <Input
               id="alcoholSales"
               placeholder="Enter alcohol sales"
-              className="text-right"
+              className="text-right justify-self-end"
               value={alcoholSales}
               onChange={(e) => setAlcoholSales(e.target.value)}
             />
           </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="alcoholSalesPercentage">Alcohol Sales Percentage</Label>
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <Label htmlFor="alcoholSalesPercentage" className="justify-self-start">Alcohol Sales Percentage</Label>
             <Input
               id="alcoholSalesPercentage"
               placeholder="Alcohol Sales Percentage"
-              className="text-right"
+              className="text-right justify-self-end"
               value={`${alcoholSalesPercentage}`}
               readOnly
             />
           </div>
           
-          <div className="grid gap-2">
-            <Label htmlFor="alcoholSalesPercentage">Alcohol Sales per guest</Label>
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <Label htmlFor="alcoholSalesPercentage" className="justify-self-start">Alcohol Sales per guest</Label>
             <Input
               id="alcoholSalesPercentage"
               placeholder="Alcohol Sales per guest"
-              className="text-right"
+              className="text-right justify-self-end"
               value={`${alcoholSalesPerGuest}`}
               readOnly
             />
           </div>
           
-          <div className="grid gap-2">
-            <Label htmlFor="creditCardTips">Credit Card Tips</Label>
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <Label htmlFor="creditCardTips" className="justify-self-start">Credit Card Tips</Label>
             <Input
               id="creditCardTips"
               placeholder="Enter sales data 7"
-              className="text-right"
+              className="text-right justify-self-end"
               value={creditCardTips}
               onChange={(e) => setCreditCardTips(e.target.value)}
             />
           </div>
-          <div className="grid gap-2">
-            <Label htmlFor="cashTips">Cash Tips</Label>
+          
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <Label htmlFor="cashTips" className="justify-self-start">Cash Tips</Label>
             <Input
               id="cashTips"
               placeholder="Enter sales data 8"
-              className="text-right"
+              className="text-right justify-self-end"
               value={cashTips}
               onChange={(e) => setCashTips(e.target.value)}
             />
           </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="totalTips">Total Tips</Label>
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <Label htmlFor="totalTips" className="justify-self-start">Total Tips</Label>
             <Input
               id="totalTips"
               placeholder="Total tips"
-              className="text-right"
+              className="text-right justify-self-end"
               value={`${totalTips}`}
               readOnly
             />
           </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="tipsPercentage">Tips Percentage</Label>
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <Label htmlFor="tipsPercentage" className="justify-self-start">Tips Percentage</Label>
             <Input
               id="tipsPercentage"
               placeholder="Tips Percentage"
-              className="text-right"
+              className="text-right justify-self-end"
               value={`${tipsPercentage}`}
               readOnly
             />
           </div>
           
           <Separator/>
-          <div className="grid gap-2">
-            <Label htmlFor="salesPerGuest">Sales Per Guest:</Label>
+          
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <Label htmlFor="salesPerGuest" className="justify-self-start">Sales Per Guest:</Label>
             <Input
               id="salesPerGuest"
               placeholder="Sales Per Guest"
-              className="text-right"
+              className="text-right justify-self-end"
               value={salesPerGuest}
               readOnly
             />
           </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="totalAmountCancelled">Total amount cancelled:</Label>
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <Label htmlFor="totalAmountCancelled" className="justify-self-start">Total amount cancelled:</Label>
             <Input
               id="totalAmountCancelled"
               placeholder="Enter total amount cancelled"
-              className="text-right"
+              className="text-right justify-self-end"
               value={totalAmountCancelled}
               onChange={(e) => setTotalAmountCancelled(e.target.value)}
             />
           </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="reasonForCancelled">Reason for cancelled:</Label>
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <Label htmlFor="reasonForCancelled" className="justify-self-start">Reason for cancelled:</Label>
             <Textarea
               id="reasonForCancelled"
               placeholder="Enter reason for cancelled"
-              className="text-right"
+              className="text-right justify-self-end"
               value={reasonForCancelled}
               onChange={(e) => setReasonForCancelled(e.target.value)}
             />
@@ -447,67 +453,67 @@ export default function Home() {
 
           <Separator/>
 
-            <div className="grid gap-2">
-                <Label htmlFor="newChubbyMember">New Chubby Member:</Label>
+            <div className="grid grid-cols-2 gap-2 items-center">
+                <Label htmlFor="newChubbyMember" className="justify-self-start">New Chubby Member:</Label>
                 <Input
                     id="newChubbyMember"
                     placeholder="Enter new chubby member"
-                    className="text-right"
+                    className="text-right justify-self-end"
                     value={newChubbyMember}
                     onChange={(e) => setNewChubbyMember(e.target.value)}
                 />
             </div>
 
-            <div className="grid gap-2">
-                <Label htmlFor="chubbyPlus">Chubby plus:</Label>
+            <div className="grid grid-cols-2 gap-2 items-center">
+                <Label htmlFor="chubbyPlus" className="justify-self-start">Chubby plus:</Label>
                 <Input
                     id="chubbyPlus"
                     placeholder="Enter chubby plus"
-                    className="text-right"
+                    className="text-right justify-self-end"
                     value={chubbyPlus}
                     onChange={(e) => setChubbyPlus(e.target.value)}
                 />
             </div>
 
-            <div className="grid gap-2">
-                <Label htmlFor="chubbyOne">Chubby one:</Label>
+            <div className="grid grid-cols-2 gap-2 items-center">
+                <Label htmlFor="chubbyOne" className="justify-self-start">Chubby one:</Label>
                 <Input
                     id="chubbyOne"
                     placeholder="Enter chubby one"
-                    className="text-right"
+                    className="text-right justify-self-end"
                     value={chubbyOne}
                     onChange={(e) => setChubbyOne(e.target.value)}
                 />
             </div>
 
-            <div className="grid gap-2">
-                <Label htmlFor="totayTotalScan">Today total Scan:</Label>
+            <div className="grid grid-cols-2 gap-2 items-center">
+                <Label htmlFor="totayTotalScan" className="justify-self-start">Today total Scan:</Label>
                 <Input
                     id="totayTotalScan"
                     placeholder="Enter today total scan"
-                    className="text-right"
+                    className="text-right justify-self-end"
                     value={totayTotalScan}
                     onChange={(e) => setTotayTotalScan(e.target.value)}
                 />
             </div>
 
-            <div className="grid gap-2">
-                <Label htmlFor="scanRate">Scan Rate:</Label>
+            <div className="grid grid-cols-2 gap-2 items-center">
+                <Label htmlFor="scanRate" className="justify-self-start">Scan Rate:</Label>
                 <Input
                     id="scanRate"
                     placeholder="Enter scan rate"
-                    className="text-right"
+                    className="text-right justify-self-end"
                     value={scanRate}
                     onChange={(e) => setScanRate(e.target.value)}
                 />
             </div>
 
-            <div className="grid gap-2">
-                <Label htmlFor="totalMembersToToday">Total Members to Today:</Label>
+            <div className="grid grid-cols-2 gap-2 items-center">
+                <Label htmlFor="totalMembersToToday" className="justify-self-start">Total Members to Today:</Label>
                 <Input
                     id="totalMembersToToday"
                     placeholder="Enter total members to today"
-                    className="text-right"
+                    className="text-right justify-self-end"
                     value={totalMembersToToday}
                     onChange={(e) => setTotalMembersToToday(e.target.value)}
                 />
@@ -515,34 +521,34 @@ export default function Home() {
 
           <Separator/>
 
-          <div className="grid gap-2">
-            <Label htmlFor="totalDiscount">Total Discount:</Label>
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <Label htmlFor="totalDiscount" className="justify-self-start">Total Discount:</Label>
             <Input
               id="totalDiscount"
               placeholder="Enter total discount"
-              className="text-right"
+              className="text-right justify-self-end"
               value={totalDiscount}
               onChange={(e) => setTotalDiscount(e.target.value)}
             />
           </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="nftValue">NFT:</Label>
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <Label htmlFor="nftValue" className="justify-self-start">NFT:</Label>
             <Input
               id="nftValue"
               placeholder="Enter NFT value"
-              className="text-right"
+              className="text-right justify-self-end"
               value={nftValue}
               onChange={(e) => setNftValue(e.target.value)}
             />
           </div>
 
-          <div className="grid gap-2">
-            <Label htmlFor="otherValue">Other:</Label>
+          <div className="grid grid-cols-2 gap-2 items-center">
+            <Label htmlFor="otherValue" className="justify-self-start">Other:</Label>
             <Input
               id="otherValue"
               placeholder="Enter other value"
-              className="text-right"
+              className="text-right justify-self-end"
               value={otherValue}
               onChange={(e) => setOtherValue(e.target.value)}
             />
@@ -614,5 +620,3 @@ export default function Home() {
     </div>
   );
 }
-
-
