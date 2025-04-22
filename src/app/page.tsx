@@ -406,34 +406,49 @@ export default function Home() {
             </div>
           </div>
           
-          <div className="grid grid-cols-2 gap-2 items-center">
+           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="creditCardTips" className="justify-self-start">Credit Card Tips</Label>
-            <Input
-              id="creditCardTips"
-              className=""
-              value={creditCardTips}
-              onChange={(e) => setCreditCardTips(e.target.value)}
-            />
+            <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                    $
+                </div>
+                <Input
+                  id="creditCardTips"
+                  className="pl-7"
+                  value={creditCardTips}
+                  onChange={(e) => setCreditCardTips(e.target.value)}
+                />
+            </div>
           </div>
           
-          <div className="grid grid-cols-2 gap-2 items-center">
+           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="cashTips" className="justify-self-start">Cash Tips</Label>
-            <Input
-              id="cashTips"
-              className=""
-              value={cashTips}
-              onChange={(e) => setCashTips(e.target.value)}
-            />
+             <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                    $
+                </div>
+                <Input
+                  id="cashTips"
+                  className="pl-7"
+                  value={cashTips}
+                  onChange={(e) => setCashTips(e.target.value)}
+                />
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-2 items-center">
+           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="totalTips" className="justify-self-start">Total Tips</Label>
-            <Input
-              id="totalTips"
-              className=""
-              value={`${totalTips}`}
-              readOnly
-            />
+            <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                    $
+                </div>
+                <Input
+                  id="totalTips"
+                  className="pl-7"
+                  value={`${totalTips}`}
+                  readOnly
+                />
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-2 items-center">
@@ -450,22 +465,32 @@ export default function Home() {
           
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="salesPerGuest" className="justify-self-start">Sales Per Guest:</Label>
-            <Input
-              id="salesPerGuest"
-              className=""
-              value={salesPerGuest}
-              readOnly
-            />
+             <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                    $
+                </div>
+                <Input
+                  id="salesPerGuest"
+                  className="pl-7"
+                  value={salesPerGuest}
+                  readOnly
+                />
+            </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-2 items-center">
+           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="totalAmountCancelled" className="justify-self-start">Total amount cancelled:</Label>
-            <Input
-              id="totalAmountCancelled"
-              className=""
-              value={totalAmountCancelled}
-              onChange={(e) => setTotalAmountCancelled(e.target.value)}
-            />
+            <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                    $
+                </div>
+                <Input
+                  id="totalAmountCancelled"
+                  className="pl-7"
+                  value={totalAmountCancelled}
+                  onChange={(e) => setTotalAmountCancelled(e.target.value)}
+                />
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-2 items-center">
@@ -635,6 +660,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 
