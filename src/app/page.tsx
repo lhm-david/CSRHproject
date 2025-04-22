@@ -259,6 +259,8 @@ export default function Home() {
             </div>
           </div>
 
+          <Separator/>
+
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="totalSales" className="justify-self-start">Total Sales</Label>
             <div className="relative">
@@ -608,6 +610,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 
