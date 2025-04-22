@@ -386,7 +386,7 @@ export default function Home() {
             <Input
               id="alcoholSalesPercentage"
               className=""
-              value={`${alcoholSalesPercentage}`}
+              value={`${alcoholSalesPercentage}%`}
               readOnly
             />
           </div>
@@ -436,7 +436,7 @@ export default function Home() {
             <Input
               id="tipsPercentage"
               className=""
-              value={`${tipsPercentage}`}
+              value={`${tipsPercentage}%`}
               readOnly
             />
           </div>
@@ -630,6 +630,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 
