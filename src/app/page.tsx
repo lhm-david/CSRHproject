@@ -230,7 +230,6 @@ export default function Home() {
               <Label htmlFor="shiftLead">Shift Lead:</Label>
               <Input
                 id="shiftLead"
-                placeholder="Enter shift lead name"
                 className="w-full"
                 value={shiftLead}
                 onChange={(e) => setShiftLead(e.target.value)}
@@ -243,7 +242,6 @@ export default function Home() {
               <Label htmlFor="totalTable">Total Table:</Label>
               <Input
                 id="totalTable"
-                placeholder="Enter total tables"
                 className=""
                 value={totalTable}
                 onChange={(e) => setTotalTable(e.target.value)}
@@ -254,7 +252,6 @@ export default function Home() {
               <Label htmlFor="totalGuest">Total Guest:</Label>
               <Input
                 id="totalGuest"
-                placeholder="Enter total guests"
                 className=""
                 value={totalGuest}
                 onChange={(e) => setTotalGuest(e.target.value)}
@@ -266,7 +263,6 @@ export default function Home() {
             <Label htmlFor="totalSales" className="justify-self-start">Total Sales</Label>
             <Input
               id="totalSales"
-              placeholder="Enter total sales"
               className=""
               value={totalSales}
               onChange={(e) => setTotalSales(e.target.value)}
@@ -277,7 +273,6 @@ export default function Home() {
             <Label htmlFor="grossSales" className="justify-self-start">Gross Sales</Label>
             <Input
               id="grossSales"
-              placeholder="Enter gross sales"
               className=""
               value={grossSales}
               onChange={(e) => setGrossSales(e.target.value)}
@@ -288,7 +283,6 @@ export default function Home() {
             <Label htmlFor="cashSales" className="justify-self-start">Cash Sales</Label>
             <Input
               id="cashSales"
-              placeholder="Enter cash sales"
               className=""
               value={cashSales}
               onChange={(e) => setCashSales(e.target.value)}
@@ -299,7 +293,6 @@ export default function Home() {
             <Label htmlFor="creditCardSales" className="justify-self-start">Credit Card Sales</Label>
             <Input
               id="creditCardSales"
-              placeholder="Enter credit card sales"
               className=""
               value={creditCardSales}
               onChange={(e) => setCreditCardSales(e.target.value)}
@@ -310,7 +303,6 @@ export default function Home() {
             <Label htmlFor="giftCardSales" className="justify-self-start">Gift Card Sales</Label>
             <Input
               id="giftCardSales"
-              placeholder="Enter gift card sales"
               className=""
               value={giftCardSales}
               onChange={(e) => setGiftCardSales(e.target.value)}
@@ -321,7 +313,6 @@ export default function Home() {
             <Label htmlFor="prepaidCardSales" className="justify-self-start">Pre-paid Card Sales</Label>
             <Input
               id="prepaidCardSales"
-              placeholder="Enter prepaid card sales"
               className=""
               value={prepaidCardSales}
               onChange={(e) => setPrepaidCardSales(e.target.value)}
@@ -332,7 +323,6 @@ export default function Home() {
             <Label htmlFor="onlineSales" className="justify-self-start">Online Sales</Label>
             <Input
               id="onlineSales"
-              placeholder="Enter online sales"
               className=""
               value={onlineSales}
               onChange={(e) => setOnlineSales(e.target.value)}
@@ -343,7 +333,6 @@ export default function Home() {
             <Label htmlFor="alcoholSales" className="justify-self-start">Alcohol Sales</Label>
             <Input
               id="alcoholSales"
-              placeholder="Enter alcohol sales"
               className=""
               value={alcoholSales}
               onChange={(e) => setAlcoholSales(e.target.value)}
@@ -354,7 +343,6 @@ export default function Home() {
             <Label htmlFor="alcoholSalesPercentage" className="justify-self-start">Alcohol Sales Percentage</Label>
             <Input
               id="alcoholSalesPercentage"
-              placeholder="Alcohol Sales Percentage"
               className=""
               value={`${alcoholSalesPercentage}`}
               readOnly
@@ -365,7 +353,6 @@ export default function Home() {
             <Label htmlFor="alcoholSalesPercentage" className="justify-self-start">Alcohol Sales per guest</Label>
             <Input
               id="alcoholSalesPercentage"
-              placeholder="Alcohol Sales per guest"
               className=""
               value={`${alcoholSalesPerGuest}`}
               readOnly
@@ -376,7 +363,6 @@ export default function Home() {
             <Label htmlFor="creditCardTips" className="justify-self-start">Credit Card Tips</Label>
             <Input
               id="creditCardTips"
-              placeholder="Enter sales data 7"
               className=""
               value={creditCardTips}
               onChange={(e) => setCreditCardTips(e.target.value)}
@@ -387,7 +373,6 @@ export default function Home() {
             <Label htmlFor="cashTips" className="justify-self-start">Cash Tips</Label>
             <Input
               id="cashTips"
-              placeholder="Enter sales data 8"
               className=""
               value={cashTips}
               onChange={(e) => setCashTips(e.target.value)}
@@ -398,7 +383,6 @@ export default function Home() {
             <Label htmlFor="totalTips" className="justify-self-start">Total Tips</Label>
             <Input
               id="totalTips"
-              placeholder="Total tips"
               className=""
               value={`${totalTips}`}
               readOnly
@@ -409,7 +393,6 @@ export default function Home() {
             <Label htmlFor="tipsPercentage" className="justify-self-start">Tips Percentage</Label>
             <Input
               id="tipsPercentage"
-              placeholder="Tips Percentage"
               className=""
               value={`${tipsPercentage}`}
               readOnly
@@ -422,7 +405,6 @@ export default function Home() {
             <Label htmlFor="salesPerGuest" className="justify-self-start">Sales Per Guest:</Label>
             <Input
               id="salesPerGuest"
-              placeholder="Sales Per Guest"
               className=""
               value={salesPerGuest}
               readOnly
@@ -433,7 +415,6 @@ export default function Home() {
             <Label htmlFor="totalAmountCancelled" className="justify-self-start">Total amount cancelled:</Label>
             <Input
               id="totalAmountCancelled"
-              placeholder="Enter total amount cancelled"
               className=""
               value={totalAmountCancelled}
               onChange={(e) => setTotalAmountCancelled(e.target.value)}
@@ -444,7 +425,6 @@ export default function Home() {
             <Label htmlFor="reasonForCancelled" className="justify-self-start">Reason for cancelled:</Label>
             <Textarea
               id="reasonForCancelled"
-              placeholder="Enter reason for cancelled"
               className=""
               value={reasonForCancelled}
               onChange={(e) => setReasonForCancelled(e.target.value)}
@@ -457,7 +437,6 @@ export default function Home() {
                 <Label htmlFor="newChubbyMember" className="justify-self-start">New Chubby Member:</Label>
                 <Input
                     id="newChubbyMember"
-                    placeholder="Enter new chubby member"
                     className=""
                     value={newChubbyMember}
                     onChange={(e) => setNewChubbyMember(e.target.value)}
@@ -468,7 +447,6 @@ export default function Home() {
                 <Label htmlFor="chubbyPlus" className="justify-self-start">Chubby plus:</Label>
                 <Input
                     id="chubbyPlus"
-                    placeholder="Enter chubby plus"
                     className=""
                     value={chubbyPlus}
                     onChange={(e) => setChubbyPlus(e.target.value)}
@@ -479,7 +457,6 @@ export default function Home() {
                 <Label htmlFor="chubbyOne" className="justify-self-start">Chubby one:</Label>
                 <Input
                     id="chubbyOne"
-                    placeholder="Enter chubby one"
                     className=""
                     value={chubbyOne}
                     onChange={(e) => setChubbyOne(e.target.value)}
@@ -490,7 +467,6 @@ export default function Home() {
                 <Label htmlFor="totayTotalScan" className="justify-self-start">Today total Scan:</Label>
                 <Input
                     id="totayTotalScan"
-                    placeholder="Enter today total scan"
                     className=""
                     value={totayTotalScan}
                     onChange={(e) => setTotayTotalScan(e.target.value)}
@@ -501,7 +477,6 @@ export default function Home() {
                 <Label htmlFor="scanRate" className="justify-self-start">Scan Rate:</Label>
                 <Input
                     id="scanRate"
-                    placeholder="Enter scan rate"
                     className=""
                     value={scanRate}
                     onChange={(e) => setScanRate(e.target.value)}
@@ -512,7 +487,6 @@ export default function Home() {
                 <Label htmlFor="totalMembersToToday" className="justify-self-start">Total Members to Today:</Label>
                 <Input
                     id="totalMembersToToday"
-                    placeholder="Enter total members to today"
                     className=""
                     value={totalMembersToToday}
                     onChange={(e) => setTotalMembersToToday(e.target.value)}
@@ -525,7 +499,6 @@ export default function Home() {
             <Label htmlFor="totalDiscount" className="justify-self-start">Total Discount:</Label>
             <Input
               id="totalDiscount"
-              placeholder="Enter total discount"
               className=""
               value={totalDiscount}
               onChange={(e) => setTotalDiscount(e.target.value)}
@@ -536,7 +509,6 @@ export default function Home() {
             <Label htmlFor="nftValue" className="justify-self-start">NFT:</Label>
             <Input
               id="nftValue"
-              placeholder="Enter NFT value"
               className=""
               value={nftValue}
               onChange={(e) => setNftValue(e.target.value)}
@@ -547,7 +519,6 @@ export default function Home() {
             <Label htmlFor="otherValue" className="justify-self-start">Other:</Label>
             <Input
               id="otherValue"
-              placeholder="Enter other value"
               className=""
               value={otherValue}
               onChange={(e) => setOtherValue(e.target.value)}
@@ -560,7 +531,6 @@ export default function Home() {
               <div className="grid gap-2">
                 <Input
                   id={`otherReason-${reason.id}`}
-                  placeholder="Enter reason"
                   value={reason.reason}
                   onChange={(e) => handleReasonChange(reason.id, e.target.value)}
                 />
@@ -568,7 +538,6 @@ export default function Home() {
               <div className="grid gap-2">
                 <Input
                   id={`otherValue-${reason.id}`}
-                  placeholder="Enter value"
                   value={reason.value}
                   onChange={(e) => handleValueChange(reason.id, e.target.value)}
                 />
@@ -593,7 +562,6 @@ export default function Home() {
             <Label htmlFor="report-summary">Report Summary</Label>
             <Textarea
               id="report-summary"
-              placeholder="Generated Report Summary"
               value={reportSummary}
               readOnly
             />
@@ -620,5 +588,4 @@ export default function Home() {
     </div>
   );
 }
-
 
