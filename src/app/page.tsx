@@ -231,7 +231,7 @@ export default function Home() {
               <Input
                 id="shiftLead"
                 placeholder="Enter shift lead name"
-                className="w-full text-right"
+                className="w-full"
                 value={shiftLead}
                 onChange={(e) => setShiftLead(e.target.value)}
               />
@@ -244,7 +244,7 @@ export default function Home() {
               <Input
                 id="totalTable"
                 placeholder="Enter total tables"
-                className="text-right"
+                className=""
                 value={totalTable}
                 onChange={(e) => setTotalTable(e.target.value)}
               />
@@ -255,7 +255,7 @@ export default function Home() {
               <Input
                 id="totalGuest"
                 placeholder="Enter total guests"
-                className="text-right"
+                className=""
                 value={totalGuest}
                 onChange={(e) => setTotalGuest(e.target.value)}
               />
@@ -267,7 +267,7 @@ export default function Home() {
             <Input
               id="totalSales"
               placeholder="Enter total sales"
-              className="text-right justify-self-end"
+              className=""
               value={totalSales}
               onChange={(e) => setTotalSales(e.target.value)}
             />
@@ -278,7 +278,7 @@ export default function Home() {
             <Input
               id="grossSales"
               placeholder="Enter gross sales"
-              className="text-right justify-self-end"
+              className=""
               value={grossSales}
               onChange={(e) => setGrossSales(e.target.value)}
             />
@@ -289,7 +289,7 @@ export default function Home() {
             <Input
               id="cashSales"
               placeholder="Enter cash sales"
-              className="text-right justify-self-end"
+              className=""
               value={cashSales}
               onChange={(e) => setCashSales(e.target.value)}
             />
@@ -300,7 +300,7 @@ export default function Home() {
             <Input
               id="creditCardSales"
               placeholder="Enter credit card sales"
-              className="text-right justify-self-end"
+              className=""
               value={creditCardSales}
               onChange={(e) => setCreditCardSales(e.target.value)}
             />
@@ -311,7 +311,7 @@ export default function Home() {
             <Input
               id="giftCardSales"
               placeholder="Enter gift card sales"
-              className="text-right justify-self-end"
+              className=""
               value={giftCardSales}
               onChange={(e) => setGiftCardSales(e.target.value)}
             />
@@ -322,7 +322,7 @@ export default function Home() {
             <Input
               id="prepaidCardSales"
               placeholder="Enter prepaid card sales"
-              className="text-right justify-self-end"
+              className=""
               value={prepaidCardSales}
               onChange={(e) => setPrepaidCardSales(e.target.value)}
             />
@@ -333,7 +333,7 @@ export default function Home() {
             <Input
               id="onlineSales"
               placeholder="Enter online sales"
-              className="text-right justify-self-end"
+              className=""
               value={onlineSales}
               onChange={(e) => setOnlineSales(e.target.value)}
             />
@@ -344,7 +344,7 @@ export default function Home() {
             <Input
               id="alcoholSales"
               placeholder="Enter alcohol sales"
-              className="text-right justify-self-end"
+              className=""
               value={alcoholSales}
               onChange={(e) => setAlcoholSales(e.target.value)}
             />
@@ -355,7 +355,7 @@ export default function Home() {
             <Input
               id="alcoholSalesPercentage"
               placeholder="Alcohol Sales Percentage"
-              className="text-right justify-self-end"
+              className=""
               value={`${alcoholSalesPercentage}`}
               readOnly
             />
@@ -366,7 +366,7 @@ export default function Home() {
             <Input
               id="alcoholSalesPercentage"
               placeholder="Alcohol Sales per guest"
-              className="text-right justify-self-end"
+              className=""
               value={`${alcoholSalesPerGuest}`}
               readOnly
             />
@@ -377,7 +377,7 @@ export default function Home() {
             <Input
               id="creditCardTips"
               placeholder="Enter sales data 7"
-              className="text-right justify-self-end"
+              className=""
               value={creditCardTips}
               onChange={(e) => setCreditCardTips(e.target.value)}
             />
@@ -388,7 +388,7 @@ export default function Home() {
             <Input
               id="cashTips"
               placeholder="Enter sales data 8"
-              className="text-right justify-self-end"
+              className=""
               value={cashTips}
               onChange={(e) => setCashTips(e.target.value)}
             />
@@ -399,7 +399,7 @@ export default function Home() {
             <Input
               id="totalTips"
               placeholder="Total tips"
-              className="text-right justify-self-end"
+              className=""
               value={`${totalTips}`}
               readOnly
             />
@@ -410,7 +410,7 @@ export default function Home() {
             <Input
               id="tipsPercentage"
               placeholder="Tips Percentage"
-              className="text-right justify-self-end"
+              className=""
               value={`${tipsPercentage}`}
               readOnly
             />
@@ -423,7 +423,7 @@ export default function Home() {
             <Input
               id="salesPerGuest"
               placeholder="Sales Per Guest"
-              className="text-right justify-self-end"
+              className=""
               value={salesPerGuest}
               readOnly
             />
@@ -434,7 +434,7 @@ export default function Home() {
             <Input
               id="totalAmountCancelled"
               placeholder="Enter total amount cancelled"
-              className="text-right justify-self-end"
+              className=""
               value={totalAmountCancelled}
               onChange={(e) => setTotalAmountCancelled(e.target.value)}
             />
@@ -445,7 +445,7 @@ export default function Home() {
             <Textarea
               id="reasonForCancelled"
               placeholder="Enter reason for cancelled"
-              className="text-right justify-self-end"
+              className=""
               value={reasonForCancelled}
               onChange={(e) => setReasonForCancelled(e.target.value)}
             />
@@ -458,7 +458,7 @@ export default function Home() {
                 <Input
                     id="newChubbyMember"
                     placeholder="Enter new chubby member"
-                    className="text-right justify-self-end"
+                    className=""
                     value={newChubbyMember}
                     onChange={(e) => setNewChubbyMember(e.target.value)}
                 />
@@ -469,7 +469,7 @@ export default function Home() {
                 <Input
                     id="chubbyPlus"
                     placeholder="Enter chubby plus"
-                    className="text-right justify-self-end"
+                    className=""
                     value={chubbyPlus}
                     onChange={(e) => setChubbyPlus(e.target.value)}
                 />
@@ -480,7 +480,7 @@ export default function Home() {
                 <Input
                     id="chubbyOne"
                     placeholder="Enter chubby one"
-                    className="text-right justify-self-end"
+                    className=""
                     value={chubbyOne}
                     onChange={(e) => setChubbyOne(e.target.value)}
                 />
@@ -491,7 +491,7 @@ export default function Home() {
                 <Input
                     id="totayTotalScan"
                     placeholder="Enter today total scan"
-                    className="text-right justify-self-end"
+                    className=""
                     value={totayTotalScan}
                     onChange={(e) => setTotayTotalScan(e.target.value)}
                 />
@@ -502,7 +502,7 @@ export default function Home() {
                 <Input
                     id="scanRate"
                     placeholder="Enter scan rate"
-                    className="text-right justify-self-end"
+                    className=""
                     value={scanRate}
                     onChange={(e) => setScanRate(e.target.value)}
                 />
@@ -513,7 +513,7 @@ export default function Home() {
                 <Input
                     id="totalMembersToToday"
                     placeholder="Enter total members to today"
-                    className="text-right justify-self-end"
+                    className=""
                     value={totalMembersToToday}
                     onChange={(e) => setTotalMembersToToday(e.target.value)}
                 />
@@ -526,7 +526,7 @@ export default function Home() {
             <Input
               id="totalDiscount"
               placeholder="Enter total discount"
-              className="text-right justify-self-end"
+              className=""
               value={totalDiscount}
               onChange={(e) => setTotalDiscount(e.target.value)}
             />
@@ -537,7 +537,7 @@ export default function Home() {
             <Input
               id="nftValue"
               placeholder="Enter NFT value"
-              className="text-right justify-self-end"
+              className=""
               value={nftValue}
               onChange={(e) => setNftValue(e.target.value)}
             />
@@ -548,7 +548,7 @@ export default function Home() {
             <Input
               id="otherValue"
               placeholder="Enter other value"
-              className="text-right justify-self-end"
+              className=""
               value={otherValue}
               onChange={(e) => setOtherValue(e.target.value)}
             />
@@ -620,4 +620,5 @@ export default function Home() {
     </div>
   );
 }
+
 
