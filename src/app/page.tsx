@@ -199,7 +199,7 @@ export default function Home() {
         <CardContent className="grid gap-4">
           
           <div className="grid grid-cols-2 gap-2">
-            <div className="flex items-center space-x-2">
+            <div className="flex flex-col space-y-2">
               <Label htmlFor="date">Date</Label>
               <Popover>
                 <PopoverTrigger asChild>
@@ -620,3 +620,4 @@ export default function Home() {
     </div>
   );
 }
+
