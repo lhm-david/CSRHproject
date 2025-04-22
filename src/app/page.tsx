@@ -323,42 +323,62 @@ export default function Home() {
 
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="giftCardSales" className="justify-self-start">Gift Card Sales</Label>
-            <Input
-              id="giftCardSales"
-              className=""
-              value={giftCardSales}
-              onChange={(e) => setGiftCardSales(e.target.value)}
-            />
+            <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                    $
+                </div>
+                <Input
+                    id="giftCardSales"
+                    className="pl-7"
+                    value={giftCardSales}
+                    onChange={(e) => setGiftCardSales(e.target.value)}
+                />
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="prepaidCardSales" className="justify-self-start">Pre-paid Card Sales</Label>
-            <Input
-              id="prepaidCardSales"
-              className=""
-              value={prepaidCardSales}
-              onChange={(e) => setPrepaidCardSales(e.target.value)}
-            />
+            <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                    $
+                </div>
+                <Input
+                    id="prepaidCardSales"
+                    className="pl-7"
+                    value={prepaidCardSales}
+                    onChange={(e) => setPrepaidCardSales(e.target.value)}
+                />
+            </div>
           </div>
           
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="onlineSales" className="justify-self-start">Online Sales</Label>
-            <Input
-              id="onlineSales"
-              className=""
-              value={onlineSales}
-              onChange={(e) => setOnlineSales(e.target.value)}
-            />
+            <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                    $
+                </div>
+                <Input
+                    id="onlineSales"
+                    className="pl-7"
+                    value={onlineSales}
+                    onChange={(e) => setOnlineSales(e.target.value)}
+                />
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="alcoholSales" className="justify-self-start">Alcohol Sales</Label>
-            <Input
-              id="alcoholSales"
-              className=""
-              value={alcoholSales}
-              onChange={(e) => setAlcoholSales(e.target.value)}
-            />
+            <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                    $
+                </div>
+                <Input
+                  id="alcoholSales"
+                  className="pl-7"
+                  value={alcoholSales}
+                  onChange={(e) => setAlcoholSales(e.target.value)}
+                />
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-2 items-center">
@@ -610,6 +630,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 
