@@ -522,8 +522,8 @@ export default function Home() {
 
           {otherReasons.map((reason, index) => (
             <div className="grid grid-cols-3 gap-2" key={reason.id}>
+              
               <div className="grid gap-2">
-                <Label htmlFor={`otherReason-${reason.id}`}>Reason {index + 1}:</Label>
                 <Input
                   id={`otherReason-${reason.id}`}
                   placeholder="Enter reason"
@@ -532,7 +532,6 @@ export default function Home() {
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor={`otherValue-${reason.id}`}>Value {index + 1}:</Label>
                 <Input
                   id={`otherValue-${reason.id}`}
                   placeholder="Enter value"
@@ -553,6 +552,8 @@ export default function Home() {
               <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </Button>
+
+          <Separator/>
 
           <div className="grid gap-2">
             <Label htmlFor="report-summary">Report Summary</Label>
@@ -585,3 +586,4 @@ export default function Home() {
     </div>
   );
 }
+
