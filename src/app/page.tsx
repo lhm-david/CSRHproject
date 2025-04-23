@@ -67,7 +67,7 @@ export default function Home() {
     const [chubbyPlus, setChubbyPlus] = useState("");
     const [chubbyOne, setChubbyOne] = useState("");
     const [totayTotalScan, setTotayTotalScan] = useState("");
-    const [scanRate, setScanRate] = useState("");
+    const [scanRate, setScanRate] = useState("0.00");
     const [totalMembersToToday, setTotalMembersToToday] = useState("");
 
   // Dynamic Input Fields
@@ -81,6 +81,9 @@ export default function Home() {
     const num4 = parseFloat(creditCardTips);
     const num5 = parseFloat(cashTips);
     const num6 = parseFloat(totalTips);
+    const num7 = parseFloat(totayTotalScan);
+    const num8 = parseFloat(totalTable);
+
 
     if (!isNaN(num1) && !isNaN(num2) && num2 !== 0) {
       setAlcoholSalesPercentage((num1 / num2 * 100).toFixed(2));
@@ -112,8 +115,14 @@ export default function Home() {
       setSalesPerGuest("0.00");
     }
 
+    if (!isNaN(num7) && !isNaN(num8) && num8 !== 0) {
+      setScanRate((num7 / num8).toFixed(2));
+    } else {
+      setScanRate("0.00");
+    }
 
-  }, [alcoholSales, grossSales, totalGuest, creditCardTips, cashTips, totalTips]);
+
+  }, [alcoholSales, grossSales, totalGuest, creditCardTips, cashTips, totalTips, totayTotalScan, totalTable]);
 
   useEffect(() => {
     setFormattedDate(date ? format(date, "PPP") : "Pick a date");
@@ -551,7 +560,7 @@ export default function Home() {
                     id="scanRate"
                     className=""
                     value={scanRate}
-                    onChange={(e) => setScanRate(e.target.value)}
+                    readOnly
                 />
             </div>
 
@@ -660,11 +669,3 @@ export default function Home() {
     </div>
   );
 }
-
-
-
-
-
-
-
-
