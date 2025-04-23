@@ -376,7 +376,7 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-2 gap-2 items-center">
-            <Label htmlFor="alcoholSales" className="justify-self-start">Alcohol Sales</Label>
+            <Label htmlFor="creditCardSales" className="justify-self-start">Alcohol Sales</Label>
             <div className="relative">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
                     $
@@ -392,12 +392,17 @@ export default function Home() {
 
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="alcoholSalesPercentage" className="justify-self-start">Alcohol Sales Percentage</Label>
-            <Input
-              id="alcoholSalesPercentage"
-              className=""
-              value={`${alcoholSalesPercentage}%`}
-              readOnly
-            />
+             <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                  %
+                </div>
+                <Input
+                  id="alcoholSalesPercentage"
+                  className="pl-7"
+                  value={` ${alcoholSalesPercentage}%`}
+                  readOnly
+                />
+            </div>
           </div>
           
           <div className="grid grid-cols-2 gap-2 items-center">
@@ -689,4 +694,5 @@ export default function Home() {
     </div>
   );
 }
+
 
