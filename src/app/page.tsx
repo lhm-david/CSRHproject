@@ -556,12 +556,17 @@ export default function Home() {
 
             <div className="grid grid-cols-2 gap-2 items-center">
                 <Label htmlFor="scanRate" className="justify-self-start">Scan Rate:</Label>
-                <Input
-                    id="scanRate"
-                    className=""
-                    value={scanRate}
-                    readOnly
-                />
+                  <div className="relative">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                        %
+                    </div>
+                    <Input
+                        id="scanRate"
+                        className="pl-7"
+                        value={scanRate}
+                        readOnly
+                    />
+                 </div>
             </div>
 
             <div className="grid grid-cols-2 gap-2 items-center">
