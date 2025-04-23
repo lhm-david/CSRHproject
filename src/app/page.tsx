@@ -135,22 +135,22 @@ export default function Home() {
       Shift Lead: ${shiftLead}
       Total Table: ${totalTable}
       Total Guest: ${totalGuest}
-      Total Sales: ${totalSales}$
-      Net Sales: ${netSales}$
-      Cash Sales:  ${cashSales}$
-      Credit Card Sales: ${creditCardSales}$
-      Gift Card Sales: ${giftCardSales}$
-      Pre-paid Card Sales: ${prepaidCardSales}$
-      Online Sales: ${onlineSales}$
-      Alcohol Sales: ${alcoholSales}$
+      Total Sales: $${totalSales}
+      Net Sales: $${netSales}
+      Cash Sales:  $${cashSales}
+      Credit Card Sales: $${creditCardSales}
+      Gift Card Sales: $${giftCardSales}
+      Pre-paid Card Sales: $${prepaidCardSales}
+      Online Sales: $${onlineSales}
+      Alcohol Sales: $${alcoholSales}
       Alcohol Sales Percentage: ${alcoholSalesPercentage}%
-      Alcohol Sales per guest: ${alcoholSalesPerGuest}$
-      Credit Card Tips: ${creditCardTips}$
-      Cash Tips: ${cashTips}$
-      Total Tips: ${totalTips}$
+      Alcohol Sales per guest: $${alcoholSalesPerGuest}
+      Credit Card Tips: $${creditCardTips}
+      Cash Tips: $${cashTips}
+      Total Tips: $${totalTips}
       Tips Percentage: ${tipsPercentage}%
-      Sales Per Guest: ${salesPerGuest}$
-      Total amount cancelled: ${totalAmountCancelled}$
+      Sales Per Guest: $${salesPerGuest}
+      Total amount cancelled: $${totalAmountCancelled}
       Reason for cancelled: ${reasonForCancelled}
       New Chubby Member: ${newChubbyMember}
       Chubby plus: ${chubbyPlus}
@@ -158,9 +158,9 @@ export default function Home() {
       Today total Scan: ${totayTotalScan}
       Scan Rate: ${scanRate}%
       Total Members to Today: ${totalMembersToToday}
-      Total Discount: ${totalDiscount}$
-      NFT: ${nftValue}$
-      Other: ${otherValue}$
+      Total Discount: $${totalDiscount}
+      NFT: $${nftValue}
+      Other: $${otherValue}
       ${otherReasons.map(reason => `${reason.reason}: ${reason.value}$`).join('\n')}
     `;
   };
@@ -303,7 +303,7 @@ export default function Home() {
             <Label htmlFor="totalSales" className="justify-self-start">Total Sales</Label>
             <div className="relative">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
-                    $
+                   $
                 </div>
                 <Input
                   id="totalSales"
@@ -446,7 +446,7 @@ export default function Home() {
                 <Input
                     id="alcoholSalesPercentage"
                     className="pl-7"
-                    value={`$${alcoholSalesPerGuest}`}
+                    value={alcoholSalesPerGuest}
                     readOnly
                 />
             </div>
@@ -491,7 +491,7 @@ export default function Home() {
                 <Input
                   id="totalTips"
                   className="pl-7"
-                  value={`$${totalTips}`}
+                  value={totalTips}
                   readOnly
                 />
             </div>
@@ -506,7 +506,7 @@ export default function Home() {
               <Input
                 id="tipsPercentage"
                 className="pl-7"
-                value={`%${tipsPercentage}`}
+                value={tipsPercentage}
                 readOnly
               />
                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-1 text-gray-500">
@@ -526,7 +526,7 @@ export default function Home() {
                 <Input
                   id="salesPerGuest"
                   className="pl-7"
-                  value={`$${salesPerGuest}`}
+                  value={salesPerGuest}
                   readOnly
                 />
             </div>
@@ -608,7 +608,7 @@ export default function Home() {
                     <Input
                         id="scanRate"
                         className="pl-7"
-                        value={`%${scanRate}`}
+                        value={scanRate}
                         readOnly
                     />
                      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-1 text-gray-500">
@@ -739,5 +739,6 @@ export default function Home() {
     </div>
   );
 }
+
 
 
