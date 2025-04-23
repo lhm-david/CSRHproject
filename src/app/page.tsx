@@ -129,6 +129,10 @@ export default function Home() {
   }, [date]);
 
   const generateReportText = () => {
+    let onlineSalesValue = onlineSales;
+    if (!onlineSales || onlineSales === "0") {
+        onlineSalesValue = "0";
+    }
     return `
       Daily Report:
       Date: ${formattedDate}
@@ -141,10 +145,10 @@ export default function Home() {
       Credit Card Sales: $${creditCardSales}
       Gift Card Sales: $${giftCardSales}
       Pre-paid Card Sales: $${prepaidCardSales}
-      Online Sales: $${onlineSales}
+      Online Sales: $${onlineSalesValue}
       Alcohol Sales: $${alcoholSales}
       Alcohol Sales Percentage: ${alcoholSalesPercentage}%
-      Alcohol Sales per guest: $${alcoholSalesPerGuest}
+      Alcohol Sales per guest: ${alcoholSalesPerGuest}
       Credit Card Tips: $${creditCardTips}
       Cash Tips: $${cashTips}
       Total Tips: $${totalTips}
@@ -739,6 +743,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 
