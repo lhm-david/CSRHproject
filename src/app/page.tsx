@@ -583,32 +583,47 @@ export default function Home() {
 
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="totalDiscount" className="justify-self-start">Total Discount:</Label>
-            <Input
-              id="totalDiscount"
-              className=""
-              value={totalDiscount}
-              onChange={(e) => setTotalDiscount(e.target.value)}
-            />
+             <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                    $
+                </div>
+                <Input
+                  id="totalDiscount"
+                  className="pl-7"
+                  value={totalDiscount}
+                  onChange={(e) => setTotalDiscount(e.target.value)}
+                />
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="nftValue" className="justify-self-start">NFT:</Label>
-            <Input
-              id="nftValue"
-              className=""
-              value={nftValue}
-              onChange={(e) => setNftValue(e.target.value)}
-            />
+             <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                    $
+                </div>
+                <Input
+                  id="nftValue"
+                  className="pl-7"
+                  value={nftValue}
+                  onChange={(e) => setNftValue(e.target.value)}
+                />
+            </div>
           </div>
 
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="otherValue" className="justify-self-start">Other:</Label>
-            <Input
-              id="otherValue"
-              className=""
-              value={otherValue}
-              onChange={(e) => setOtherValue(e.target.value)}
-            />
+              <div className="relative">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                    $
+                </div>
+                <Input
+                  id="otherValue"
+                  className="pl-7"
+                  value={otherValue}
+                  onChange={(e) => setOtherValue(e.target.value)}
+                />
+            </div>
           </div>
 
           {otherReasons.map((reason, index) => (
@@ -674,3 +689,4 @@ export default function Home() {
     </div>
   );
 }
+
