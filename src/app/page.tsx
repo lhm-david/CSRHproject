@@ -24,7 +24,7 @@ export default function Home() {
 
   // Sales Data Fields
   const [totalSales, setTotalSales] = useState("");
-  const [grossSales, setGrossSales] = useState("");
+  const [netSales, setNetSales] = useState("");
   const [cashSales, setCashSales] = useState("");
   const [creditCardSales, setCreditCardSales] = useState("");
   const [alcoholSales, setAlcoholSales] = useState("");
@@ -76,7 +76,7 @@ export default function Home() {
 
   useEffect(() => {
     const num1 = parseFloat(alcoholSales);
-    const num2 = parseFloat(grossSales);
+    const num2 = parseFloat(netSales);
     const num3 = parseFloat(totalGuest);
     const num4 = parseFloat(creditCardTips);
     const num5 = parseFloat(cashTips);
@@ -122,7 +122,7 @@ export default function Home() {
     }
 
 
-  }, [alcoholSales, grossSales, totalGuest, creditCardTips, cashTips, totalTips, totayTotalScan, totalTable]);
+  }, [alcoholSales, netSales, totalGuest, creditCardTips, cashTips, totalTips, totayTotalScan, totalTable]);
 
   useEffect(() => {
     setFormattedDate(date ? format(date, "PPP") : "Pick a date");
@@ -135,33 +135,33 @@ export default function Home() {
       Shift Lead: ${shiftLead}
       Total Table: ${totalTable}
       Total Guest: ${totalGuest}
-      Total Sales: ${totalSales}
-      Gross Sales: ${grossSales}
-      Cash Sales: ${cashSales}
-      Credit Card Sales: ${creditCardSales}
-      Gift Card Sales: ${giftCardSales}
-      Pre-paid Card Sales: ${prepaidCardSales}
-      Online Sales: ${onlineSales}
-      Alcohol Sales: ${alcoholSales}
-      Alcohol Sales Percentage: ${alcoholSalesPercentage}
-      Alcohol Sales per guest: ${alcoholSalesPerGuest}
-      Credit Card Tips: ${creditCardTips}
-      Cash Tips: ${cashTips}
-      Total Tips: ${totalTips}
-      Tips Percentage: ${tipsPercentage}
-      Sales Per Guest: ${salesPerGuest}
-      Total amount cancelled: ${totalAmountCancelled}
+      Total Sales: ${totalSales}$
+      Net Sales: ${netSales}$
+      Cash Sales:  ${cashSales}$
+      Credit Card Sales: ${creditCardSales}$
+      Gift Card Sales: ${giftCardSales}$
+      Pre-paid Card Sales: ${prepaidCardSales}$
+      Online Sales: ${onlineSales}$
+      Alcohol Sales: ${alcoholSales}$
+      Alcohol Sales Percentage: ${alcoholSalesPercentage}%
+      Alcohol Sales per guest: ${alcoholSalesPerGuest}$
+      Credit Card Tips: ${creditCardTips}$
+      Cash Tips: ${cashTips}$
+      Total Tips: ${totalTips}$
+      Tips Percentage: ${tipsPercentage}%
+      Sales Per Guest: ${salesPerGuest}$
+      Total amount cancelled: ${totalAmountCancelled}$
       Reason for cancelled: ${reasonForCancelled}
       New Chubby Member: ${newChubbyMember}
       Chubby plus: ${chubbyPlus}
       Chubby one: ${chubbyOne}
       Today total Scan: ${totayTotalScan}
-      Scan Rate: ${scanRate}
+      Scan Rate: ${scanRate}%
       Total Members to Today: ${totalMembersToToday}
-      Total Discount: ${totalDiscount}
-      NFT: ${nftValue}
-      Other: ${otherValue}
-      ${otherReasons.map(reason => `Other Reason: ${reason.reason}, Value: ${reason.value}`).join('\n')}
+      Total Discount: ${totalDiscount}$
+      NFT: ${nftValue}$
+      Other: ${otherValue}$
+      ${otherReasons.map(reason => `${reason.reason}: ${reason.value}$`).join('\n')}
     `;
   };
 
@@ -315,16 +315,16 @@ export default function Home() {
           </div>
           
           <div className="grid grid-cols-2 gap-2 items-center">
-            <Label htmlFor="grossSales" className="justify-self-start">Gross Sales</Label>
+            <Label htmlFor="netSales" className="justify-self-start">Net Sales</Label>
              <div className="relative">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
                     $
                 </div>
                 <Input
-                  id="grossSales"
+                  id="netSales"
                   className="pl-7"
-                  value={grossSales}
-                  onChange={(e) => setGrossSales(e.target.value)}
+                  value={netSales}
+                  onChange={(e) => setNetSales(e.target.value)}
                 />
             </div>
           </div>
@@ -422,10 +422,12 @@ export default function Home() {
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="alcoholSalesPercentage" className="justify-self-start">Alcohol Sales Percentage</Label>
              <div className="relative">
-                
+             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                    %
+                </div>
                 <Input
                   id="alcoholSalesPercentage"
-                  className="pl-1"
+                  className="pl-7"
                   value={`%${alcoholSalesPercentage}`}
                   readOnly
                 />
@@ -498,10 +500,12 @@ export default function Home() {
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="tipsPercentage" className="justify-self-start">Tips Percentage</Label>
             <div className="relative">
-              
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                    %
+                </div>
               <Input
                 id="tipsPercentage"
-                className="pl-1"
+                className="pl-7"
                 value={`%${tipsPercentage}`}
                 readOnly
               />
@@ -598,10 +602,12 @@ export default function Home() {
             <div className="grid grid-cols-2 gap-2 items-center">
                 <Label htmlFor="scanRate" className="justify-self-start">Scan Rate:</Label>
                   <div className="relative">
-                    
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                      %
+                    </div>
                     <Input
                         id="scanRate"
-                        className="pl-1"
+                        className="pl-7"
                         value={`%${scanRate}`}
                         readOnly
                     />
@@ -733,3 +739,4 @@ export default function Home() {
     </div>
   );
 }
+
