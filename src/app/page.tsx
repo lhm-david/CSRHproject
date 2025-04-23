@@ -116,7 +116,7 @@ export default function Home() {
     }
 
     if (!isNaN(num7) && !isNaN(num8) && num8 !== 0) {
-      setScanRate((num7 / num8).toFixed(2));
+      setScanRate((num7 / num8 * 100 ).toFixed(2));
     } else {
       setScanRate("0.00");
     }
@@ -133,6 +133,35 @@ export default function Home() {
       Daily Report:
       Date: ${formattedDate}
       Shift Lead: ${shiftLead}
+      Total Table: ${totalTable}
+      Total Guest: ${totalGuest}
+      Total Sales: ${totalSales}
+      Gross Sales: ${grossSales}
+      Cash Sales: ${cashSales}
+      Credit Card Sales: ${creditCardSales}
+      Gift Card Sales: ${giftCardSales}
+      Pre-paid Card Sales: ${prepaidCardSales}
+      Online Sales: ${onlineSales}
+      Alcohol Sales: ${alcoholSales}
+      Alcohol Sales Percentage: ${alcoholSalesPercentage}
+      Alcohol Sales per guest: ${alcoholSalesPerGuest}
+      Credit Card Tips: ${creditCardTips}
+      Cash Tips: ${cashTips}
+      Total Tips: ${totalTips}
+      Tips Percentage: ${tipsPercentage}
+      Sales Per Guest: ${salesPerGuest}
+      Total amount cancelled: ${totalAmountCancelled}
+      Reason for cancelled: ${reasonForCancelled}
+      New Chubby Member: ${newChubbyMember}
+      Chubby plus: ${chubbyPlus}
+      Chubby one: ${chubbyOne}
+      Today total Scan: ${totayTotalScan}
+      Scan Rate: ${scanRate}
+      Total Members to Today: ${totalMembersToToday}
+      Total Discount: ${totalDiscount}
+      NFT: ${nftValue}
+      Other: ${otherValue}
+      ${otherReasons.map(reason => `Other Reason: ${reason.reason}, Value: ${reason.value}`).join('\n')}
     `;
   };
 
@@ -393,15 +422,16 @@ export default function Home() {
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="alcoholSalesPercentage" className="justify-self-start">Alcohol Sales Percentage</Label>
              <div className="relative">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
-                  %
-                </div>
+                
                 <Input
                   id="alcoholSalesPercentage"
-                  className="pl-7"
-                  value={` ${alcoholSalesPercentage}%`}
+                  className="pl-1"
+                  value={`%${alcoholSalesPercentage}`}
                   readOnly
                 />
+                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-1 text-gray-500">
+                  
+                </div>
             </div>
           </div>
           
@@ -414,7 +444,7 @@ export default function Home() {
                 <Input
                     id="alcoholSalesPercentage"
                     className="pl-7"
-                    value={`${alcoholSalesPerGuest}`}
+                    value={`$${alcoholSalesPerGuest}`}
                     readOnly
                 />
             </div>
@@ -459,7 +489,7 @@ export default function Home() {
                 <Input
                   id="totalTips"
                   className="pl-7"
-                  value={`${totalTips}`}
+                  value={`$${totalTips}`}
                   readOnly
                 />
             </div>
@@ -467,12 +497,18 @@ export default function Home() {
 
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="tipsPercentage" className="justify-self-start">Tips Percentage</Label>
-            <Input
-              id="tipsPercentage"
-              className=""
-              value={`${tipsPercentage}%`}
-              readOnly
-            />
+            <div className="relative">
+              
+              <Input
+                id="tipsPercentage"
+                className="pl-1"
+                value={`%${tipsPercentage}`}
+                readOnly
+              />
+               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-1 text-gray-500">
+                    
+                  </div>
+            </div>
           </div>
           
           <Separator/>
@@ -486,7 +522,7 @@ export default function Home() {
                 <Input
                   id="salesPerGuest"
                   className="pl-7"
-                  value={salesPerGuest}
+                  value={`$${salesPerGuest}`}
                   readOnly
                 />
             </div>
@@ -562,15 +598,16 @@ export default function Home() {
             <div className="grid grid-cols-2 gap-2 items-center">
                 <Label htmlFor="scanRate" className="justify-self-start">Scan Rate:</Label>
                   <div className="relative">
-                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
-                        %
-                    </div>
+                    
                     <Input
                         id="scanRate"
-                        className="pl-7"
-                        value={scanRate}
+                        className="pl-1"
+                        value={`%${scanRate}`}
                         readOnly
                     />
+                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-1 text-gray-500">
+                        
+                    </div>
                  </div>
             </div>
 
@@ -654,6 +691,8 @@ export default function Home() {
             </div>
           ))}
 
+          <Separator/>
+
           <Button type="button" onClick={handleAddReason} className="w-full">
             Add Reason
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="ml-2">
@@ -694,5 +733,3 @@ export default function Home() {
     </div>
   );
 }
-
-
