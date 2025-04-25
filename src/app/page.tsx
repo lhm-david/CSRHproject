@@ -80,47 +80,33 @@ export default function Home() {
     const num3 = parseFloat(totalGuest);
     const num4 = parseFloat(creditCardTips);
     const num5 = parseFloat(cashTips);
-    const num6 = parseFloat(totalTips);
-    const num7 = parseFloat(totayTotalScan);
-    const num8 = parseFloat(totalTable);
+    const num6 = parseFloat(totayTotalScan);
+    const num7 = parseFloat(totalTable);
 
 
-    if (!isNaN(num1) && !isNaN(num2) && num2 !== 0) {
-      setAlcoholSalesPercentage((num1 / num2 * 100).toFixed(2));
-    } else {
-      setAlcoholSalesPercentage("0.00");
-    }
+    setAlcoholSalesPercentage(
+        (!isNaN(num1) && !isNaN(num2) && num2 !== 0) ? (num1 / num2 * 100).toFixed(2) : "0.00"
+    );
 
-    if (!isNaN(num1) && !isNaN(num3) && num3 !== 0) {
-      setAlcoholSalesPerGuest((num1 / num3).toFixed(2));
-    } else {
-      setAlcoholSalesPerGuest("0.00");
-    }
+    setAlcoholSalesPerGuest(
+        (!isNaN(num1) && !isNaN(num3) && num3 !== 0) ? (num1 / num3).toFixed(2) : "0.00"
+    );
 
-    if (!isNaN(num4) && !isNaN(num5)) {
-      setTotalTips((num4 + num5).toFixed(2));
-    } else {
-      setTotalTips("0.00");
-    }
+    setTotalTips(
+        (!isNaN(num4) && !isNaN(num5)) ? (num4 + num5).toFixed(2) : "0.00"
+    );
 
-    if (!isNaN(num6) && !isNaN(num2) && num2 !== 0) {
-      setTipsPercentage((num6 / num2 * 100).toFixed(2));
-    } else {
-      setTipsPercentage("0.00");
-    }
+    setTipsPercentage(
+        (!isNaN(parseFloat(totalTips)) && !isNaN(num2) && num2 !== 0) ? (parseFloat(totalTips) / num2 * 100).toFixed(2) : "0.00"
+    );
 
-    if (!isNaN(num2) && !isNaN(num3) && num3 !== 0) {
-      setSalesPerGuest((num2 / num3).toFixed(2));
-    } else {
-      setSalesPerGuest("0.00");
-    }
+    setSalesPerGuest(
+        (!isNaN(num2) && !isNaN(num3) && num3 !== 0) ? (num2 / num3).toFixed(2) : "0.00"
+    );
 
-    if (!isNaN(num7) && !isNaN(num8) && num8 !== 0) {
-      setScanRate((num7 / num8 * 100 ).toFixed(2));
-    } else {
-      setScanRate("0.00");
-    }
-
+    setScanRate(
+        (!isNaN(num6) && !isNaN(num7) && num7 !== 0) ? (num6 / num7 * 100).toFixed(2) : "0.00"
+    );
 
   }, [alcoholSales, netSales, totalGuest, creditCardTips, cashTips, totalTips, totayTotalScan, totalTable]);
 
@@ -129,42 +115,42 @@ export default function Home() {
   }, [date]);
 
   const generateReportText = () => {
-    let onlineSalesValue = onlineSales;
-    if (!onlineSales || onlineSales === "0") {
-        onlineSalesValue = "0";
-    }
+      const formatValue = (value: string) => {
+          return value === "" || value === "0" ? "0" : value;
+      };
+
     return `
       Daily Report:
       Date: ${formattedDate}
       Shift Lead: ${shiftLead}
-      Total Table: ${totalTable}
-      Total Guest: ${totalGuest}
-      Total Sales: $${totalSales}
-      Net Sales: $${netSales}
-      Cash Sales:  $${cashSales}
-      Credit Card Sales: $${creditCardSales}
-      Gift Card Sales: $${giftCardSales}
-      Pre-paid Card Sales: $${prepaidCardSales}
-      Online Sales: $${onlineSalesValue}
-      Alcohol Sales: $${alcoholSales}
+      Total Table: ${formatValue(totalTable)}
+      Total Guest: ${formatValue(totalGuest)}
+      Total Sales: $${formatValue(totalSales)}
+      Net Sales: $${formatValue(netSales)}
+      Cash Sales: $${formatValue(cashSales)}
+      Credit Card Sales: $${formatValue(creditCardSales)}
+      Gift Card Sales: $${formatValue(giftCardSales)}
+      Pre-paid Card Sales: $${formatValue(prepaidCardSales)}
+      Online Sales: $${formatValue(onlineSales)}
+      Alcohol Sales: $${formatValue(alcoholSales)}
       Alcohol Sales Percentage: ${alcoholSalesPercentage}%
-      Alcohol Sales per guest: ${alcoholSalesPerGuest}
-      Credit Card Tips: $${creditCardTips}
-      Cash Tips: $${cashTips}
-      Total Tips: $${totalTips}
+      Alcohol Sales per guest: $${alcoholSalesPerGuest}
+      Credit Card Tips: $${formatValue(creditCardTips)}
+      Cash Tips: $${formatValue(cashTips)}
+      Total Tips: $${formatValue(totalTips)}
       Tips Percentage: ${tipsPercentage}%
-      Sales Per Guest: $${salesPerGuest}
-      Total amount cancelled: $${totalAmountCancelled}
+      Sales Per Guest: $${formatValue(salesPerGuest)}
+      Total amount cancelled: $${formatValue(totalAmountCancelled)}
       Reason for cancelled: ${reasonForCancelled}
-      New Chubby Member: ${newChubbyMember}
-      Chubby plus: ${chubbyPlus}
-      Chubby one: ${chubbyOne}
-      Today total Scan: ${totayTotalScan}
+      New Chubby Member: ${formatValue(newChubbyMember)}
+      Chubby plus: ${formatValue(chubbyPlus)}
+      Chubby one: ${formatValue(chubbyOne)}
+      Today total Scan: ${formatValue(totayTotalScan)}
       Scan Rate: ${scanRate}%
-      Total Members to Today: ${totalMembersToToday}
-      Total Discount: $${totalDiscount}
-      NFT: $${nftValue}
-      Other: $${otherValue}
+      Total Members to Today: ${formatValue(totalMembersToToday)}
+      Total Discount: $${formatValue(totalDiscount)}
+      NFT: $${formatValue(nftValue)}
+      Other: $${formatValue(otherValue)}
       ${otherReasons.map(reason => `${reason.reason}: ${reason.value}$`).join('\n')}
     `;
   };
@@ -404,6 +390,7 @@ export default function Home() {
                     className="pl-7"
                     value={onlineSales}
                     onChange={(e) => setOnlineSales(e.target.value)}
+                    
                 />
             </div>
           </div>
@@ -426,31 +413,27 @@ export default function Home() {
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="alcoholSalesPercentage" className="justify-self-start">Alcohol Sales Percentage</Label>
             <div className="relative">
-             <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
-                    %
-                </div>
+            
                 <Input
                   id="alcoholSalesPercentage"
                   className="pl-7"
-                  value={alcoholSalesPercentage}
+                  value={`%${alcoholSalesPercentage}`}
                   readOnly
                 />
                  <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-1 text-gray-500">
-                  
-                </div>
+                    
+                  </div>
             </div>
           </div>
           
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="alcoholSalesPercentage" className="justify-self-start">Alcohol Sales per guest</Label>
             <div className="relative">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
-                    $
-                </div>
+                
                 <Input
                     id="alcoholSalesPercentage"
                     className="pl-7"
-                    value={alcoholSalesPerGuest}
+                    value={`$${alcoholSalesPerGuest}`}
                     readOnly
                 />
             </div>
@@ -489,9 +472,7 @@ export default function Home() {
            <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="totalTips" className="justify-self-start">Total Tips</Label>
             <div className="relative">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
-                    $
-                </div>
+                
                 <Input
                   id="totalTips"
                   className="pl-7"
@@ -504,13 +485,11 @@ export default function Home() {
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="tipsPercentage" className="justify-self-start">Tips Percentage</Label>
             <div className="relative">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
-                    %
-                </div>
+            
               <Input
                 id="tipsPercentage"
                 className="pl-7"
-                value={tipsPercentage}
+                value={`${tipsPercentage}%`}
                 readOnly
               />
                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-1 text-gray-500">
@@ -524,9 +503,7 @@ export default function Home() {
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="salesPerGuest" className="justify-self-start">Sales Per Guest:</Label>
              <div className="relative">
-                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
-                    $
-                </div>
+                
                 <Input
                   id="salesPerGuest"
                   className="pl-7"
@@ -606,13 +583,11 @@ export default function Home() {
             <div className="grid grid-cols-2 gap-2 items-center">
                 <Label htmlFor="scanRate" className="justify-self-start">Scan Rate:</Label>
                   <div className="relative">
-                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
-                      %
-                    </div>
+                    
                     <Input
                         id="scanRate"
                         className="pl-7"
-                        value={scanRate}
+                        value={`%${scanRate}`}
                         readOnly
                     />
                      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-1 text-gray-500">
@@ -743,6 +718,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 
