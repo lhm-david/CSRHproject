@@ -413,27 +413,29 @@ export default function Home() {
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="alcoholSalesPercentage" className="justify-self-start">Alcohol Sales Percentage</Label>
             <div className="relative">
-            
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-1 text-gray-500">
+                    %
+                  </div>
                 <Input
                   id="alcoholSalesPercentage"
                   className="pl-7"
-                  value={`%${alcoholSalesPercentage}`}
+                  value={alcoholSalesPercentage}
                   readOnly
                 />
-                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-1 text-gray-500">
-                    
-                  </div>
+                 
             </div>
           </div>
           
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="alcoholSalesPercentage" className="justify-self-start">Alcohol Sales per guest</Label>
             <div className="relative">
-                
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                    $
+                </div>
                 <Input
                     id="alcoholSalesPercentage"
                     className="pl-7"
-                    value={`$${alcoholSalesPerGuest}`}
+                    value={alcoholSalesPerGuest}
                     readOnly
                 />
             </div>
@@ -472,7 +474,9 @@ export default function Home() {
            <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="totalTips" className="justify-self-start">Total Tips</Label>
             <div className="relative">
-                
+                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                    $
+                </div>
                 <Input
                   id="totalTips"
                   className="pl-7"
@@ -485,16 +489,16 @@ export default function Home() {
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="tipsPercentage" className="justify-self-start">Tips Percentage</Label>
             <div className="relative">
-            
+              <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-1 text-gray-500">
+                    %
+                  </div>
               <Input
                 id="tipsPercentage"
                 className="pl-7"
-                value={`${tipsPercentage}%`}
+                value={tipsPercentage}
                 readOnly
               />
-               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-1 text-gray-500">
-                    
-                  </div>
+               
             </div>
           </div>
           
@@ -503,7 +507,9 @@ export default function Home() {
           <div className="grid grid-cols-2 gap-2 items-center">
             <Label htmlFor="salesPerGuest" className="justify-self-start">Sales Per Guest:</Label>
              <div className="relative">
-                
+               <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
+                    $
+                </div>
                 <Input
                   id="salesPerGuest"
                   className="pl-7"
@@ -528,8 +534,8 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-2 items-center">
-            <Label htmlFor="reasonForCancelled" className="justify-self-start">Reason for cancelled:</Label>
+          <div className="grid gap-2">
+            <Label htmlFor="reasonForCancelled">Reason for cancelled:</Label>
             <Textarea
               id="reasonForCancelled"
               className=""
@@ -583,16 +589,16 @@ export default function Home() {
             <div className="grid grid-cols-2 gap-2 items-center">
                 <Label htmlFor="scanRate" className="justify-self-start">Scan Rate:</Label>
                   <div className="relative">
-                    
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-1 text-gray-500">
+                        %
+                    </div>
                     <Input
                         id="scanRate"
                         className="pl-7"
-                        value={`%${scanRate}`}
+                        value={scanRate}
                         readOnly
                     />
-                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-1 text-gray-500">
-                        
-                    </div>
+                     
                  </div>
             </div>
 
@@ -718,6 +724,7 @@ export default function Home() {
     </div>
   );
 }
+
 
 
 
