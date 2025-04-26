@@ -16,6 +16,9 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { SummarizeReportOutput, summarizeReport } from "@/ai/flows/summarize-report";
 import { Separator } from "@/components/ui/separator";
+import PlaceFinder from "./placefinder"
+
+
 
 export default function Home() {
   const [reportSummary, setReportSummary] = useState<string>("");
@@ -73,6 +76,9 @@ export default function Home() {
   // Dynamic Input Fields
   const [otherReasons, setOtherReasons] = useState<{ id: number; reason: string; value: string }[]>([]);
   const [nextReasonId, setNextReasonId] = useState(1);
+
+    // Google Reviews
+    const [googleReviews, setGoogleReviews] = useState<number>(0);
 
   useEffect(() => {
     const num1 = parseFloat(alcoholSales);
@@ -682,11 +688,21 @@ export default function Home() {
             </div>
           ))}
 
+          <div className="grid grid-cols-2 gap-2 items-center">
+              <Label htmlFor="Google Review" className="justify-self-start">Google Review</Label>
+                <Input
+                    id="Google Review"
+                    className="pl-7"
+                    value={googleReviews}
+                    readOnly
+                />
+           </div>
+
           <Separator/>
 
           <Button type="button" onClick={handleAddReason} className="w-full">
             Add Reason
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="ml-2">
+            <svg width="16" height="16" viewBox="0 0 24 00" fill="none" xmlns="http://www.w3.org/2000/svg" className="ml-2">
               <path d="M12 5V19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
@@ -724,9 +740,5 @@ export default function Home() {
     </div>
   );
 }
-
-
-
-
 
 
