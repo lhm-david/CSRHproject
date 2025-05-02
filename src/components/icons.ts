@@ -1,4 +1,4 @@
-import {ArrowRight, Check, ChevronsUpDown, Circle, Copy, Edit, ExternalLink, File, HelpCircle, Home, Loader2, Mail, MessageSquare, Moon, Plus, PlusCircle, Search, Server, Settings, Share2, Shield, Sun, Trash, User, X, Workflow, Save, Sparkles, Calendar} from 'lucide-react';
+import {ArrowRight, Check, ChevronsUpDown, Circle, Copy, Edit, ExternalLink, File, HelpCircle, Home, Loader2, Mail, MessageSquare, Moon, Plus, PlusCircle, Search, Server, Settings, Share2, Shield, Sun, Trash, User, X, Workflow, Save, Sparkles, Calendar, Star} from 'lucide-react'; // Added Star
 
 const Icons = {
   arrowRight: ArrowRight,
@@ -26,6 +26,7 @@ const Icons = {
   share: Share2,
   shield: Shield,
   spinner: Loader2,
+  star: Star, // Added Star
   trash: Trash,
   user: User,
   save: Save,
