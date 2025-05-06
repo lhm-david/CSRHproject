@@ -1,19 +1,29 @@
 
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { uploadFileAction } from "@/actions/upload"; // Import the server action
+import { uploadFileAction } from "@/actions/upload"; 
 import { Icons } from "@/components/icons";
-import { Toaster } from "@/components/ui/toaster"; // Import Toaster
+import { Toaster } from "@/components/ui/toaster"; 
+import { useRouter } from 'next/navigation';
+import { getCookie } from 'cookies-next';
 
-export default function Home() {
+export default function ViewReportPage() {
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const userCookie = getCookie('username');
+    if (userCookie === undefined || userCookie === null || userCookie === '') {
+      router.push('/');
+    }
+  }, [router]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -50,9 +60,9 @@ export default function Home() {
           title: "Upload Successful",
           description: result.message,
         });
-        setSelectedFile(null); // Clear selection after successful upload
+        setSelectedFile(null); 
         if (fileInputRef.current) {
-          fileInputRef.current.value = ""; // Reset file input
+          fileInputRef.current.value = ""; 
         }
       } else {
         toast({
@@ -92,7 +102,7 @@ export default function Home() {
 
         <div className="flex flex-col items-center space-y-4 border p-6 rounded-lg shadow-sm">
           <h2 className="text-lg font-semibold">Upload File to Public Folder</h2>
-          {/* Hidden file input */}
+          
           <Input
             type="file"
             ref={fileInputRef}
@@ -100,14 +110,14 @@ export default function Home() {
             className="hidden"
             id="fileUpload"
           />
-          {/* Button to trigger file input */}
+          
           <Button onClick={() => fileInputRef.current?.click()} variant="outline">
             <Icons.file className="mr-2" /> Select File
           </Button>
           {selectedFile && (
             <p className="text-sm text-muted-foreground">Selected: {selectedFile.name}</p>
           )}
-          {/* Button to upload the selected file */}
+          
           <Button onClick={handleUpload} disabled={!selectedFile || isUploading}>
             {isUploading ? (
               <>
@@ -122,10 +132,10 @@ export default function Home() {
         </div>
 
 
-        <Button onClick={() => window.location.href = '/'}>Go Back</Button>
+        <Button onClick={() => router.push('/home')}>Go Back</Button>
         
       </div>
-      <Toaster /> {/* Add Toaster component here */}
+      <Toaster /> 
     </>
   );
 }

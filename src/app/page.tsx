@@ -1,6 +1,6 @@
 
 "use client";
-import { useState, useRef, type ChangeEvent } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import { Input } from "@/components/ui/input";
@@ -8,77 +8,14 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Toaster } from "@/components/ui/toaster";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { uploadFileAction } from "@/actions/upload";
-import { Icons } from "@/components/icons";
-
+import { setCookie } from 'cookies-next';
+import { useRouter } from 'next/navigation'; // Import useRouter
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const { toast } = useToast();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
-
-
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-      console.log("File selected:", file.name);
-    } else {
-      setSelectedFile(null);
-      console.log("No file selected");
-    }
-  };
-
-  const handleUpload = async () => {
-    if (!selectedFile) {
-      toast({
-        variant: "destructive",
-        title: "No file selected",
-        description: "Please select a file to upload.",
-      });
-      return;
-    }
-
-    setIsUploading(true);
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-
-    try {
-      console.log("Uploading file:", selectedFile.name);
-      const result = await uploadFileAction(formData);
-      console.log("Upload result:", result);
-
-      if (result.success) {
-        toast({
-          title: "Upload Successful",
-          description: result.message,
-        });
-        setSelectedFile(null); // Clear selection after successful upload
-        if (fileInputRef.current) {
-          fileInputRef.current.value = ""; // Reset file input
-        }
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Upload Failed",
-          description: result.message,
-        });
-      }
-    } catch (error) {
-      console.error("Upload error:", error);
-      toast({
-        variant: "destructive",
-        title: "Upload Error",
-        description: error instanceof Error ? error.message : "An unexpected error occurred.",
-      });
-    } finally {
-      setIsUploading(false);
-    }
-  };
-
+  const router = useRouter(); // Initialize useRouter
 
   const handleLogin = async () => {
     console.log("Attempting to login with:", { username, password });
@@ -118,27 +55,29 @@ export default function LoginPage() {
 
       if (user) {
       toast({
-        variant: "default",
-        title: "Login Successful",
-        description: "Redirecting...",
-      });
-      // Redirect to a protected page, e.g., /home
-      window.location.href = '/home';
-    } else {
-      toast({
-        variant: "destructive",
-        title: "Login Failed",
-        description: "Invalid username or password.",
-      });
-    }
-    } catch (error) {
-      console.error("Login process error:", error);
-      toast({
-        variant: "destructive",
-        title: "Login System Error",
-        description: "An unexpected error occurred during the login process. Please try again later.",
-      });    
-      }
+      variant: "default",
+      title: "Login Successful",
+      description: "Redirecting...",
+            });
+            // Set a session cookie with the username and explicit path
+      setCookie('username', username, { path: '/' });
+            // Redirect to a protected page, e.g., /home using Next.js router
+      router.push('/home');
+          } else {
+            toast({
+              variant: "destructive",
+              title: "Login Failed",
+              description: "Invalid username or password.",
+            });
+          }
+      } catch (error) {
+        console.error("Login process error:", error);
+        toast({
+          variant: "destructive",
+          title: "Login System Error",
+          description: "An unexpected error occurred during the login process. Please try again later.",
+        });    
+        }
   };
 
   return (
@@ -166,7 +105,7 @@ export default function LoginPage() {
               <Input
                 id="username"
                 type="text"
-                placeholder="Enter your username"
+                
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full"
@@ -177,7 +116,7 @@ export default function LoginPage() {
               <Input
                 id="password"
                 type="password"
-                placeholder="Enter your password"
+                
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full"
@@ -190,38 +129,8 @@ export default function LoginPage() {
             </Button>
           </CardFooter>
         </Card>
-
-        <div className="flex flex-col items-center space-y-4 border p-6 rounded-lg shadow-sm mt-8">
-          <h2 className="text-lg font-semibold">Upload File to Public Folder</h2>
-          <Input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            className="hidden"
-            id="fileUpload"
-          />
-          <Button onClick={() => fileInputRef.current?.click()} variant="outline">
-            <Icons.file className="mr-2" /> Select File
-          </Button>
-          {selectedFile && (
-            <p className="text-sm text-muted-foreground">Selected: {selectedFile.name}</p>
-          )}
-          <Button onClick={handleUpload} disabled={!selectedFile || isUploading}>
-            {isUploading ? (
-              <>
-                <Icons.spinner className="mr-2 animate-spin" /> Uploading...
-              </>
-            ) : (
-              <>
-                <Icons.upload className="mr-2" /> Upload File
-              </>
-            )}
-          </Button>
-        </div>
-        
       </div>
       <Toaster />
     </>
   );
 }
-
