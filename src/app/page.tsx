@@ -54,15 +54,10 @@ export default function LoginPage() {
       );
 
       if (user) {
-      toast({
-      variant: "default",
-      title: "Login Successful",
-      description: "Redirecting...",
-            });
             // Set a session cookie with the username and explicit path
-            sessionStorage.setItem('username', username);
+          sessionStorage.setItem('username', username);
             
-            router.push('/home');
+          router.push('/home');
           } else {
             toast({
               variant: "destructive",

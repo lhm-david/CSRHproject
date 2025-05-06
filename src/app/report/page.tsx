@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -19,14 +18,27 @@ import { format } from "date-fns";
 import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/toaster";
 import { saveReportToServer } from "@/actions/reportActions"; // Import the server action
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
   // Removed reportSummary and isGenerating state
   const { toast } = useToast();
-  const userInfo = sessionStorage.getItem('username')
-  if (!userInfo||userInfo=="undefined") {
-    window.location.href = '/';
-  } 
+  const [username, setUsername] = useState<string | undefined>(undefined);
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
+  const router = useRouter();
+
+
+  useEffect(() => {
+    const userInfo = sessionStorage.getItem('username');
+    if (!userInfo || userInfo === "undefined") {
+      router.push('/');
+      // No need to setIsLoading(false) here as the component will unmount upon redirect
+    } else {
+      setUsername(userInfo.toString());
+      setIsLoading(false); // Set loading to false after user is confirmed
+    }
+  }, [router]);
+
   // Sales Data Fields
   const [totalSales, setTotalSales] = useState<number>(0.00);
   const [netSales, setNetSales] = useState("");
@@ -247,7 +259,7 @@ export default function Home() {
 
   // Removed handleGenerateSummary function
 
-  const handleSaveLocal = async () => {
+  const handleGenerateReport = async () => {
     const report = generateReportText();
     const filename = `daily_report_${formattedDate.replace(/ /g, '_').replace(/,/g, '')}.txt`;
 
@@ -276,7 +288,11 @@ export default function Home() {
         // Optionally, stop here if download fails
         return;
     }
-
+  }
+  
+  const handleSubmitReport = async () => {
+    const report = generateReportText();
+    const filename = `daily_report_${formattedDate.replace(/ /g, '_').replace(/,/g, '')}.txt`;
     // 2. Save the report to the server's public folder
     try {
         console.log(`Attempting to save report to server with filename: ${filename}`);
@@ -286,8 +302,8 @@ export default function Home() {
         if (result.success) {
             toast({
                 title: "Report Saved Successfully",
-                
             });
+            router.push('/home');
         } else {
             toast({
                 variant: "destructive",
@@ -333,6 +349,14 @@ export default function Home() {
   const handleRemoveReason = (id: number) => {
     setOtherReasons(otherReasons.filter((reason) => reason.id !== id));
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen p-4">
+        <Icons.spinner className="h-12 w-12 animate-spin text-primary" />
+        <p className="mt-4 text-lg text-muted-foreground">Opps...</p>
+      </div>
+    );}
 
   return (
     <>
@@ -897,12 +921,17 @@ export default function Home() {
           {/* Removed Report Summary Section */}
           {/* Removed Generate Summary Button */}
           <div className="flex justify-center"> {/* Aligned save button to the center */}
-            <Button onClick={handleSaveLocal}>
+            <Button onClick={handleGenerateReport}>
+              Generate Report <Icons.save className="ml-2 h-4 w-4" />
+            </Button>
+          </div>
+          <div className="flex justify-center">
+            <Button onClick={handleSubmitReport}>
               Submit Report <Icons.save className="ml-2 h-4 w-4" />
             </Button>
-            </div>
-            <div className="flex justify-center">
-            <Button onClick={() => window.location.href = '/home'}>Go Back</Button>
+          </div>
+          <div className="flex justify-center">
+            <Button onClick={() => router.push('/home')}>Go Back</Button>
           </div>
         </CardContent>
       </Card>

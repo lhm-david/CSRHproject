@@ -26,10 +26,6 @@ export default function Home() {
 
   const handleLogout = () => {
     sessionStorage.removeItem('username');
-    toast({
-      title: "Logged Out",
-      description: "You have been successfully logged out.",
-    });
     router.push('/');
   };
 
@@ -37,7 +33,7 @@ export default function Home() {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen p-4">
         <Icons.spinner className="h-12 w-12 animate-spin text-primary" />
-        <p className="mt-4 text-lg text-muted-foreground">Loading...</p>
+        <p className="mt-4 text-lg text-muted-foreground">Opps...</p>
       </div>
     );
   }
@@ -60,8 +56,7 @@ export default function Home() {
         </div>
 
         <h1 className="text-2xl font-bold">Chubby Skewer Management platform</h1>
-        {/* Displaying username again here for consistency, though already in welcome message */}
-        {username && <h3>Hello {username}</h3>}
+        
         <Button onClick={handleLogout}>Log Out</Button>
         
         <Button onClick={() => router.push('/viewreport')}>View Daily Report</Button>

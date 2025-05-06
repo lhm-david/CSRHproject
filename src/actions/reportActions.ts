@@ -1,7 +1,6 @@
-
 'use server';
 
-import { writeFile } from 'fs/promises';
+import { writeFile, readdir, readFile } from 'fs/promises';
 import { join } from 'path';
 
 // Basic sanitization: remove path traversal attempts and potentially harmful characters.
@@ -44,7 +43,7 @@ export async function saveReportToServer(
   }
 
   // Define the path within the 'public' directory
-  const relativePath = join('/', sanitizedFilename); // Store relative path for URL generation
+  const relativePath = join('/reportFiles', sanitizedFilename); // Store relative path for URL generation
   const absolutePath = join(process.cwd(), 'public/reportFiles', sanitizedFilename); // Get absolute path for writing
 
   console.log(`Attempting to save report to server at: ${absolutePath}`);
@@ -57,6 +56,53 @@ export async function saveReportToServer(
     console.error('Error writing report file to server:', error);
     let errorMessage = 'Failed to save report to server.';
     if (error instanceof Error) {
+        errorMessage += ` Reason: ${error.message}`;
+    }
+    return { success: false, message: errorMessage };
+  }
+}
+
+export async function listReportFiles(): Promise<{ success: boolean; files?: string[]; message: string }> {
+  const reportsDirectory = join(process.cwd(), 'public/reportFiles');
+  try {
+    const files = await readdir(reportsDirectory);
+    const txtFiles = files.filter(file => file.endsWith('.txt'));
+    console.log('Report files listed successfully:', txtFiles);
+    return { success: true, files: txtFiles, message: 'Report files listed successfully.' };
+  } catch (error) {
+    console.error('Error listing report files:', error);
+    let errorMessage = 'Failed to list report files.';
+    if (error instanceof Error) {
+        errorMessage += ` Reason: ${error.message}`;
+    }
+    return { success: false, message: errorMessage };
+  }
+}
+
+export async function getReportFileContent(filename: string): Promise<{ success: boolean; content?: string; message: string }> {
+  if (!filename) {
+    return { success: false, message: 'Filename is required.' };
+  }
+  // Sanitize filename to prevent path traversal, although join should also help
+  const sanitizedFilename = filename.replace(/\.\.\//g, '').replace(/\.\.\\/g, '');
+  if (sanitizedFilename !== filename) {
+      console.warn(`Filename was sanitized for reading: "${filename}" -> "${sanitizedFilename}"`);
+  }
+  if (!sanitizedFilename.endsWith('.txt')) {
+      return { success: false, message: 'Invalid file type. Only .txt files are allowed.' };
+  }
+
+
+  const filePath = join(process.cwd(), 'public/reportFiles', sanitizedFilename);
+  console.log(`Attempting to read report file from: ${filePath}`);
+  try {
+    const content = await readFile(filePath, 'utf8');
+    console.log(`Report file "${sanitizedFilename}" read successfully.`);
+    return { success: true, content, message: 'Report file content fetched successfully.' };
+  } catch (error) {
+    console.error(`Error reading report file "${sanitizedFilename}":`, error);
+    let errorMessage = `Failed to read report file "${sanitizedFilename}".`;
+     if (error instanceof Error) {
         errorMessage += ` Reason: ${error.message}`;
     }
     return { success: false, message: errorMessage };

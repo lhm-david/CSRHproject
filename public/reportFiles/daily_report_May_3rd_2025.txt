@@ -1,12 +1,12 @@
 
       Daily Report:
-      Date: May 5th, 2025
+      Date: May 3rd, 2025
       Shift Lead: 0
       Total Table: 0
       Total Guest: 0
       Total Sales: $0
-      Net Sales: $123
-      Cash Sales: $321
+      Net Sales: $0
+      Cash Sales: $0
       Credit Card Sales: $0
       Gift Card Sales: $0
       Pre-paid Card Sales: $0
