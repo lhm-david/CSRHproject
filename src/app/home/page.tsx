@@ -26,7 +26,7 @@ export default function Home() {
         </div>
 
         <h1 className="text-2xl font-bold">Chubby Skewer Management platform</h1>
-
+        <h3 className="text-2xl font-bold">Hello User,</h3><Button onClick={() => window.location.href = '/'}>Log Out</Button>
         
 
         <Button onClick={() => window.location.href = '/viewreport'}>View Daily Report</Button>
