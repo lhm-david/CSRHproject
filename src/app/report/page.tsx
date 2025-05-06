@@ -18,6 +18,7 @@ import { format } from "date-fns";
 // Removed unused AI imports
 import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/toaster";
+import { saveReportToServer } from "@/actions/reportActions"; // Import the server action
 
 export default function Home() {
   // Removed reportSummary and isGenerating state
@@ -105,18 +106,37 @@ export default function Home() {
         return;
       }
 
-      const url = `https://places.googleapis.com/v1/places/${placeId}?fields=rating,userRatingCount&key=${apiKey}`;
+      // Use a CORS proxy to bypass browser CORS restrictions for client-side fetch
+      const proxyUrl = 'https://cors-anywhere.herokuapp.com/'; // A common public proxy, might be rate-limited
+      const targetUrl = `https://maps.googleapis.com/maps/api/place/details/json?placeid=${placeId}&fields=rating,user_ratings_total&key=${apiKey}`;
+      const url = proxyUrl + targetUrl;
 
-      console.log("Fetching Google reviews from URL:", url);
+
+      console.log("Fetching Google reviews via proxy from URL:", url);
 
       try {
-        // Use a proxy or server-side fetch if running into CORS issues directly in the browser
         // Consider adding a loading state for reviews
-        const response = await fetch(url);
+        const response = await fetch(url, {
+           headers: {
+             // The proxy might require this header
+             'X-Requested-With': 'XMLHttpRequest'
+           }
+        });
 
         if (!response.ok) {
-          const errorData = await response.json();
-          const errorMessage = errorData?.error?.message || `HTTP error! status: ${response.status}`;
+          let errorMessage = `HTTP error! status: ${response.status}`;
+          try {
+              const errorData = await response.json();
+              errorMessage = errorData?.error_message || errorData?.status || errorMessage;
+              if (errorData?.status === 'REQUEST_DENIED') {
+                errorMessage += " Check API key, billing, and Places API enablement.";
+              }
+               console.error("Error fetching Google reviews JSON:", errorData);
+          } catch (e) {
+             // If response is not JSON
+             console.error("Error parsing Google reviews error response:", await response.text());
+          }
+
           console.error("Error fetching Google reviews:", errorMessage);
           toast({
               variant: "destructive",
@@ -128,20 +148,31 @@ export default function Home() {
         } else {
           const data = await response.json();
           console.log("Google review data fetched successfully:", data);
-          setGoogleRatings(data.rating || 0); // Set rating
-          setGoogleReviews(data.userRatingCount || 0); // Set the total ratings count
-          // Optional: Toast for success
-          // toast({
-          //     title: "Google Reviews Loaded",
-          //     description: `Rating: ${data.rating || 'N/A'}, Count: ${data.userRatingCount || 0}`,
-          // });
+          if (data.result) {
+            setGoogleRatings(data.result.rating || 0); // Set rating
+            setGoogleReviews(data.result.user_ratings_total || 0); // Set the total ratings count
+             // Optional: Toast for success
+            // toast({
+            //     title: "Google Reviews Loaded",
+            //     description: `Rating: ${data.result.rating || 'N/A'}, Count: ${data.result.user_ratings_total || 0}`,
+            // });
+          } else {
+             console.error("Google review data missing 'result':", data);
+             toast({
+                  variant: "destructive",
+                  title: "Google Review Data Error",
+                  description: "Received unexpected data format from API.",
+              });
+             setGoogleReviews(0);
+             setGoogleRatings(0);
+          }
         }
       } catch (fetchError) {
         console.error("Failed to fetch Google reviews:", fetchError);
          toast({
               variant: "destructive",
               title: "Network Error",
-              description: "Failed to connect to Google Places API.",
+              description: `Failed to connect to Google Places API or Proxy. ${fetchError instanceof Error ? fetchError.message : ''}`,
           });
         setGoogleReviews(0);
         setGoogleRatings(0);
@@ -193,9 +224,13 @@ export default function Home() {
   }, [date]);
 
   const generateReportText = () => {
-      const formatValue = (value: string | number | undefined) => {
+      const formatValue = (value: string | number | undefined | null): string => {
           const strValue = String(value ?? '');
-          return strValue === "" || strValue === "0" || strValue === "0.00" ? "0" : strValue;
+          // Check for empty string, "0", "0.0", "0.00" etc. and return "0"
+          if (strValue === "" || /^[0]+(\.0+)?$/.test(strValue)) {
+            return "0";
+          }
+          return strValue;
       };
 
     return `
@@ -218,7 +253,7 @@ export default function Home() {
       Cash Tips: $${formatValue(cashTips)}
       Total Tips: $${formatValue(totalTips)}
       Tips Percentage: ${tipsPercentage}%
-      Sales Per Guest: $${formatValue(salesPerGuest)}
+      Sales Per Guest: $${salesPerGuest}
       Total amount cancelled: $${formatValue(totalAmountCancelled)}
       Reason for cancelled: ${formatValue(reasonForCancelled)}
       New Chubby Member: ${formatValue(newChubbyMember)}
@@ -238,23 +273,64 @@ export default function Home() {
 
   // Removed handleGenerateSummary function
 
-  const handleSaveLocal = () => {
+  const handleSaveLocal = async () => {
     const report = generateReportText();
-    const blob = new Blob([report], { type: "text/plain" });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `daily_report_${formattedDate.replace(/ /g, '_').replace(/,/g, '')}.txt`; // Added date to filename
+    const filename = `daily_report_${formattedDate.replace(/ /g, '_').replace(/,/g, '')}.txt`;
 
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    window.URL.revokeObjectURL(url);
-    toast({
-      title: "Report saved locally!",
-      description: "Your daily report has been saved as a text file.",
-    });
+    // 1. Initiate client-side download
+    try {
+        const blob = new Blob([report], { type: "text/plain;charset=utf-8" }); // Ensure UTF-8
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        toast({
+            title: "Report Download Initiated",
+            description: "Your daily report download has started.",
+        });
+    } catch (downloadError) {
+        console.error("Error initiating download:", downloadError);
+        toast({
+            variant: "destructive",
+            title: "Download Error",
+            description: "Could not start the report download.",
+        });
+        // Optionally, stop here if download fails
+        return;
+    }
+
+    // 2. Save the report to the server's public folder
+    try {
+        console.log(`Attempting to save report to server with filename: ${filename}`);
+        const result = await saveReportToServer(report, filename);
+        console.log("Server save result:", result);
+
+        if (result.success) {
+            toast({
+                title: "Report Saved to Server",
+                description: result.message + (result.filePath ? ` Accessible at ${result.filePath}` : ''),
+            });
+        } else {
+            toast({
+                variant: "destructive",
+                title: "Server Save Failed",
+                description: result.message,
+            });
+        }
+    } catch (serverSaveError) {
+        console.error("Error saving report to server:", serverSaveError);
+        toast({
+            variant: "destructive",
+            title: "Server Save Error",
+            description: serverSaveError instanceof Error ? serverSaveError.message : "An unexpected error occurred while saving to the server.",
+        });
+    }
   };
+
 
   const handleAddReason = () => {
     setOtherReasons([...otherReasons, { id: nextReasonId, reason: "", value: "" }]);
@@ -365,7 +441,7 @@ export default function Home() {
                   id="totalSales"
                   type="number" // Ensure numeric input
                   step="0.01" // Allow decimals
-                  className="pl-7" // Align text to right
+                  className="pl-7" // Add padding for $
                   value={totalSales}
                   onChange={(e) => setTotalSales(Number(e.target.value))}
                 />
@@ -500,7 +576,7 @@ export default function Home() {
                 </span>
                 <Input
                   id="alcoholSalesPercentage"
-                  className="pl-7" // Align text right
+                  className="pl-7"
                   value={alcoholSalesPercentage}
                   readOnly
                 />
@@ -516,7 +592,7 @@ export default function Home() {
                 </span>
                 <Input
                     id="alcoholSalesPerGuest"
-                    className="pl-7" // Align text right
+                    className="pl-7"
                     value={alcoholSalesPerGuest}
                     readOnly
                 />
@@ -567,7 +643,7 @@ export default function Home() {
                 </span>
                 <Input
                   id="totalTips"
-                  className="pl-7" // Align text right
+                  className="pl-7"
                   value={totalTips}
                   readOnly
                 />
@@ -582,7 +658,7 @@ export default function Home() {
               </span>
               <Input
                 id="tipsPercentage"
-                className="pl-7" // Align text right
+                className="pl-7"
                 value={tipsPercentage}
                 readOnly
               />
@@ -600,7 +676,7 @@ export default function Home() {
                </span>
                 <Input
                   id="salesPerGuest"
-                  className="pl-7" // Align text right
+                  className="pl-7"
                   value={salesPerGuest}
                   readOnly
                 />
@@ -688,7 +764,7 @@ export default function Home() {
                     </span>
                     <Input
                         id="scanRate"
-                        className="pl-7" // Align text right
+                        className="pl-7"
                         value={scanRate}
                         readOnly
                     />
@@ -843,7 +919,7 @@ export default function Home() {
 
           {/* Removed Report Summary Section */}
           {/* Removed Generate Summary Button */}
-          <div className="flex justify-center"> {/* Aligned save button to the right */}
+          <div className="flex justify-center"> {/* Aligned save button to the center */}
             <Button onClick={handleSaveLocal}>
               Save Locally <Icons.save className="ml-2 h-4 w-4" />
             </Button>
@@ -858,4 +934,3 @@ export default function Home() {
     </>
   );
 }
-
