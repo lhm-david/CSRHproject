@@ -1,30 +1,31 @@
-
 "use client";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import { useToast } from "@/hooks/use-toast";
-import { Toaster } from "@/components/ui/toaster"; // Import Toaster
-import { getCookie, deleteCookie } from 'cookies-next'; // Import getCookie and deleteCookie
-import { useRouter } from 'next/navigation'; // Import useRouter
+import { Toaster } from "@/components/ui/toaster";
+import { useRouter } from 'next/navigation';
+import { Icons } from "@/components/icons"; // Import Icons for the spinner
 
 export default function Home() {
   const [username, setUsername] = useState<string | undefined>(undefined);
-  const router = useRouter(); // Initialize useRouter
+  const [isLoading, setIsLoading] = useState(true); // Add loading state
+  const router = useRouter();
   const { toast } = useToast();
 
   useEffect(() => {
-    const userCookie = getCookie('username');
-    if (userCookie === undefined || userCookie === null || userCookie === '') {
-      // Redirect to login page if username cookie is not found or is empty
-      router.push('/'); 
+    const userInfo = sessionStorage.getItem('username');
+    if (!userInfo || userInfo === "undefined") {
+      router.push('/');
+      // No need to setIsLoading(false) here as the component will unmount upon redirect
     } else {
-      setUsername(userCookie.toString());
+      setUsername(userInfo.toString());
+      setIsLoading(false); // Set loading to false after user is confirmed
     }
-  }, [router]); // Add router to dependency array
+  }, [router]);
 
   const handleLogout = () => {
-    deleteCookie('username', { path: '/' }); // Ensure cookie is deleted with the correct path
+    sessionStorage.removeItem('username');
     toast({
       title: "Logged Out",
       description: "You have been successfully logged out.",
@@ -32,6 +33,16 @@ export default function Home() {
     router.push('/');
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen p-4">
+        <Icons.spinner className="h-12 w-12 animate-spin text-primary" />
+        <p className="mt-4 text-lg text-muted-foreground">Loading...</p>
+      </div>
+    );
+  }
+
+  // This content will only render if isLoading is false and user is authenticated
   return (
     <>
       <div className="flex flex-col items-center justify-center p-4 space-y-6">
@@ -49,13 +60,15 @@ export default function Home() {
         </div>
 
         <h1 className="text-2xl font-bold">Chubby Skewer Management platform</h1>
+        {/* Displaying username again here for consistency, though already in welcome message */}
+        {username && <h3>Hello {username}</h3>}
         <Button onClick={handleLogout}>Log Out</Button>
         
         <Button onClick={() => router.push('/viewreport')}>View Daily Report</Button>
         <Button onClick={() => router.push('/report')}>Go to Daily Report</Button>
         
       </div>
-      <Toaster /> {/* Add Toaster component here */}
+      <Toaster />
     </>
   );
 }

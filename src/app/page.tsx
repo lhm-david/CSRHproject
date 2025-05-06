@@ -60,9 +60,9 @@ export default function LoginPage() {
       description: "Redirecting...",
             });
             // Set a session cookie with the username and explicit path
-      setCookie('username', username, { path: '/' });
-            // Redirect to a protected page, e.g., /home using Next.js router
-      router.push('/home');
+            sessionStorage.setItem('username', username);
+            
+            router.push('/home');
           } else {
             toast({
               variant: "destructive",
@@ -82,7 +82,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center min-h-screen p-4 space-y-6 bg-background">
+      <div className="flex flex-col items-center justify-center p-4 space-y-6 bg-background">
         
         <div className="w-full bg-black p-4 flex justify-center rounded-lg mb-6">
           <Image
