@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { uploadFileAction } from "@/actions/upload"; // Import the server action
 import { Icons } from "@/components/icons";
+import { Toaster } from "@/components/ui/toaster"; // Import Toaster
 
 export default function Home() {
   const { toast } = useToast();
@@ -73,52 +74,59 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-4 space-y-6">
-      <Image
-        src="https://chubbyskewers.com/wp-content/uploads/2025/03/Image_20250326151332.png" // Placeholder image
-        alt="Chubby Skewers Logo"
-        width={150}
-        height={150}
-        className="rounded-full mb-4"
-        data-ai-hint="restaurant logo"
-      />
-      <h1 className="text-2xl font-bold">Chubby Skewer Management platform</h1>
+    <>
+      <div className="flex flex-col items-center justify-center min-h-screen p-4 space-y-6">
+        {/* Section for the logo with black background */}
+        <div className="w-full bg-black p-4 flex justify-center rounded-lg">
+          <Image
+            src="https://chubbyskewers.com/wp-content/uploads/2025/03/Image_20250326151332.png"
+            alt="Chubby Skewers Logo"
+            width={150}
+            height={150}
+            className="rounded-full" // Removed mb-4 as parent div provides spacing
+            data-ai-hint="restaurant logo"
+          />
+        </div>
 
-      <div className="flex flex-col items-center space-y-4 border p-6 rounded-lg shadow-sm">
-        <h2 className="text-lg font-semibold">Upload File to Public Folder</h2>
-        {/* Hidden file input */}
-        <Input
-          type="file"
-          ref={fileInputRef}
-          onChange={handleFileChange}
-          className="hidden"
-          id="fileUpload"
-        />
-        {/* Button to trigger file input */}
-        <Button onClick={() => fileInputRef.current?.click()} variant="outline">
-          <Icons.file className="mr-2" /> Select File
-        </Button>
-        {selectedFile && (
-          <p className="text-sm text-muted-foreground">Selected: {selectedFile.name}</p>
-        )}
-        {/* Button to upload the selected file */}
-        <Button onClick={handleUpload} disabled={!selectedFile || isUploading}>
-          {isUploading ? (
-            <>
-              <Icons.spinner className="mr-2 animate-spin" /> Uploading...
-            </>
-          ) : (
-            <>
-              <Icons.upload className="mr-2" /> Upload File
-            </>
+        <h1 className="text-2xl font-bold">Chubby Skewer Management platform</h1>
+
+        <div className="flex flex-col items-center space-y-4 border p-6 rounded-lg shadow-sm">
+          <h2 className="text-lg font-semibold">Upload File to Public Folder</h2>
+          {/* Hidden file input */}
+          <Input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            className="hidden"
+            id="fileUpload"
+          />
+          {/* Button to trigger file input */}
+          <Button onClick={() => fileInputRef.current?.click()} variant="outline">
+            <Icons.file className="mr-2" /> Select File
+          </Button>
+          {selectedFile && (
+            <p className="text-sm text-muted-foreground">Selected: {selectedFile.name}</p>
           )}
-        </Button>
+          {/* Button to upload the selected file */}
+          <Button onClick={handleUpload} disabled={!selectedFile || isUploading}>
+            {isUploading ? (
+              <>
+                <Icons.spinner className="mr-2 animate-spin" /> Uploading...
+              </>
+            ) : (
+              <>
+                <Icons.upload className="mr-2" /> Upload File
+              </>
+            )}
+          </Button>
+        </div>
+
+
+        <Button onClick={() => window.location.href = '/report'}>Go to Daily Report</Button>
+        {/* Link to test file - keep if needed for testing */}
+        {/* <a href="/file/testfile.txt" >Test File</a> */}
       </div>
-
-
-      <Button onClick={() => window.location.href = '/report'}>Go to Daily Report</Button>
-      {/* Link to test file - keep if needed for testing */}
-      {/* <a href="/file/testfile.txt" >Test File</a> */}
-    </div>
+      <Toaster /> {/* Add Toaster component here */}
+    </>
   );
 }
