@@ -75,7 +75,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 space-y-6">
       <Image
-        src="https://picsum.photos/150/150" // Placeholder image
+        src="https://chubbyskewers.com/wp-content/uploads/2025/03/Image_20250326151332.png" // Placeholder image
         alt="Chubby Skewers Logo"
         width={150}
         height={150}
