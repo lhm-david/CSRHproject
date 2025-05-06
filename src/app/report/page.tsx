@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -16,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 // Removed unused AI imports
 import { Separator } from "@/components/ui/separator";
+import { Toaster } from "@/components/ui/toaster";
 
 export default function Home() {
   // Removed reportSummary and isGenerating state
@@ -39,20 +41,16 @@ export default function Home() {
   const [prepaidCardSales, setPrepaidCardSales] = useState("");
   const [onlineSales, setOnlineSales] = useState("");
 
-  //New field
-  const [date, setDate] = useState<Date | undefined>(() => {
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    return yesterday;
-  });
-  const [formattedDate, setFormattedDate] = useState(date ? format(date, "PPP") : "Pick a date");
+  //New field - Initialize date as undefined to prevent hydration mismatch
+  const [date, setDate] = useState<Date | undefined>(undefined);
+  const [formattedDate, setFormattedDate] = useState("Pick a date");
 
   const [shiftLead, setShiftLead] = useState("");
   const [totalTable, setTotalTable] = useState("");
   const [totalGuest, setTotalGuest] = useState("");
 
   //New Input Fields
-  const [salesPerGuest, setSalesPerGuest] = useState("");
+  const [salesPerGuest, setSalesPerGuest] = useState("0.00");
   const [totalAmountCancelled, setTotalAmountCancelled] = useState("");
   const [reasonForCancelled, setReasonForCancelled] = useState("");
 
@@ -81,6 +79,13 @@ export default function Home() {
     const [yelpReview, setYelpReview] = useState("");
     const [yelpRating, setYelpRating] = useState("");
 
+    // Set initial date on client-side after hydration
+    useEffect(() => {
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      setDate(yesterday);
+    }, []);
+
   useEffect(() => {
     const fetchGoogleReviews = async () => {
 
@@ -106,6 +111,7 @@ export default function Home() {
 
       try {
         // Use a proxy or server-side fetch if running into CORS issues directly in the browser
+        // Consider adding a loading state for reviews
         const response = await fetch(url);
 
         if (!response.ok) {
@@ -124,10 +130,11 @@ export default function Home() {
           console.log("Google review data fetched successfully:", data);
           setGoogleRatings(data.rating || 0); // Set rating
           setGoogleReviews(data.userRatingCount || 0); // Set the total ratings count
-          toast({
-              title: "Google Reviews Loaded",
-              description: `Rating: ${data.rating || 'N/A'}, Count: ${data.userRatingCount || 0}`,
-          });
+          // Optional: Toast for success
+          // toast({
+          //     title: "Google Reviews Loaded",
+          //     description: `Rating: ${data.rating || 'N/A'}, Count: ${data.userRatingCount || 0}`,
+          // });
         }
       } catch (fetchError) {
         console.error("Failed to fetch Google reviews:", fetchError);
@@ -141,7 +148,8 @@ export default function Home() {
       }
     };
     fetchGoogleReviews();
-  }, [toast]); // Added toast to dependency array as it's used inside useEffect
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run on mount
 
 
   useEffect(() => {
@@ -237,7 +245,7 @@ export default function Home() {
     const a = document.createElement("a");
     a.href = url;
     a.download = `daily_report_${formattedDate.replace(/ /g, '_').replace(/,/g, '')}.txt`; // Added date to filename
-    
+
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -274,6 +282,7 @@ export default function Home() {
   };
 
   return (
+    <>
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <Card className="w-full max-w-md space-y-4">
         <CardHeader>
@@ -356,7 +365,7 @@ export default function Home() {
                   id="totalSales"
                   type="number" // Ensure numeric input
                   step="0.01" // Allow decimals
-                  className="pl-7 text-right" // Align text to right
+                  className="pl-7" // Align text to right
                   value={totalSales}
                   onChange={(e) => setTotalSales(Number(e.target.value))}
                 />
@@ -373,7 +382,7 @@ export default function Home() {
                   id="netSales"
                   type="number"
                   step="0.01"
-                  className="pl-7 text-right"
+                  className="pl-7"
                   value={netSales}
                   onChange={(e) => setNetSales(e.target.value)}
                 />
@@ -390,7 +399,7 @@ export default function Home() {
                   id="cashSales"
                   type="number"
                   step="0.01"
-                  className="pl-7 text-right"
+                  className="pl-7"
                   value={cashSales}
                   onChange={(e) => setCashSales(e.target.value)}
                 />
@@ -407,7 +416,7 @@ export default function Home() {
                   id="creditCardSales"
                   type="number"
                   step="0.01"
-                  className="pl-7 text-right"
+                  className="pl-7"
                   value={creditCardSales}
                   onChange={(e) => setCreditCardSales(e.target.value)}
                 />
@@ -424,7 +433,7 @@ export default function Home() {
                     id="giftCardSales"
                     type="number"
                     step="0.01"
-                    className="pl-7 text-right"
+                    className="pl-7"
                     value={giftCardSales}
                     onChange={(e) => setGiftCardSales(e.target.value)}
                 />
@@ -441,7 +450,7 @@ export default function Home() {
                     id="prepaidCardSales"
                     type="number"
                     step="0.01"
-                    className="pl-7 text-right"
+                    className="pl-7"
                     value={prepaidCardSales}
                     onChange={(e) => setPrepaidCardSales(e.target.value)}
                 />
@@ -458,7 +467,7 @@ export default function Home() {
                     id="onlineSales"
                     type="number"
                     step="0.01"
-                    className="pl-7 text-right"
+                    className="pl-7"
                     value={onlineSales}
                     onChange={(e) => setOnlineSales(e.target.value)}
 
@@ -476,7 +485,7 @@ export default function Home() {
                   id="alcoholSales"
                   type="number"
                   step="0.01"
-                  className="pl-7 text-right"
+                  className="pl-7"
                   value={alcoholSales}
                   onChange={(e) => setAlcoholSales(e.target.value)}
                 />
@@ -491,7 +500,7 @@ export default function Home() {
                 </span>
                 <Input
                   id="alcoholSalesPercentage"
-                  className="pl-7 text-right" // Align text right
+                  className="pl-7" // Align text right
                   value={alcoholSalesPercentage}
                   readOnly
                 />
@@ -507,7 +516,7 @@ export default function Home() {
                 </span>
                 <Input
                     id="alcoholSalesPerGuest"
-                    className="pl-7 text-right" // Align text right
+                    className="pl-7" // Align text right
                     value={alcoholSalesPerGuest}
                     readOnly
                 />
@@ -526,7 +535,7 @@ export default function Home() {
                   id="creditCardTips"
                   type="number"
                   step="0.01"
-                  className="pl-7 text-right"
+                  className="pl-7"
                   value={creditCardTips}
                   onChange={(e) => setCreditCardTips(e.target.value)}
                 />
@@ -543,7 +552,7 @@ export default function Home() {
                   id="cashTips"
                   type="number"
                   step="0.01"
-                  className="pl-7 text-right"
+                  className="pl-7"
                   value={cashTips}
                   onChange={(e) => setCashTips(e.target.value)}
                 />
@@ -558,7 +567,7 @@ export default function Home() {
                 </span>
                 <Input
                   id="totalTips"
-                  className="pl-7 text-right" // Align text right
+                  className="pl-7" // Align text right
                   value={totalTips}
                   readOnly
                 />
@@ -573,7 +582,7 @@ export default function Home() {
               </span>
               <Input
                 id="tipsPercentage"
-                className="pl-7 text-right" // Align text right
+                className="pl-7" // Align text right
                 value={tipsPercentage}
                 readOnly
               />
@@ -591,7 +600,7 @@ export default function Home() {
                </span>
                 <Input
                   id="salesPerGuest"
-                  className="pl-7 text-right" // Align text right
+                  className="pl-7" // Align text right
                   value={salesPerGuest}
                   readOnly
                 />
@@ -608,7 +617,7 @@ export default function Home() {
                   id="totalAmountCancelled"
                   type="number"
                   step="0.01"
-                  className="pl-7 text-right"
+                  className="pl-7"
                   value={totalAmountCancelled}
                   onChange={(e) => setTotalAmountCancelled(e.target.value)}
                 />
@@ -632,7 +641,7 @@ export default function Home() {
                 <Input
                     id="newChubbyMember"
                     type="number"
-                    className="text-right"
+                    className=""
                     value={newChubbyMember}
                     onChange={(e) => setNewChubbyMember(e.target.value)}
                 />
@@ -643,7 +652,7 @@ export default function Home() {
                 <Input
                     id="chubbyPlus"
                     type="number"
-                    className="text-right"
+                    className=""
                     value={chubbyPlus}
                     onChange={(e) => setChubbyPlus(e.target.value)}
                 />
@@ -654,7 +663,7 @@ export default function Home() {
                 <Input
                     id="chubbyOne"
                     type="number"
-                    className="text-right"
+                    className=""
                     value={chubbyOne}
                     onChange={(e) => setChubbyOne(e.target.value)}
                 />
@@ -665,7 +674,7 @@ export default function Home() {
                 <Input
                     id="totayTotalScan"
                     type="number"
-                    className="text-right"
+                    className=""
                     value={totayTotalScan}
                     onChange={(e) => setTotayTotalScan(e.target.value)}
                 />
@@ -679,7 +688,7 @@ export default function Home() {
                     </span>
                     <Input
                         id="scanRate"
-                        className="pl-7 text-right" // Align text right
+                        className="pl-7" // Align text right
                         value={scanRate}
                         readOnly
                     />
@@ -692,7 +701,7 @@ export default function Home() {
                 <Input
                     id="totalMembersToToday"
                     type="number"
-                    className="text-right"
+                    className=""
                     value={totalMembersToToday}
                     onChange={(e) => setTotalMembersToToday(e.target.value)}
                 />
@@ -710,7 +719,7 @@ export default function Home() {
                   id="totalDiscount"
                   type="number"
                   step="0.01"
-                  className="pl-7 text-right"
+                  className="pl-7"
                   value={totalDiscount}
                   onChange={(e) => setTotalDiscount(e.target.value)}
                 />
@@ -727,7 +736,7 @@ export default function Home() {
                   id="nftValue"
                   type="number"
                   step="0.01"
-                  className="pl-7 text-right"
+                  className="pl-7"
                   value={nftValue}
                   onChange={(e) => setNftValue(e.target.value)}
                 />
@@ -744,7 +753,7 @@ export default function Home() {
                   id="otherValue"
                   type="number"
                   step="0.01"
-                  className="pl-7 text-right"
+                  className="pl-7"
                   value={otherValue}
                   onChange={(e) => setOtherValue(e.target.value)}
                 />
@@ -769,7 +778,7 @@ export default function Home() {
                     type="number"
                     step="0.01"
                     placeholder="Value" // Added placeholder
-                    className="pl-7 text-right" // Align text right and add padding for $
+                    className="pl-7" // Align text right and add padding for $
                     value={reason.value}
                     onChange={(e) => handleValueChange(reason.id, e.target.value)}
                   />
@@ -781,7 +790,7 @@ export default function Home() {
           ))}
           <div className="flex justify-center">
             <Button type="button" onClick={handleAddReason} > {/* Centered button text */}
-              More Disount
+              More Discount
               <Icons.plus className="ml-2 h-4 w-4" /> {/* Changed icon */}
             </Button>
           </div>
@@ -793,14 +802,14 @@ export default function Home() {
                 <Icons.star className="h-5 w-5 mr-1 text-yellow-500" /> {/* Use Lucide star icon */}
                 <Input
                     id="googleRatings"
-                    className="pl-1 text-right" // Align text right
+                    className="pl-1" // Align text right
                     value={googleRatings.toString()}
                     readOnly
                 />
               </div>
               <Input
                     id="googleReviews"
-                    className="pl-1 text-right" // Align text right
+                    className="pl-1" // Align text right
                     value={googleReviews.toString()}
                     readOnly
                 />
@@ -816,7 +825,7 @@ export default function Home() {
                     id="yelpRating" // Changed id
                     type="number" // Ensure numeric input
                     step="0.1" // Allow decimals for rating
-                    className="pl-1 text-right" // Align text right
+                    className="pl-1" // Align text right
                     value={yelpRating}
                     onChange={(e) => setYelpRating(e.target.value)}
                 />
@@ -824,7 +833,7 @@ export default function Home() {
               <Input
                     id="yelpReview"
                     type="number" // Ensure numeric input
-                    className="pl-1 text-right" // Align text right
+                    className="pl-1" // Align text right
                     value={yelpReview}
                     onChange={(e) => setYelpReview(e.target.value)}
                 />
@@ -845,5 +854,8 @@ export default function Home() {
         </CardContent>
       </Card>
     </div>
+    <Toaster />
+    </>
   );
 }
+
