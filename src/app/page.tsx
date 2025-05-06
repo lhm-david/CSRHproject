@@ -1,132 +1,91 @@
 
 "use client";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from 'next/image';
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { uploadFileAction } from "@/actions/upload"; // Import the server action
-import { Icons } from "@/components/icons";
-import { Toaster } from "@/components/ui/toaster"; // Import Toaster
+import { Toaster } from "@/components/ui/toaster";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 
-export default function Home() {
+export default function LoginPage() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const { toast } = useToast();
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);
-      console.log("File selected:", file.name);
+  const handleLogin = () => {
+    // Placeholder for actual login logic
+    console.log("Attempting to login with:", { username, password });
+    if (username === "admin" && password === "password") { // Replace with actual auth
+      toast({
+        title: "Login Successful",
+        description: "Redirecting...",
+      });
+      // Redirect to a protected page, e.g., /home
+      window.location.href = '/home';
     } else {
-      setSelectedFile(null);
-      console.log("No file selected");
-    }
-  };
-
-  const handleUpload = async () => {
-    if (!selectedFile) {
       toast({
         variant: "destructive",
-        title: "No file selected",
-        description: "Please select a file to upload.",
+        title: "Login Failed",
+        description: "Invalid username or password.",
       });
-      return;
-    }
-
-    setIsUploading(true);
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-
-    try {
-      console.log("Uploading file:", selectedFile.name);
-      const result = await uploadFileAction(formData);
-      console.log("Upload result:", result);
-
-      if (result.success) {
-        toast({
-          title: "Upload Successful",
-          description: result.message,
-        });
-        setSelectedFile(null); // Clear selection after successful upload
-        if (fileInputRef.current) {
-          fileInputRef.current.value = ""; // Reset file input
-        }
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Upload Failed",
-          description: result.message,
-        });
-      }
-    } catch (error) {
-      console.error("Upload error:", error);
-      toast({
-        variant: "destructive",
-        title: "Upload Error",
-        description: error instanceof Error ? error.message : "An unexpected error occurred.",
-      });
-    } finally {
-      setIsUploading(false);
     }
   };
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center p-4 space-y-6">
+      <div className="flex flex-col items-center justify-center min-h-screen p-4 space-y-6 bg-background">
         
-        <div className="w-full bg-black p-4 flex justify-center rounded-lg">
+        <div className="w-full bg-black p-4 flex justify-center rounded-lg mb-6">
           <Image
             src="https://chubbyskewers.com/wp-content/uploads/2025/03/Image_20250326151332.png"
             alt="Chubby Skewers Logo"
-            width={250}
-            height={250}
+            width={150} 
+            height={150}
             className="rounded-full"
             data-ai-hint="restaurant logo"
           />
         </div>
-
-        <h1 className="text-2xl font-bold">Chubby Skewer Management platform</h1>
-
-        <div className="flex flex-col items-center space-y-4 border p-6 rounded-lg shadow-sm">
-          <h2 className="text-lg font-semibold">Upload File to Public Folder</h2>
-          {/* Hidden file input */}
-          <Input
-            type="file"
-            ref={fileInputRef}
-            onChange={handleFileChange}
-            className="hidden"
-            id="fileUpload"
-          />
-          {/* Button to trigger file input */}
-          <Button onClick={() => fileInputRef.current?.click()} variant="outline">
-            <Icons.file className="mr-2" /> Select File
-          </Button>
-          {selectedFile && (
-            <p className="text-sm text-muted-foreground">Selected: {selectedFile.name}</p>
-          )}
-          {/* Button to upload the selected file */}
-          <Button onClick={handleUpload} disabled={!selectedFile || isUploading}>
-            {isUploading ? (
-              <>
-                <Icons.spinner className="mr-2 animate-spin" /> Uploading...
-              </>
-            ) : (
-              <>
-                <Icons.upload className="mr-2" /> Upload File
-              </>
-            )}
-          </Button>
-        </div>
-
-
-        <Button onClick={() => window.location.href = '/report'}>Go to Daily Report</Button>
-        {/* Link to test file - keep if needed for testing */}
-        {/* <a href="/file/testfile.txt" >Test File</a> */}
+        
+        <Card className="w-full max-w-sm shadow-lg">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl font-bold">Chubby Skewer Management</CardTitle>
+            <CardDescription>Please sign in to continue</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="username">Username</Label>
+              <Input
+                id="username"
+                type="text"
+                placeholder="Enter your username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full"
+              />
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button onClick={handleLogin} className="w-full">
+              Login
+            </Button>
+          </CardFooter>
+        </Card>
+        
       </div>
-      <Toaster /> {/* Add Toaster component here */}
+      <Toaster />
     </>
   );
 }

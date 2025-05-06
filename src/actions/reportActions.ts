@@ -45,7 +45,7 @@ export async function saveReportToServer(
 
   // Define the path within the 'public' directory
   const relativePath = join('/', sanitizedFilename); // Store relative path for URL generation
-  const absolutePath = join(process.cwd(), 'public', sanitizedFilename); // Get absolute path for writing
+  const absolutePath = join(process.cwd(), 'public/reportFiles', sanitizedFilename); // Get absolute path for writing
 
   console.log(`Attempting to save report to server at: ${absolutePath}`);
 

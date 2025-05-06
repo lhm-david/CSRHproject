@@ -1,7 +1,8 @@
-Daily Report:
-      Date: May 1st, 2025
-      Shift Lead: 0
-      Total Table: 0
+
+      Daily Report:
+      Date: May 5th, 2025
+      Shift Lead: David
+      Total Table: 123
       Total Guest: 0
       Total Sales: $0
       Net Sales: $0
@@ -17,7 +18,7 @@ Daily Report:
       Cash Tips: $0
       Total Tips: $0
       Tips Percentage: 0.00%
-      Sales Per Guest: $0
+      Sales Per Guest: $0.00
       Total amount cancelled: $0
       Reason for cancelled: 0
       New Chubby Member: 0
@@ -30,5 +31,6 @@ Daily Report:
       NFT: $0
       Other: $0
       
-      Google Reviews: 890 (4.9 Stars)
+      Google Reviews: 891 (4.9 Stars)
       Yelp Reviews: 0 (0 Stars)
+    
