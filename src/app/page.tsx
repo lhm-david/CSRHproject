@@ -76,14 +76,14 @@ export default function Home() {
   return (
     <>
       <div className="flex flex-col items-center justify-center min-h-screen p-4 space-y-6">
-        {/* Section for the logo with black background */}
+        {/* Section for the logo with black background - MOVED TO TOP */}
         <div className="w-full bg-black p-4 flex justify-center rounded-lg">
           <Image
             src="https://chubbyskewers.com/wp-content/uploads/2025/03/Image_20250326151332.png"
             alt="Chubby Skewers Logo"
             width={150}
             height={150}
-            className="rounded-full" // Removed mb-4 as parent div provides spacing
+            className="rounded-full"
             data-ai-hint="restaurant logo"
           />
         </div>
