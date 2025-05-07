@@ -42,12 +42,6 @@ export default function Home() {
   // This content will only render if isLoading is false and user is authenticated
   return (
     <>
-      <nav className="w-full bg-primary text-primary-foreground p-4 flex justify-around items-center shadow-md">
-        <Button variant="ghost" onClick={() => router.push('/viewreport')} className="hover:bg-primary/80">View Daily Report</Button>
-        <Button variant="ghost" onClick={() => router.push('/report')} className="hover:bg-primary/80">Go to Daily Report</Button>
-        <Button variant="destructive" onClick={handleLogout}>Log Out</Button>
-      </nav>
-
       <div className="flex flex-col items-center justify-center p-4 space-y-6 mt-8">
         {username && <h3 className="text-2xl font-bold">Welcome, {username}!</h3>}
         
@@ -65,6 +59,12 @@ export default function Home() {
         <h1 className="text-2xl font-bold">Chubby Skewer Management platform</h1>
         
       </div>
+
+      <nav className="w-full bg-primary text-primary-foreground p-4 flex justify-around items-center shadow-md mt-8">
+        <Button variant="ghost" onClick={() => router.push('/viewreport')} className="hover:bg-primary/80">View Daily Report</Button>
+        <Button variant="ghost" onClick={() => router.push('/report')} className="hover:bg-primary/80">Go to Daily Report</Button>
+        <Button variant="destructive" onClick={handleLogout}>Log Out</Button>
+      </nav>
       <Toaster />
     </>
   );
