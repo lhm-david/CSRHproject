@@ -176,7 +176,6 @@ export async function getSumOfMayTotalTables(): Promise<{ success: boolean; tota
         }
       } catch (readError) {
         console.error(`Error reading file ${file}:`, readError);
-        // Optionally decide if one file error should fail the whole sum
       }
     }
     console.log('Successfully calculated sum of May total tables:', totalTablesSum);
@@ -184,6 +183,132 @@ export async function getSumOfMayTotalTables(): Promise<{ success: boolean; tota
   } catch (error) {
     console.error('Error getting sum of May total tables:', error);
     let errorMessage = 'Failed to get sum of May total tables.';
+    if (error instanceof Error) {
+      errorMessage += ` Reason: ${error.message}`;
+    }
+    return { success: false, message: errorMessage };
+  }
+}
+
+export async function getSumOfMayTotalGuests(): Promise<{ success: boolean; totalGuests?: number; message: string }> {
+  const reportsDirectory = join(process.cwd(), 'public/reportFiles');
+  let totalGuestsSum = 0;
+  try {
+    const files = await readdir(reportsDirectory);
+    const mayTxtFiles = files.filter(file => file.toLowerCase().includes('may') && file.endsWith('.txt'));
+
+    if (mayTxtFiles.length === 0) {
+      return { success: true, totalGuests: 0, message: 'No May report files found for guests.' };
+    }
+
+    for (const file of mayTxtFiles) {
+      const filePath = join(reportsDirectory, file);
+      try {
+        const content = await readFile(filePath, 'utf8');
+        const match = content.match(/Total Guest:\s*(\d+)/);
+        if (match && match[1]) {
+          const guestCount = parseInt(match[1], 10);
+          if (!isNaN(guestCount)) {
+            totalGuestsSum += guestCount;
+          } else {
+            console.warn(`Could not parse 'Total Guest' from ${file}: value was '${match[1]}'`);
+          }
+        } else {
+          console.warn(`'Total Guest:' line not found or improperly formatted in ${file}`);
+        }
+      } catch (readError) {
+        console.error(`Error reading file ${file}:`, readError);
+      }
+    }
+    console.log('Successfully calculated sum of May total guests:', totalGuestsSum);
+    return { success: true, totalGuests: totalGuestsSum, message: 'Sum of May total guests calculated successfully.' };
+  } catch (error) {
+    console.error('Error getting sum of May total guests:', error);
+    let errorMessage = 'Failed to get sum of May total guests.';
+    if (error instanceof Error) {
+      errorMessage += ` Reason: ${error.message}`;
+    }
+    return { success: false, message: errorMessage };
+  }
+}
+
+export async function getSumOfMayNetSales(): Promise<{ success: boolean; totalNetSales?: number; message: string }> {
+  const reportsDirectory = join(process.cwd(), 'public/reportFiles');
+  let totalNetSalesSum = 0;
+  try {
+    const files = await readdir(reportsDirectory);
+    const mayTxtFiles = files.filter(file => file.toLowerCase().includes('may') && file.endsWith('.txt'));
+
+    if (mayTxtFiles.length === 0) {
+      return { success: true, totalNetSales: 0, message: 'No May report files found for net sales.' };
+    }
+
+    for (const file of mayTxtFiles) {
+      const filePath = join(reportsDirectory, file);
+      try {
+        const content = await readFile(filePath, 'utf8');
+        const match = content.match(/Net Sales:\s*\$([0-9.]+)/);
+        if (match && match[1]) {
+          const salesAmount = parseFloat(match[1]);
+          if (!isNaN(salesAmount)) {
+            totalNetSalesSum += salesAmount;
+          } else {
+            console.warn(`Could not parse 'Net Sales' from ${file}: value was '${match[1]}'`);
+          }
+        } else {
+          console.warn(`'Net Sales:' line not found or improperly formatted in ${file}`);
+        }
+      } catch (readError) {
+        console.error(`Error reading file ${file}:`, readError);
+      }
+    }
+    console.log('Successfully calculated sum of May net sales:', totalNetSalesSum);
+    return { success: true, totalNetSales: totalNetSalesSum, message: 'Sum of May net sales calculated successfully.' };
+  } catch (error) {
+    console.error('Error getting sum of May net sales:', error);
+    let errorMessage = 'Failed to get sum of May net sales.';
+    if (error instanceof Error) {
+      errorMessage += ` Reason: ${error.message}`;
+    }
+    return { success: false, message: errorMessage };
+  }
+}
+
+export async function getSumOfMayNewChubbyMembers(): Promise<{ success: boolean; totalNewChubbyMembers?: number; message: string }> {
+  const reportsDirectory = join(process.cwd(), 'public/reportFiles');
+  let totalNewMembersSum = 0;
+  try {
+    const files = await readdir(reportsDirectory);
+    const mayTxtFiles = files.filter(file => file.toLowerCase().includes('may') && file.endsWith('.txt'));
+
+    if (mayTxtFiles.length === 0) {
+      return { success: true, totalNewChubbyMembers: 0, message: 'No May report files found for new chubby members.' };
+    }
+
+    for (const file of mayTxtFiles) {
+      const filePath = join(reportsDirectory, file);
+      try {
+        const content = await readFile(filePath, 'utf8');
+        const match = content.match(/New Chubby Member:\s*(\d+)/);
+        if (match && match[1]) {
+          const memberCount = parseInt(match[1], 10);
+          if (!isNaN(memberCount)) {
+            totalNewMembersSum += memberCount;
+          } else {
+            console.warn(`Could not parse 'New Chubby Member' from ${file}: value was '${match[1]}'`);
+          }
+        } else {
+          console.warn(`'New Chubby Member:' line not found or improperly formatted in ${file}`);
+        }
+      } catch (readError) {
+        console.error(`Error reading file ${file}:`, readError);
+      }
+    }
+    console.log('Successfully calculated sum of May new chubby members:', totalNewMembersSum);
+    return { success: true, totalNewChubbyMembers: totalNewMembersSum, message: 'Sum of May new chubby members calculated successfully.' };
+  } catch (error) {
+    console.error('Error getting sum of May new chubby members:', error);
+    let errorMessage = 'Failed to get sum of May new chubby members.';
     if (error instanceof Error) {
       errorMessage += ` Reason: ${error.message}`;
     }
