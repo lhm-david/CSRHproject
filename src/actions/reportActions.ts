@@ -3,6 +3,7 @@
 
 import { writeFile, readdir, readFile } from 'fs/promises';
 import { join } from 'path';
+import { format } from 'date-fns';
 
 // Basic sanitization: remove path traversal attempts and potentially harmful characters.
 // Reusing the logic from upload.ts for consistency.
@@ -76,33 +77,47 @@ export async function listReportFiles(): Promise<{ success: boolean; reportStruc
     const txtFiles = files.filter(file => file.endsWith('.txt')).sort();
 
     const reportStructure: ReportStructureItem[] = [];
-    const aprilFolder: ReportStructureItem = { name: 'April', type: 'folder', children: [] };
-    const mayFolder: ReportStructureItem = { name: 'May', type: 'folder', children: [] };
-    const juneFolder: ReportStructureItem = { name: 'June', type: 'folder', children: [] };
+    const monthFolders: { [key: string]: ReportStructureItem } = {};
+    
+    const currentYear = new Date().getFullYear().toString();
+
+    // Dynamically create month folders for the current year
+    for (let i = 0; i < 12; i++) {
+      const monthName = format(new Date(Number(currentYear), i), 'MMMM');
+      monthFolders[monthName.toLowerCase()] = { name: monthName, type: 'folder', children: [] };
+    }
+    
     const otherFiles: ReportStructureItem[] = [];
 
     txtFiles.forEach(file => {
-      if (file.toLowerCase().includes('april')) {
-        aprilFolder.children?.push({ name: file, type: 'file' });
-      } else if (file.toLowerCase().includes('may')) {
-        mayFolder.children?.push({ name: file, type: 'file' });
-      } else if (file.toLowerCase().includes('june')) {
-        juneFolder.children?.push({ name: file, type: 'file' });
+      let matchedMonth = false;
+      for (const monthKey in monthFolders) {
+        if (file.toLowerCase().includes(monthKey)) {
+          monthFolders[monthKey].children?.push({ name: file, type: 'file' });
+          matchedMonth = true;
+          break;
+        }
       }
-       else {
+      if (!matchedMonth) {
         otherFiles.push({ name: file, type: 'file' });
       }
     });
     
-    if (aprilFolder.children && aprilFolder.children.length > 0) {
-      reportStructure.push(aprilFolder);
-    }
-    if (mayFolder.children && mayFolder.children.length > 0) {
-      reportStructure.push(mayFolder);
-    }
-    if (juneFolder.children && juneFolder.children.length > 0) {
-      reportStructure.push(juneFolder);
-    }
+    Object.values(monthFolders).forEach(folder => {
+      if (folder.children && folder.children.length > 0) {
+        reportStructure.push(folder);
+      }
+    });
+    
+    reportStructure.sort((a, b) => {
+        if (a.type === 'folder' && b.type === 'folder') {
+            // Sort folders by month order
+            const monthOrder = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            return monthOrder.indexOf(a.name) - monthOrder.indexOf(b.name);
+        }
+        return 0; // Keep other files at the end or maintain original relative order
+    });
+
     reportStructure.push(...otherFiles);
 
 
@@ -148,6 +163,81 @@ export async function getReportFileContent(filename: string): Promise<{ success:
   }
 }
 
+const getCurrentMonthName = (): string => {
+  return format(new Date(), 'MMMM').toLowerCase();
+};
+
+// Generic function to sum values from report files for a given month
+async function sumReportValues(
+  monthName: string,
+  regex: RegExp,
+  valueParser: (match: RegExpMatchArray) => number,
+  itemDescription: string
+): Promise<{ success: boolean; total?: number; message: string }> {
+  const reportsDirectory = join(process.cwd(), 'public/reportFiles');
+  let totalSum = 0;
+  try {
+    const files = await readdir(reportsDirectory);
+    const monthTxtFiles = files.filter(file => file.toLowerCase().includes(monthName) && file.endsWith('.txt'));
+
+    if (monthTxtFiles.length === 0) {
+      return { success: true, total: 0, message: `No ${monthName} report files found for ${itemDescription}.` };
+    }
+
+    for (const file of monthTxtFiles) {
+      const filePath = join(reportsDirectory, file);
+      try {
+        const content = await readFile(filePath, 'utf8');
+        const match = content.match(regex);
+        if (match && match[1]) {
+          const value = valueParser(match);
+          if (!isNaN(value)) {
+            totalSum += value;
+          } else {
+            console.warn(`Could not parse '${itemDescription}' from ${file}: value was '${match[1]}'`);
+          }
+        } else {
+          console.warn(`'${itemDescription}' line not found or improperly formatted in ${file}`);
+        }
+      } catch (readError) {
+        console.error(`Error reading file ${file}:`, readError);
+      }
+    }
+    console.log(`Successfully calculated sum of ${monthName} ${itemDescription}:`, totalSum);
+    return { success: true, total: totalSum, message: `Sum of ${monthName} ${itemDescription} calculated successfully.` };
+  } catch (error) {
+    console.error(`Error getting sum of ${monthName} ${itemDescription}:`, error);
+    let errorMessage = `Failed to get sum of ${monthName} ${itemDescription}.`;
+    if (error instanceof Error) {
+      errorMessage += ` Reason: ${error.message}`;
+    }
+    return { success: false, message: errorMessage };
+  }
+}
+
+
+export async function getSumOfCurrentMonthTotalTables(): Promise<{ success: boolean; total?: number; message: string }> {
+  const currentMonth = getCurrentMonthName();
+  return sumReportValues(currentMonth, /Total Table:\s*(\d+)/, (match) => parseInt(match[1], 10), 'total tables');
+}
+
+export async function getSumOfCurrentMonthTotalGuests(): Promise<{ success: boolean; total?: number; message: string }> {
+  const currentMonth = getCurrentMonthName();
+  return sumReportValues(currentMonth, /Total Guest:\s*(\d+)/, (match) => parseInt(match[1], 10), 'total guests');
+}
+
+export async function getSumOfCurrentMonthNetSales(): Promise<{ success: boolean; total?: number; message: string }> {
+  const currentMonth = getCurrentMonthName();
+  return sumReportValues(currentMonth, /Net Sales:\s*\$([0-9.]+)/, (match) => parseFloat(match[1]), 'net sales');
+}
+
+export async function getSumOfCurrentMonthNewChubbyMembers(): Promise<{ success: boolean; total?: number; message: string }> {
+  const currentMonth = getCurrentMonthName();
+  return sumReportValues(currentMonth, /New Chubby Member:\s*(\d+)/, (match) => parseInt(match[1], 10), 'new chubby members');
+}
+
+
+// --- May specific functions (can be deprecated or removed if generic functions are sufficient) ---
 export async function getSumOfMayTotalTables(): Promise<{ success: boolean; totalTables?: number; message: string }> {
   const reportsDirectory = join(process.cwd(), 'public/reportFiles');
   let totalTablesSum = 0;
@@ -315,3 +405,5 @@ export async function getSumOfMayNewChubbyMembers(): Promise<{ success: boolean;
     return { success: false, message: errorMessage };
   }
 }
+
+    
