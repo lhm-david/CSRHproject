@@ -1,3 +1,4 @@
+
 'use server';
 
 import { writeFile, readdir, readFile } from 'fs/promises';
@@ -62,13 +63,38 @@ export async function saveReportToServer(
   }
 }
 
-export async function listReportFiles(): Promise<{ success: boolean; files?: string[]; message: string }> {
+export type ReportStructureItem = {
+  name: string;
+  type: 'file' | 'folder';
+  children?: ReportStructureItem[];
+};
+
+export async function listReportFiles(): Promise<{ success: boolean; reportStructure?: ReportStructureItem[]; message: string }> {
   const reportsDirectory = join(process.cwd(), 'public/reportFiles');
   try {
     const files = await readdir(reportsDirectory);
-    const txtFiles = files.filter(file => file.endsWith('.txt'));
-    console.log('Report files listed successfully:', txtFiles);
-    return { success: true, files: txtFiles, message: 'Report files listed successfully.' };
+    const txtFiles = files.filter(file => file.endsWith('.txt')).sort();
+
+    const reportStructure: ReportStructureItem[] = [];
+    const mayFolder: ReportStructureItem = { name: 'May', type: 'folder', children: [] };
+    const otherFiles: ReportStructureItem[] = [];
+
+    txtFiles.forEach(file => {
+      if (file.toLowerCase().includes('may')) {
+        mayFolder.children?.push({ name: file, type: 'file' });
+      } else {
+        otherFiles.push({ name: file, type: 'file' });
+      }
+    });
+    
+    if (mayFolder.children && mayFolder.children.length > 0) {
+      reportStructure.push(mayFolder);
+    }
+    reportStructure.push(...otherFiles);
+
+
+    console.log('Report files structured successfully:', reportStructure);
+    return { success: true, reportStructure, message: 'Report files structured successfully.' };
   } catch (error) {
     console.error('Error listing report files:', error);
     let errorMessage = 'Failed to list report files.';
