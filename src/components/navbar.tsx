@@ -19,7 +19,7 @@ export default function Navbar({ setActiveView }: NavbarProps) {
     };
 
     return (
-        <nav className="w-full p-4 flex justify-around items-center shadow-md mt-10">
+        <nav className="w-full p-4 flex justify-around items-center shadow-md mt-2">
             <Button variant="secondary" onClick={() => setActiveView('home')} className="hover:font-bold">Home</Button>
             <Button variant="secondary" onClick={() => setActiveView('viewReport')} className="hover:font-bold">View Daily Report</Button>
             <Button variant="secondary" onClick={() => setActiveView('newReport')} className="hover:font-bold">New Report</Button>

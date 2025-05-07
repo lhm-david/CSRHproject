@@ -10,6 +10,8 @@ import { Icons } from "@/components/icons";
 import Navbar, { type ActiveView } from  "@/components/navbar";
 import ReportViewer from "@/components/report-viewer"; // Import ReportViewer
 import ReportForm from "@/components/report-form"; // Import ReportForm
+import TopIcon from "@/components/top-icon";
+import HomeContent from "@/components/home-content";
 
 
 export default function Home() {
@@ -49,31 +51,27 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center p-4 space-y-6 mt-8">
+      <Navbar setActiveView={setActiveView} />
+      <div className="flex flex-col items-center justify-center p-1 space-y-2 mt-2">
         
-        {username && activeView === 'home' && <h3 className="text-2xl font-bold">Welcome, {username}!</h3>}
-        
+
         {activeView === 'home' && (
-          <div className="w-full bg-black p-4 flex justify-center rounded-lg">
-            <Image
-              src="https://chubbyskewers.com/wp-content/uploads/2025/03/Image_20250326151332.png"
-              alt="Chubby Skewers Logo"
-              width={250}
-              height={250}
-              className="rounded-full"
-              data-ai-hint="restaurant logo"
-            />
-          </div>
+          <TopIcon />
         )}
 
-        {activeView === 'home' && <h1 className="text-2xl font-bold">Chubby Skewer Management platform</h1>}
+        {username && activeView === 'home' && <h3 className="text-2xl font-bold">Welcome, {username}!</h3>}
+       
+        {activeView === 'home' && (
+          <HomeContent />
+        )}
         
-        <Navbar setActiveView={setActiveView} />
-
         {activeView === 'viewReport' && (
-          <div className="w-full mt-4">
-            <ReportViewer />
-          </div>
+          <>
+            <TopIcon />
+            <div className="w-full mt-4">
+              <ReportViewer />
+            </div>
+          </>
         )}
         {activeView === 'newReport' && (
           <div className="w-full mt-4 flex justify-center">

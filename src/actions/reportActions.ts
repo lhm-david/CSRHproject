@@ -148,3 +148,45 @@ export async function getReportFileContent(filename: string): Promise<{ success:
   }
 }
 
+export async function getSumOfMayTotalTables(): Promise<{ success: boolean; totalTables?: number; message: string }> {
+  const reportsDirectory = join(process.cwd(), 'public/reportFiles');
+  let totalTablesSum = 0;
+  try {
+    const files = await readdir(reportsDirectory);
+    const mayTxtFiles = files.filter(file => file.toLowerCase().includes('may') && file.endsWith('.txt'));
+
+    if (mayTxtFiles.length === 0) {
+      return { success: true, totalTables: 0, message: 'No May report files found.' };
+    }
+
+    for (const file of mayTxtFiles) {
+      const filePath = join(reportsDirectory, file);
+      try {
+        const content = await readFile(filePath, 'utf8');
+        const match = content.match(/Total Table:\s*(\d+)/);
+        if (match && match[1]) {
+          const tableCount = parseInt(match[1], 10);
+          if (!isNaN(tableCount)) {
+            totalTablesSum += tableCount;
+          } else {
+            console.warn(`Could not parse 'Total Table' from ${file}: value was '${match[1]}'`);
+          }
+        } else {
+          console.warn(`'Total Table:' line not found or improperly formatted in ${file}`);
+        }
+      } catch (readError) {
+        console.error(`Error reading file ${file}:`, readError);
+        // Optionally decide if one file error should fail the whole sum
+      }
+    }
+    console.log('Successfully calculated sum of May total tables:', totalTablesSum);
+    return { success: true, totalTables: totalTablesSum, message: 'Sum of May total tables calculated successfully.' };
+  } catch (error) {
+    console.error('Error getting sum of May total tables:', error);
+    let errorMessage = 'Failed to get sum of May total tables.';
+    if (error instanceof Error) {
+      errorMessage += ` Reason: ${error.message}`;
+    }
+    return { success: false, message: errorMessage };
+  }
+}
