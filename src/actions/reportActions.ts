@@ -76,12 +76,15 @@ export async function listReportFiles(): Promise<{ success: boolean; reportStruc
     const txtFiles = files.filter(file => file.endsWith('.txt')).sort();
 
     const reportStructure: ReportStructureItem[] = [];
+    const aprilFolder: ReportStructureItem = { name: 'April', type: 'folder', children: [] };
     const mayFolder: ReportStructureItem = { name: 'May', type: 'folder', children: [] };
     const juneFolder: ReportStructureItem = { name: 'June', type: 'folder', children: [] };
     const otherFiles: ReportStructureItem[] = [];
 
     txtFiles.forEach(file => {
-      if (file.toLowerCase().includes('may')) {
+      if (file.toLowerCase().includes('april')) {
+        aprilFolder.children?.push({ name: file, type: 'file' });
+      } else if (file.toLowerCase().includes('may')) {
         mayFolder.children?.push({ name: file, type: 'file' });
       } else if (file.toLowerCase().includes('june')) {
         juneFolder.children?.push({ name: file, type: 'file' });
@@ -91,6 +94,9 @@ export async function listReportFiles(): Promise<{ success: boolean; reportStruc
       }
     });
     
+    if (aprilFolder.children && aprilFolder.children.length > 0) {
+      reportStructure.push(aprilFolder);
+    }
     if (mayFolder.children && mayFolder.children.length > 0) {
       reportStructure.push(mayFolder);
     }
