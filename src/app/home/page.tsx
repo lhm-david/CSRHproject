@@ -1,3 +1,4 @@
+
 "use client";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
@@ -41,7 +42,13 @@ export default function Home() {
   // This content will only render if isLoading is false and user is authenticated
   return (
     <>
-      <div className="flex flex-col items-center justify-center p-4 space-y-6">
+      <nav className="w-full bg-primary text-primary-foreground p-4 flex justify-around items-center shadow-md">
+        <Button variant="ghost" onClick={() => router.push('/viewreport')} className="hover:bg-primary/80">View Daily Report</Button>
+        <Button variant="ghost" onClick={() => router.push('/report')} className="hover:bg-primary/80">Go to Daily Report</Button>
+        <Button variant="destructive" onClick={handleLogout}>Log Out</Button>
+      </nav>
+
+      <div className="flex flex-col items-center justify-center p-4 space-y-6 mt-8">
         {username && <h3 className="text-2xl font-bold">Welcome, {username}!</h3>}
         
         <div className="w-full bg-black p-4 flex justify-center rounded-lg">
@@ -56,11 +63,6 @@ export default function Home() {
         </div>
 
         <h1 className="text-2xl font-bold">Chubby Skewer Management platform</h1>
-        
-        <Button onClick={handleLogout}>Log Out</Button>
-        
-        <Button onClick={() => router.push('/viewreport')}>View Daily Report</Button>
-        <Button onClick={() => router.push('/report')}>Go to Daily Report</Button>
         
       </div>
       <Toaster />

@@ -35,9 +35,9 @@ export default function ViewReportPage() {
     
   return (
     <>
-      <div className="flex flex-col items-center justify-start p-4 space-y-6 min-h-screen bg-background"> {/* Changed justify-center to justify-start */}
+      <div className="flex flex-col items-center justify-start p-4 space-y-6  bg-background"> {/* Changed justify-center to justify-start */}
         
-        <div className="w-full bg-black p-4 flex justify-center items-center rounded-lg sticky top-0 z-50"> {/* Made header sticky */}
+        <div className="w-full bg-black p-4 flex justify-center items-center rounded-lg  top-0 z-50"> {/* Made header sticky */}
           <Image
             src="https://chubbyskewers.com/wp-content/uploads/2025/03/Image_20250326151332.png"
             alt="Chubby Skewers Logo"
@@ -46,7 +46,7 @@ export default function ViewReportPage() {
             className="rounded-full mr-4"
             data-ai-hint="restaurant logo"
           />
-          <h1 className="text-xl md:text-2xl font-bold text-white">Chubby Skewer Report Viewer</h1> {/* Adjusted text size */}
+          
         </div>
 
         {/* Render the ReportViewer component */}
