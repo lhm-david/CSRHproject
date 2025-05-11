@@ -5,7 +5,8 @@ import { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { listReportFiles, getReportFileContent, ReportStructureItem } from '@/actions/reportActions';
+import { Textarea } from "@/components/ui/textarea";
+import { listReportFiles, getReportFileContent, updateReportFileContent, ReportStructureItem } from '@/actions/reportActions';
 import { Icons } from "@/components/icons";
 import { useToast } from "@/hooks/use-toast";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -19,6 +20,10 @@ export default function ReportViewer() {
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
   const [openFolders, setOpenFolders] = useState<string[]>([]);
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [editableContent, setEditableContent] = useState<string>("");
+  const [currentOpenReportFilename, setCurrentOpenReportFilename] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchReportFiles() {
@@ -44,28 +49,78 @@ export default function ReportViewer() {
   }, [toast]);
 
   const handleFileClick = async (filename: string) => {
+    if (isEditing) {
+        // Optionally, prompt user to save changes or discard them
+        // For now, automatically discard changes
+        setIsEditing(false);
+        setEditableContent("");
+        toast({
+            variant: "default",
+            title: "Edit Cancelled",
+            description: "Switched report, previous edits were not saved.",
+        });
+    }
+
     setIsLoadingContent(true);
-    setSelectedReportContent(null); // Clear previous content
+    setSelectedReportContent(null); 
     setError(null);
+    setCurrentOpenReportFilename(filename);
+
     try {
       const result = await getReportFileContent(filename);
       if (result.success && result.content !== undefined) {
         setSelectedReportContent(result.content);
       } else {
         setError(result.message);
+        setCurrentOpenReportFilename(null); // Clear filename if content loading failed
         toast({ variant: "destructive", title: `Error loading ${filename}`, description: result.message });
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred";
       setError(errorMessage);
+      setCurrentOpenReportFilename(null); // Clear filename on error
       toast({ variant: "destructive", title: "Error", description: errorMessage });
     } finally {
       setIsLoadingContent(false);
     }
   };
 
+  const handleEditClick = () => {
+    if (selectedReportContent && currentOpenReportFilename) {
+      setEditableContent(selectedReportContent);
+      setIsEditing(true);
+    }
+  };
+
+  const handleSaveClick = async () => {
+    if (currentOpenReportFilename && isEditing) {
+      setIsLoadingContent(true); // Indicate saving process
+      try {
+        const result = await updateReportFileContent(currentOpenReportFilename, editableContent);
+        if (result.success) {
+          setSelectedReportContent(editableContent);
+          setIsEditing(false);
+          toast({ title: "Report Updated", description: result.message });
+        } else {
+          toast({ variant: "destructive", title: "Error updating report", description: result.message });
+        }
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred";
+        toast({ variant: "destructive", title: "Save Error", description: errorMessage });
+      } finally {
+        setIsLoadingContent(false);
+      }
+    }
+  };
+
+  const handleCancelEditClick = () => {
+    setIsEditing(false);
+    setEditableContent(""); // Clear editable content, original selectedReportContent remains
+  };
+
+
   const renderReportItem = (item: ReportStructureItem, level = 0) => {
-    const paddingLeft = `${level * 1.5}rem`; // Indentation for nested items
+    const paddingLeft = `${level * 1.5}rem`; 
 
     if (item.type === 'folder') {
       return (
@@ -99,7 +154,7 @@ export default function ReportViewer() {
 
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 p-4 md:p-6 h-[calc(100vh-150px)]"> {/* Adjusted height for better layout */}
+    <div className="flex flex-col md:flex-row gap-4 p-4 md:p-6 h-[calc(100vh-150px)]"> 
       <Card className="w-full md:w-1/3 shadow-lg">
         <CardHeader>
           <CardTitle>Available Reports</CardTitle>
@@ -116,7 +171,7 @@ export default function ReportViewer() {
           ): reportStructure.length === 0 ? (
             <p className="text-muted-foreground">No reports found.</p>
           ) : (
-            <ScrollArea className="h-[calc(100vh-280px)]"> {/* Adjusted height */}
+            <ScrollArea className="h-[calc(100vh-280px)]"> 
               <Accordion 
                 type="multiple" 
                 value={openFolders}
@@ -133,26 +188,55 @@ export default function ReportViewer() {
       <Card className="w-full md:w-2/3 shadow-lg">
         <CardHeader>
           <CardTitle>Report Content</CardTitle>
-          {selectedReportContent === null && !isLoadingContent && <CardDescription>Select a report to see its details.</CardDescription>}
+          {selectedReportContent === null && !isLoadingContent && !isEditing && <CardDescription>Select a report to see its details.</CardDescription>}
+           {isEditing && currentOpenReportFilename && <CardDescription>Editing: {currentOpenReportFilename}</CardDescription>}
         </CardHeader>
-        <CardContent>
-          {isLoadingContent ? (
-            <div className="flex items-center justify-center h-full">
+        <CardContent className="flex flex-col h-full">
+          {isLoadingContent && !isEditing ? ( // Show spinner only when loading, not when saving (as save button shows spinner)
+            <div className="flex items-center justify-center flex-grow">
               <Icons.spinner className="h-8 w-8 animate-spin text-primary" />
                <p className="ml-2 text-muted-foreground">Loading report content...</p>
             </div>
-          ) : error && !selectedReportContent ? ( // Show error only if content is not loaded
-             <p className="text-destructive">{error}</p>
+          ) : error && !selectedReportContent && !isEditing ? ( 
+             <p className="text-destructive flex-grow">{error}</p>
+          ) : isEditing ? (
+            <>
+              <ScrollArea className="flex-grow mb-4">
+                <Textarea
+                  value={editableContent}
+                  onChange={(e) => setEditableContent(e.target.value)}
+                  className="h-full min-h-[300px] text-sm whitespace-pre-wrap p-4 bg-muted rounded-md"
+                  aria-label="Editable report content"
+                />
+              </ScrollArea>
+              <div className="flex justify-end gap-2 mt-auto pt-4 border-t">
+                <Button onClick={handleSaveClick} disabled={isLoadingContent}>
+                  {isLoadingContent ? <Icons.spinner className="mr-2 h-4 w-4 animate-spin" /> : <Icons.save className="mr-2 h-4 w-4" />}
+                  Save
+                </Button>
+                <Button variant="outline" onClick={handleCancelEditClick} disabled={isLoadingContent}>
+                  Cancel
+                </Button>
+              </div>
+            </>
           ) : selectedReportContent !== null ? (
-            <ScrollArea className="h-[calc(100vh-280px)]"> {/* Adjusted height */}
-              <pre className="text-sm whitespace-pre-wrap p-4 bg-muted rounded-md">{selectedReportContent}</pre>
-            </ScrollArea>
+            <>
+              <ScrollArea className="flex-grow mb-4">
+                <pre className="text-sm whitespace-pre-wrap p-4 bg-muted rounded-md min-h-[300px]">{selectedReportContent}</pre>
+              </ScrollArea>
+              <div className="flex justify-end mt-auto pt-4 border-t">
+                <Button onClick={handleEditClick}>
+                  <Icons.edit className="mr-2 h-4 w-4" />
+                  Edit
+                </Button>
+              </div>
+            </>
           ) : (
-            // Show this message if not loading files, no error, and no content selected
-            !isLoadingFiles && <p className="text-muted-foreground">No report selected or content is empty.</p> 
+            !isLoadingFiles && <p className="text-muted-foreground flex-grow">No report selected or content is empty.</p> 
           )}
         </CardContent>
       </Card>
     </div>
   );
 }
+

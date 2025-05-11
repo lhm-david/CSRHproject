@@ -163,6 +163,38 @@ export async function getReportFileContent(filename: string): Promise<{ success:
   }
 }
 
+export async function updateReportFileContent(
+  filename: string,
+  newContent: string
+): Promise<{ success: boolean; message: string }> {
+  if (!filename) {
+    return { success: false, message: 'Filename is required for update.' };
+  }
+  const sanitizedFilename = sanitizeFilename(filename); // Use the existing sanitization
+  if (sanitizedFilename !== filename) {
+    console.warn(`Filename was sanitized for updating: "${filename}" -> "${sanitizedFilename}"`);
+  }
+  if (!sanitizedFilename.endsWith('.txt')) {
+    return { success: false, message: 'Invalid file type for update. Only .txt files are allowed.' };
+  }
+
+  const filePath = join(process.cwd(), 'public/reportFiles', sanitizedFilename);
+  console.log(`Attempting to update report file at: ${filePath}`);
+  try {
+    await writeFile(filePath, newContent, 'utf8');
+    console.log(`Report file "${sanitizedFilename}" updated successfully.`);
+    return { success: true, message: `Report "${sanitizedFilename}" updated successfully.` };
+  } catch (error) {
+    console.error(`Error updating report file "${sanitizedFilename}":`, error);
+    let errorMessage = `Failed to update report file "${sanitizedFilename}".`;
+    if (error instanceof Error) {
+      errorMessage += ` Reason: ${error.message}`;
+    }
+    return { success: false, message: errorMessage };
+  }
+}
+
+
 const getCurrentMonthName = (): string => {
   return format(new Date(), 'MMMM').toLowerCase();
 };
