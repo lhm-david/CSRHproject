@@ -1,12 +1,11 @@
 
 'use server';
 
-import { writeFile, readdir, readFile } from 'fs/promises';
+import { writeFile, readdir, readFile, unlink } from 'fs/promises';
 import { join } from 'path';
 import { format } from 'date-fns';
 
 // Basic sanitization: remove path traversal attempts and potentially harmful characters.
-// Reusing the logic from upload.ts for consistency.
 const sanitizeFilename = (filename: string): string => {
   // Remove directory traversal sequences
   let sanitized = filename.replace(/\.\.\//g, '').replace(/\.\.\\/g, '');
@@ -189,6 +188,39 @@ export async function updateReportFileContent(
     let errorMessage = `Failed to update report file "${sanitizedFilename}".`;
     if (error instanceof Error) {
       errorMessage += ` Reason: ${error.message}`;
+    }
+    return { success: false, message: errorMessage };
+  }
+}
+
+export async function deleteReportFile(filename: string): Promise<{ success: boolean; message: string }> {
+  if (!filename) {
+    return { success: false, message: 'Filename is required for deletion.' };
+  }
+  const sanitizedFilename = filename.replace(/\.\.\//g, '').replace(/\.\.\\/g, '');
+   if (sanitizedFilename !== filename) {
+    console.warn(`Filename was sanitized for deletion: "${filename}" -> "${sanitizedFilename}"`);
+  }
+  if (!sanitizedFilename.endsWith('.txt')) {
+    return { success: false, message: 'Invalid file type for deletion. Only .txt files are allowed.' };
+  }
+
+  const filePath = join(process.cwd(), 'public/reportFiles', sanitizedFilename);
+  console.log(`Attempting to delete report file at: ${filePath}`);
+  try {
+    await unlink(filePath);
+    console.log(`Report file "${sanitizedFilename}" deleted successfully.`);
+    return { success: true, message: `Report "${sanitizedFilename}" deleted successfully.` };
+  } catch (error) {
+    console.error(`Error deleting report file "${sanitizedFilename}":`, error);
+    let errorMessage = `Failed to delete report file "${sanitizedFilename}".`;
+    if (error instanceof Error) {
+      // Check for specific error codes if needed (e.g., ENOENT for file not found)
+      if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
+        errorMessage = `File "${sanitizedFilename}" not found. It may have already been deleted.`;
+      } else {
+        errorMessage += ` Reason: ${error.message}`;
+      }
     }
     return { success: false, message: errorMessage };
   }
@@ -379,3 +411,4 @@ export async function getNetSalesByMonthForAllMonths(year: number = new Date().g
     
 
     
+

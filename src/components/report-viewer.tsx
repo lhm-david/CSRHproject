@@ -6,10 +6,21 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import { listReportFiles, getReportFileContent, updateReportFileContent, ReportStructureItem } from '@/actions/reportActions';
+import { listReportFiles, getReportFileContent, updateReportFileContent, deleteReportFile, ReportStructureItem } from '@/actions/reportActions';
 import { Icons } from "@/components/icons";
 import { useToast } from "@/hooks/use-toast";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 
 export default function ReportViewer() {
@@ -24,34 +35,36 @@ export default function ReportViewer() {
   const [isEditing, setIsEditing] = useState(false);
   const [editableContent, setEditableContent] = useState<string>("");
   const [currentOpenReportFilename, setCurrentOpenReportFilename] = useState<string | null>(null);
+  const [fileToDelete, setFileToDelete] = useState<string | null>(null);
+
+
+  const fetchReportFiles = async () => {
+    setIsLoadingFiles(true);
+    setError(null);
+    try {
+      const result = await listReportFiles();
+      if (result.success && result.reportStructure) {
+        setReportStructure(result.reportStructure);
+      } else {
+        setError(result.message);
+        toast({ variant: "destructive", title: "Error loading reports", description: result.message });
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred";
+      setError(errorMessage);
+      toast({ variant: "destructive", title: "Error", description: errorMessage });
+    } finally {
+      setIsLoadingFiles(false);
+    }
+  };
 
   useEffect(() => {
-    async function fetchReportFiles() {
-      setIsLoadingFiles(true);
-      setError(null);
-      try {
-        const result = await listReportFiles();
-        if (result.success && result.reportStructure) {
-          setReportStructure(result.reportStructure);
-        } else {
-          setError(result.message);
-          toast({ variant: "destructive", title: "Error loading reports", description: result.message });
-        }
-      } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred";
-        setError(errorMessage);
-        toast({ variant: "destructive", title: "Error", description: errorMessage });
-      } finally {
-        setIsLoadingFiles(false);
-      }
-    }
     fetchReportFiles();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [toast]);
 
   const handleFileClick = async (filename: string) => {
     if (isEditing) {
-        // Optionally, prompt user to save changes or discard them
-        // For now, automatically discard changes
         setIsEditing(false);
         setEditableContent("");
         toast({
@@ -72,13 +85,13 @@ export default function ReportViewer() {
         setSelectedReportContent(result.content);
       } else {
         setError(result.message);
-        setCurrentOpenReportFilename(null); // Clear filename if content loading failed
+        setCurrentOpenReportFilename(null); 
         toast({ variant: "destructive", title: `Error loading ${filename}`, description: result.message });
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred";
       setError(errorMessage);
-      setCurrentOpenReportFilename(null); // Clear filename on error
+      setCurrentOpenReportFilename(null); 
       toast({ variant: "destructive", title: "Error", description: errorMessage });
     } finally {
       setIsLoadingContent(false);
@@ -94,7 +107,7 @@ export default function ReportViewer() {
 
   const handleSaveClick = async () => {
     if (currentOpenReportFilename && isEditing) {
-      setIsLoadingContent(true); // Indicate saving process
+      setIsLoadingContent(true); 
       try {
         const result = await updateReportFileContent(currentOpenReportFilename, editableContent);
         if (result.success) {
@@ -115,7 +128,31 @@ export default function ReportViewer() {
 
   const handleCancelEditClick = () => {
     setIsEditing(false);
-    setEditableContent(""); // Clear editable content, original selectedReportContent remains
+    setEditableContent(""); 
+  };
+
+  const handleDeleteFile = async () => {
+    if (!fileToDelete) return;
+
+    try {
+      const result = await deleteReportFile(fileToDelete);
+      if (result.success) {
+        toast({ title: "Report Deleted", description: result.message });
+        fetchReportFiles(); // Refresh the file list
+        if (currentOpenReportFilename === fileToDelete) {
+          setSelectedReportContent(null);
+          setCurrentOpenReportFilename(null);
+          setIsEditing(false);
+        }
+      } else {
+        toast({ variant: "destructive", title: "Error deleting report", description: result.message });
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred";
+      toast({ variant: "destructive", title: "Delete Error", description: errorMessage });
+    } finally {
+      setFileToDelete(null); // Close the dialog
+    }
   };
 
 
@@ -139,16 +176,48 @@ export default function ReportViewer() {
     }
 
     return (
-      <Button
-        key={item.name}
-        variant="ghost"
-        className="w-full justify-start text-left py-2 px-3 rounded-md"
-        style={{ paddingLeft }}
-        onClick={() => handleFileClick(item.name)}
-      >
-        <Icons.file className="mr-2 h-4 w-4" />
-        {item.name}
-      </Button>
+      <div key={item.name} className="flex items-center w-full group" style={{ paddingLeft }}>
+        <Button
+          variant="ghost"
+          className="flex-grow justify-start text-left py-2 px-3 rounded-md"
+          onClick={() => handleFileClick(item.name)}
+        >
+          <Icons.file className="mr-2 h-4 w-4" />
+          {item.name}
+        </Button>
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="ml-auto opacity-0 group-hover:opacity-100 focus:opacity-100"
+              onClick={(e) => {
+                e.stopPropagation(); // Prevent file click
+                setFileToDelete(item.name);
+              }}
+              aria-label={`Delete report ${item.name}`}
+            >
+              <Icons.trash className="h-4 w-4 text-destructive" />
+            </Button>
+          </AlertDialogTrigger>
+          {fileToDelete === item.name && (
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This action cannot be undone. This will permanently delete the report file: <strong>{item.name}</strong>.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel onClick={() => setFileToDelete(null)}>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleDeleteFile} className={buttonVariants({variant: "destructive"})}>
+                  Delete
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          )}
+        </AlertDialog>
+      </div>
     );
   };
 
@@ -192,7 +261,7 @@ export default function ReportViewer() {
            {isEditing && currentOpenReportFilename && <CardDescription>Editing: {currentOpenReportFilename}</CardDescription>}
         </CardHeader>
         <CardContent className="flex flex-col h-full">
-          {isLoadingContent && !isEditing ? ( // Show spinner only when loading, not when saving (as save button shows spinner)
+          {isLoadingContent && !isEditing ? ( 
             <div className="flex items-center justify-center flex-grow">
               <Icons.spinner className="h-8 w-8 animate-spin text-primary" />
                <p className="ml-2 text-muted-foreground">Loading report content...</p>
@@ -239,4 +308,5 @@ export default function ReportViewer() {
     </div>
   );
 }
+
 
