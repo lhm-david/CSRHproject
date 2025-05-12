@@ -4,6 +4,7 @@
 import { appendFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { format } from 'date-fns';
+import { toZonedTime } from 'date-fns-tz';
 
 const LOG_DIR = join(process.cwd(), 'public/modifiedlog');
 const LOG_FILE_PATH = join(LOG_DIR, 'activity_log.txt');
@@ -31,7 +32,9 @@ export async function logUserActivity(
     // Ensure the log directory exists
     await mkdir(LOG_DIR, { recursive: true });
 
-    const formattedTimestamp = format(new Date(), 'yyyy-M-d HH:mm:ss'); // Includes time
+    const now = new Date();
+    const pstTime = toZonedTime(now, 'America/Los_Angeles');
+    const formattedTimestamp = format(pstTime, 'yyyy-M-d HH:mm:ss'); // Includes time
     
     let logEntry = `${formattedTimestamp}, ${username}, ${action}`;
     if (details) {

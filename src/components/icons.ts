@@ -1,5 +1,5 @@
 
-import {ArrowRight, Check, ChevronsUpDown, Circle, Copy, Edit, ExternalLink, File, HelpCircle, Home, Loader2, Mail, MessageSquare, Moon, Plus, PlusCircle, Search, Server, Settings, Share2, Shield, Sun, Trash, User, X, Workflow, Save, Sparkles, Calendar, Star, Upload, Folder, FolderOpen} from 'lucide-react'; // Added Star, Upload, Folder, FolderOpen
+import {ArrowRight, Check, ChevronsUpDown, Circle, Copy, Edit, ExternalLink, File, HelpCircle, Home, Loader2, Mail, MessageSquare, Moon, Plus, PlusCircle, Search, Server, Settings, Share2, Shield, Sun, Trash, User, X, Workflow, Save, Sparkles, Calendar, Star, Upload, Folder, FolderOpen, Menu} from 'lucide-react'; // Added Menu
 
 const Icons = {
   arrowRight: ArrowRight,
@@ -27,15 +27,16 @@ const Icons = {
   share: Share2,
   shield: Shield,
   spinner: Loader2,
-  star: Star, // Added Star
+  star: Star, 
   trash: Trash,
   user: User,
   save: Save,
   sparkles: Sparkles,
   calendar: Calendar,
-  upload: Upload, // Added Upload
-  folder: Folder, // Added Folder
-  folderOpen: FolderOpen, // Added FolderOpen
+  upload: Upload, 
+  folder: Folder, 
+  folderOpen: FolderOpen,
+  menu: Menu, // Added Menu icon
 };
 
 export {Icons};

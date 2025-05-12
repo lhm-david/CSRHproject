@@ -51,7 +51,7 @@ export default function LoginPage() {
       
       // Find the user with matching username and password
       const user = usersArray.find(
-        (user: any) => user.username === username && user.password === password
+        (user: any) => user.username === username.toLocaleLowerCase().trim() && user.password === password.trim()
       );
 
       if (user) {

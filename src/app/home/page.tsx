@@ -22,7 +22,7 @@ export default function Home() {
  
 
   useEffect(() => {
-    const userInfo = sessionStorage.getItem('username');
+    const userInfo = sessionStorage.getItem('username')?.toLocaleLowerCase().trim();
     if (!userInfo || userInfo === "undefined") {
       router.push('/');
     } else {
