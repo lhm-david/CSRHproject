@@ -1,0 +1,36 @@
+
+Daily Report:
+Date: May 7th, 2025
+Shift Lead: James
+Total Table: 91
+Total Guest: 222
+Total Sales: $7416.35
+Net Sales: $6613.21
+Cash Sales: $548.37
+Credit Card Sales: $6694.4
+Gift Card Sales: $0
+Pre-paid Card Sales: $0
+Online Sales: $15.37
+Alcohol Sales: $1082.12
+Alcohol Sales Percentage: 16.36%
+Alcohol Sales per guest: $4.87
+Credit Card Tips: $1134.51
+Cash Tips: $110
+Total Tips: $1244.51
+Tips Percentage: 18.82%
+Sales Per Guest: $29.79
+Total amount cancelled: $474.37
+Reason for cancelled: 点错单和输入错误
+New Chubby Member: 0
+Chubby plus: 0
+Chubby one: 0
+Today total Scan: 55
+Scan Rate: 60.44%
+Total Members to Today: 260
+Total Discount: $803.14
+NFT: $18.99
+Other: $770.20
+Chubby Club: $13.95
+
+Google Reviews: 892 (4.9 Stars)
+Yelp Reviews: 953 (4.6 Stars)

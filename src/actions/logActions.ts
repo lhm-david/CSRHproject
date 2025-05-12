@@ -10,6 +10,8 @@ const LOG_FILE_PATH = join(LOG_DIR, 'activity_log.txt');
 
 /**
  * Logs a user activity to the activity_log.txt file.
+ * The timestamp will be in 'yyyy-M-d HH:mm:ss' format based on the server's timezone.
+ * For PST, ensure the server's timezone is configured to PST.
  * @param username The username of the user performing the action.
  * @param action The action performed (e.g., "login", "create_report").
  * @param details Optional details about the action (e.g., filename).
@@ -29,10 +31,9 @@ export async function logUserActivity(
     // Ensure the log directory exists
     await mkdir(LOG_DIR, { recursive: true });
 
-    const timestamp = format(new Date(), 'yyyy-M-d HH:mm:ss');
-    const dateForLog = format(new Date(), 'yyyy-M-d');
+    const formattedTimestamp = format(new Date(), 'yyyy-M-d HH:mm:ss'); // Includes time
     
-    let logEntry = `${dateForLog}, ${username}, ${action}`;
+    let logEntry = `${formattedTimestamp}, ${username}, ${action}`;
     if (details) {
       logEntry += ` ${details}`;
     }
@@ -51,3 +52,4 @@ export async function logUserActivity(
     return { success: false, message: errorMessage };
   }
 }
+
