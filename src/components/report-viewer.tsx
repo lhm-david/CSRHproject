@@ -2,11 +2,11 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button"; // Imported buttonVariants
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import { listReportFiles, getReportFileContent, updateReportFileContent, deleteReportFile, ReportStructureItem } from '@/actions/reportActions';
+import { listReportFiles, getReportFileContent, updateReportFileContent, deleteReportFile, type ReportStructureItem } from '@/actions/reportActions';
 import { Icons } from "@/components/icons";
 import { useToast } from "@/hooks/use-toast";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -61,7 +61,7 @@ export default function ReportViewer() {
   useEffect(() => {
     fetchReportFiles();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [toast]);
+  }, []); // Removed toast from dependency array as it's stable
 
   const handleFileClick = async (filename: string) => {
     if (isEditing) {
@@ -162,7 +162,12 @@ export default function ReportViewer() {
     if (item.type === 'folder') {
       return (
         <AccordionItem value={item.name} key={item.name} className="border-none">
-          <AccordionTrigger className="hover:no-underline py-2 px-3 rounded-md hover:bg-accent">
+          <AccordionTrigger 
+            className="hover:no-underline py-2 px-3 rounded-md hover:bg-accent data-[state=open]:bg-accent"
+            onClick={() => setOpenFolders(prev => 
+              prev.includes(item.name) ? prev.filter(f => f !== item.name) : [...prev, item.name]
+            )}
+            >
             <div className="flex items-center" style={{ paddingLeft }}>
               {openFolders.includes(item.name) ? <Icons.folderOpen className="mr-2 h-4 w-4" /> : <Icons.folder className="mr-2 h-4 w-4" />}
               {item.name}
@@ -244,7 +249,7 @@ export default function ReportViewer() {
               <Accordion 
                 type="multiple" 
                 value={openFolders}
-                onValueChange={setOpenFolders}
+                onValueChange={setOpenFolders} // This allows accordion to manage its state internally
                 className="w-full"
               >
                 {reportStructure.map((item) => renderReportItem(item))}
@@ -260,7 +265,7 @@ export default function ReportViewer() {
           {selectedReportContent === null && !isLoadingContent && !isEditing && <CardDescription>Select a report to see its details.</CardDescription>}
            {isEditing && currentOpenReportFilename && <CardDescription>Editing: {currentOpenReportFilename}</CardDescription>}
         </CardHeader>
-        <CardContent className="flex flex-col h-full">
+        <CardContent className="flex flex-col h-[calc(100%-6rem)]"> {/* Adjusted height for better layout */}
           {isLoadingContent && !isEditing ? ( 
             <div className="flex items-center justify-center flex-grow">
               <Icons.spinner className="h-8 w-8 animate-spin text-primary" />
@@ -301,12 +306,10 @@ export default function ReportViewer() {
               </div>
             </>
           ) : (
-            !isLoadingFiles && <p className="text-muted-foreground flex-grow">No report selected or content is empty.</p> 
+            !isLoadingFiles && <p className="text-muted-foreground flex-grow text-center pt-10">No report selected or content is empty.</p> // Added pt-10 for better centering
           )}
         </CardContent>
       </Card>
     </div>
   );
 }
-
-
