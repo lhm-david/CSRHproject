@@ -16,6 +16,7 @@ import { format } from "date-fns";
 import { Separator } from "@/components/ui/separator";
 import { Toaster } from "@/components/ui/toaster";
 import { saveReportToServer } from "@/actions/reportActions"; 
+import { logUserActivity } from '@/actions/logActions'; // Import logging action
 
 interface ReportFormProps {
   onSuccessfulSubmit: () => void;
@@ -170,7 +171,7 @@ export default function ReportForm({ onSuccessfulSubmit, onGoBack }: ReportFormP
           return strValue;
       };
 
-    return `
+      const reportContent = `
       Daily Report:
       Date: ${formattedDate}
       Shift Lead: ${formatValue(shiftLead)}
@@ -203,9 +204,18 @@ export default function ReportForm({ onSuccessfulSubmit, onGoBack }: ReportFormP
       NFT: $${formatValue(nftValue)}
       Other: $${formatValue(otherValue)}
       ${otherReasons.map(reason => `${formatValue(reason.reason)}: $${formatValue(reason.value)}`).join('\n')}
+      
       Google Reviews: ${formatValue(googleReviews)} (${formatValue(googleRatings)} Stars)
       Yelp Reviews: ${formatValue(yelpReview)} (${formatValue(yelpRating)} Stars)
     `;
+
+    const trimmedContent = reportContent
+    .split('\n')            // Split into lines
+    .map(line => line.trimStart())  // Trim leading spaces
+    .join('\n'); 
+      
+
+    return trimmedContent
   };
 
   const handleGenerateReport = async () => {
@@ -245,6 +255,10 @@ export default function ReportForm({ onSuccessfulSubmit, onGoBack }: ReportFormP
             toast({
                 title: "Report Saved Successfully",
             });
+            const username = sessionStorage.getItem('username');
+            if (username && username !== "undefined" && result.filePath) {
+              await logUserActivity(username, 'create', result.filePath.split('/').pop() || filename);
+            }
             onSuccessfulSubmit(); // Call the callback
         } else {
             toast({

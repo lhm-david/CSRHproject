@@ -1,36 +1,37 @@
 
-      Daily Report:
-      Date: May 3rd, 2025
-      Shift Lead: 0
-      Total Table: 0
-      Total Guest: 0
-      Total Sales: $0
-      Net Sales: $0
-      Cash Sales: $0
-      Credit Card Sales: $0
-      Gift Card Sales: $0
-      Pre-paid Card Sales: $0
-      Online Sales: $0
-      Alcohol Sales: $0
-      Alcohol Sales Percentage: 0.00%
-      Alcohol Sales per guest: $0.00
-      Credit Card Tips: $0
-      Cash Tips: $0
-      Total Tips: $0
-      Tips Percentage: 0.00%
-      Sales Per Guest: $0.00
-      Total amount cancelled: $0
-      Reason for cancelled: 0
-      New Chubby Member: 0
-      Chubby plus: 0
-      Chubby one: 0
-      Today total Scan: 0
-      Scan Rate: 0.00%
-      Total Members to Today: 0
-      Total Discount: $0
-      NFT: $0
-      Other: $0
-      
-      Google Reviews: 890 (4.9 Stars)
-      Yelp Reviews: 0 (0 Stars)
+Daily Report:
+Date: May 3rd, 2025
+Shift Lead: David
+Total Table: 144
+Total Guest: 465
+Total Sales: $13479.08
+Net Sales: $12899.82
+Cash Sales: $1050.87
+Credit Card Sales: $12910.72
+Gift Card Sales: $157.24
+Pre-paid Card Sales: $0
+Online Sales: $38.97
+Alcohol Sales: $1875.21
+Alcohol Sales Percentage: 14.54%
+Alcohol Sales per guest: $4.03
+Credit Card Tips: $2250.79
+Cash Tips: $187
+Total Tips: $2437.79
+Tips Percentage: 18.90%
+Sales Per Guest: $27.74
+Total amount cancelled: $57.03
+Reason for cancelled: 客人取消
+New Chubby Member: 5
+Chubby plus: 5
+Chubby one: 0
+Today total Scan: 90
+Scan Rate: 62.50%
+Total Members to Today: 256
+Total Discount: $579.26
+NFT: $34.40
+Other: $496.73
+Chubby Club: $48.13
+
+Google Reviews: 890 (4.9 Stars)
+Yelp Reviews: 4.6 (947 Stars)
     

@@ -1,36 +1,36 @@
 
-      Daily Report:
-      Date: April 1st, 2025
-      Shift Lead: 0
-      Total Table: 0
-      Total Guest: 0
-      Total Sales: $0
-      Net Sales: $0
-      Cash Sales: $0
-      Credit Card Sales: $0
-      Gift Card Sales: $0
-      Pre-paid Card Sales: $0
-      Online Sales: $0
-      Alcohol Sales: $0
-      Alcohol Sales Percentage: 0.00%
-      Alcohol Sales per guest: $0.00
-      Credit Card Tips: $0
-      Cash Tips: $0
-      Total Tips: $0
-      Tips Percentage: 0.00%
-      Sales Per Guest: $0.00
-      Total amount cancelled: $0
-      Reason for cancelled: 0
-      New Chubby Member: 0
-      Chubby plus: 0
-      Chubby one: 0
-      Today total Scan: 0
-      Scan Rate: 0.00%
-      Total Members to Today: 0
-      Total Discount: $0
-      NFT: $0
-      Other: $0
-      
-      Google Reviews: 890 (4.9 Stars)
-      Yelp Reviews: 0 (0 Stars)
+Daily Report:
+Date: April 1st, 2025
+Shift Lead: 0
+Total Table: 0
+Total Guest: 0
+Total Sales: $0
+Net Sales: $0
+Cash Sales: $0
+Credit Card Sales: $0
+Gift Card Sales: $0
+Pre-paid Card Sales: $0
+Online Sales: $0
+Alcohol Sales: $0
+Alcohol Sales Percentage: 0.00%
+Alcohol Sales per guest: $0.00
+Credit Card Tips: $0
+Cash Tips: $0
+Total Tips: $0
+Tips Percentage: 0.00%
+Sales Per Guest: $0.00
+Total amount cancelled: $0
+Reason for cancelled: 0
+New Chubby Member: 0
+Chubby plus: 0
+Chubby one: 0
+Today total Scan: 0
+Scan Rate: 0.00%
+Total Members to Today: 0
+Total Discount: $0
+NFT: $0
+Other: $0
+
+Google Reviews: 890 (4.9 Stars)
+Yelp Reviews: 0 (0 Stars)
     

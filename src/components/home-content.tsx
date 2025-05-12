@@ -169,7 +169,7 @@ export default function HomeContent() {
                 </CardContent>
             </Card>
 
-            <Card className="w-full max-w-3xl mx-auto shadow-lg">
+            <Card className="w-full max-w-5xl mx-auto shadow-lg">
                 <CardHeader>
                     <CardTitle>Monthly Net Sales ({new Date().getFullYear()})</CardTitle>
                     <CardDescription>Total net sales for each month of the current year.</CardDescription>

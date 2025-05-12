@@ -10,6 +10,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { setCookie } from 'cookies-next';
 import { useRouter } from 'next/navigation'; // Import useRouter
+import { logUserActivity } from '@/actions/logActions'; // Import logging action
 
 export default function LoginPage() {
   const [username, setUsername] = useState("");
@@ -56,7 +57,7 @@ export default function LoginPage() {
       if (user) {
             // Set a session cookie with the username and explicit path
           sessionStorage.setItem('username', username);
-            
+          await logUserActivity(username, 'login'); // Log login activity
           router.push('/home');
           } else {
             toast({

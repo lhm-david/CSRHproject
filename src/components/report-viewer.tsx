@@ -21,6 +21,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { logUserActivity } from '@/actions/logActions'; // Import logging action
 
 
 export default function ReportViewer() {
@@ -114,6 +115,10 @@ export default function ReportViewer() {
           setSelectedReportContent(editableContent);
           setIsEditing(false);
           toast({ title: "Report Updated", description: result.message });
+          const username = sessionStorage.getItem('username');
+          if (username && username !== "undefined") {
+            await logUserActivity(username, 'edit', currentOpenReportFilename);
+          }
         } else {
           toast({ variant: "destructive", title: "Error updating report", description: result.message });
         }
@@ -138,6 +143,10 @@ export default function ReportViewer() {
       const result = await deleteReportFile(fileToDelete);
       if (result.success) {
         toast({ title: "Report Deleted", description: result.message });
+        const username = sessionStorage.getItem('username');
+        if (username && username !== "undefined") {
+          await logUserActivity(username, 'delete', fileToDelete);
+        }
         fetchReportFiles(); // Refresh the file list
         if (currentOpenReportFilename === fileToDelete) {
           setSelectedReportContent(null);
@@ -163,7 +172,7 @@ export default function ReportViewer() {
       return (
         <AccordionItem value={item.name} key={item.name} className="border-none">
           <AccordionTrigger 
-            className="hover:no-underline py-2 px-3 rounded-md hover:bg-accent data-[state=open]:bg-accent"
+            className="hover:no-underline py-2 px-3 rounded-md"
             onClick={() => setOpenFolders(prev => 
               prev.includes(item.name) ? prev.filter(f => f !== item.name) : [...prev, item.name]
             )}
@@ -229,7 +238,7 @@ export default function ReportViewer() {
 
   return (
     <div className="flex flex-col md:flex-row gap-4 p-4 md:p-6 h-[calc(100vh-150px)]"> 
-      <Card className="w-full md:w-1/3 shadow-lg">
+      <Card className="w-full md:w-1/3 shadow-lg min-w-[400px]">
         <CardHeader>
           <CardTitle>Available Reports</CardTitle>
           <CardDescription>Click a report to view its content.</CardDescription>
@@ -259,7 +268,7 @@ export default function ReportViewer() {
         </CardContent>
       </Card>
 
-      <Card className="w-full md:w-2/3 shadow-lg">
+      <Card className="w-full md:w-1/3 shadow-lg min-w-[800px]">
         <CardHeader>
           <CardTitle>Report Content</CardTitle>
           {selectedReportContent === null && !isLoadingContent && !isEditing && <CardDescription>Select a report to see its details.</CardDescription>}
@@ -279,7 +288,7 @@ export default function ReportViewer() {
                 <Textarea
                   value={editableContent}
                   onChange={(e) => setEditableContent(e.target.value)}
-                  className="h-full min-h-[300px] text-sm whitespace-pre-wrap p-4 bg-muted rounded-md"
+                  className="h-full min-h-[500px] text-sm whitespace-pre-wrap p-4 bg-muted rounded-md"
                   aria-label="Editable report content"
                 />
               </ScrollArea>
@@ -298,7 +307,7 @@ export default function ReportViewer() {
               <ScrollArea className="flex-grow mb-4">
                 <pre className="text-sm whitespace-pre-wrap p-4 bg-muted rounded-md min-h-[300px]">{selectedReportContent}</pre>
               </ScrollArea>
-              <div className="flex justify-end mt-auto pt-4 border-t">
+              <div className="flex justify-center mt-auto pt-4 border-t">
                 <Button onClick={handleEditClick}>
                   <Icons.edit className="mr-2 h-4 w-4" />
                   Edit
