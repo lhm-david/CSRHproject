@@ -69,11 +69,22 @@ export type ReportStructureItem = {
   children?: ReportStructureItem[];
 };
 
+// Helper function to extract day from filename (e.g., "daily_report_May_2nd_2025.txt" -> 2)
+function extractDayFromName(filename: string): number {
+  const match = filename.match(/_(\d+)(?:st|nd|rd|th)_/i);
+  if (match && match[1]) {
+    return parseInt(match[1], 10);
+  }
+  // Fallback for filenames that might not perfectly match
+  // console.warn(`Could not parse day from filename: ${filename}`);
+  return 0; // Sorts unparsable names first, or handle as error
+}
+
 export async function listReportFiles(): Promise<{ success: boolean; reportStructure?: ReportStructureItem[]; message: string }> {
   const reportsDirectory = join(process.cwd(), 'public/reportFiles');
   try {
     const files = await readdir(reportsDirectory);
-    const txtFiles = files.filter(file => file.endsWith('.txt')).sort();
+    const txtFiles = files.filter(file => file.endsWith('.txt')).sort(); // Initial alphabetical sort
 
     const reportStructure: ReportStructureItem[] = [];
     const monthFolders: { [key: string]: ReportStructureItem } = {};
@@ -101,6 +112,17 @@ export async function listReportFiles(): Promise<{ success: boolean; reportStruc
         otherFiles.push({ name: file, type: 'file' });
       }
     });
+
+    // Sort files within each month folder by day
+    for (const monthKey in monthFolders) {
+      if (monthFolders[monthKey].children && monthFolders[monthKey].children!.length > 0) {
+        monthFolders[monthKey].children!.sort((a, b) => {
+          const dayA = extractDayFromName(a.name);
+          const dayB = extractDayFromName(b.name);
+          return dayA - dayB;
+        });
+      }
+    }
     
     Object.values(monthFolders).forEach(folder => {
       if (folder.children && folder.children.length > 0) {
@@ -114,11 +136,10 @@ export async function listReportFiles(): Promise<{ success: boolean; reportStruc
             const monthOrder = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             return monthOrder.indexOf(a.name) - monthOrder.indexOf(b.name);
         }
-        return 0; // Keep other files at the end or maintain original relative order
+        return 0; 
     });
 
-    reportStructure.push(...otherFiles);
-
+    reportStructure.push(...otherFiles); // Add any files not matching a month folder at the end
 
     console.log('Report files structured successfully:', reportStructure);
     return { success: true, reportStructure, message: 'Report files structured successfully.' };
@@ -136,7 +157,6 @@ export async function getReportFileContent(filename: string): Promise<{ success:
   if (!filename) {
     return { success: false, message: 'Filename is required.' };
   }
-  // Sanitize filename to prevent path traversal, although join should also help
   const sanitizedFilename = filename.replace(/\.\.\//g, '').replace(/\.\.\\/g, '');
   if (sanitizedFilename !== filename) {
       console.warn(`Filename was sanitized for reading: "${filename}" -> "${sanitizedFilename}"`);
@@ -144,7 +164,6 @@ export async function getReportFileContent(filename: string): Promise<{ success:
   if (!sanitizedFilename.endsWith('.txt')) {
       return { success: false, message: 'Invalid file type. Only .txt files are allowed.' };
   }
-
 
   const filePath = join(process.cwd(), 'public/reportFiles', sanitizedFilename);
   console.log(`Attempting to read report file from: ${filePath}`);
@@ -169,7 +188,7 @@ export async function updateReportFileContent(
   if (!filename) {
     return { success: false, message: 'Filename is required for update.' };
   }
-  const sanitizedFilename = sanitizeFilename(filename); // Use the existing sanitization
+  const sanitizedFilename = sanitizeFilename(filename); 
   if (sanitizedFilename !== filename) {
     console.warn(`Filename was sanitized for updating: "${filename}" -> "${sanitizedFilename}"`);
   }
@@ -215,7 +234,6 @@ export async function deleteReportFile(filename: string): Promise<{ success: boo
     console.error(`Error deleting report file "${sanitizedFilename}":`, error);
     let errorMessage = `Failed to delete report file "${sanitizedFilename}".`;
     if (error instanceof Error) {
-      // Check for specific error codes if needed (e.g., ENOENT for file not found)
       if ((error as NodeJS.ErrnoException).code === 'ENOENT') {
         errorMessage = `File "${sanitizedFilename}" not found. It may have already been deleted.`;
       } else {
@@ -231,20 +249,18 @@ const getCurrentMonthName = (): string => {
   return format(new Date(), 'MMMM').toLowerCase();
 };
 
-// Generic function to sum values from report files for a given month
 async function sumReportValues(
-  monthName: string, // Expect full month name e.g., "January", "February"
+  monthName: string, 
   regex: RegExp,
   valueParser: (match: RegExpMatchArray) => number,
   itemDescription: string
 ): Promise<{ success: boolean; total?: number; message: string }> {
   const reportsDirectory = join(process.cwd(), 'public/reportFiles');
   let totalSum = 0;
-  const lowerCaseMonthName = monthName.toLowerCase(); // Use lowercase for matching
+  const lowerCaseMonthName = monthName.toLowerCase(); 
 
   try {
     const files = await readdir(reportsDirectory);
-    // Ensure comparison is case-insensitive by converting filename to lowercase as well
     const monthTxtFiles = files.filter(file => file.toLowerCase().includes(lowerCaseMonthName) && file.endsWith('.txt'));
 
     if (monthTxtFiles.length === 0) {
@@ -263,19 +279,14 @@ async function sumReportValues(
           } else {
             console.warn(`Could not parse '${itemDescription}' from ${file}: value was '${match[1]}'`);
           }
-        } else {
-          // This is not an error, just means the line wasn't found or value not parsable.
-          // console.warn(`'${itemDescription}' line not found or improperly formatted in ${file}`);
         }
       } catch (readError) {
         console.error(`Error reading file ${file}:`, readError);
-        // Optionally, decide if a single file read error should make the whole sum fail
-        // For now, we'll log and continue, effectively summing from readable files.
       }
     }
     console.log(`Successfully calculated sum of ${monthName} ${itemDescription}:`, totalSum);
     return { success: true, total: totalSum, message: `Sum of ${monthName} ${itemDescription} calculated successfully.` };
-  } catch (error) { // This catches readdir error mostly
+  } catch (error) { 
     console.error(`Error getting sum of ${monthName} ${itemDescription}:`, error);
     let errorMessage = `Failed to get sum of ${monthName} ${itemDescription}.`;
     if (error instanceof Error) {
@@ -287,29 +298,25 @@ async function sumReportValues(
 
 
 export async function getSumOfCurrentMonthTotalTables(): Promise<{ success: boolean; total?: number; message: string }> {
-  const currentMonth = getCurrentMonthName(); // already returns lowercase
+  const currentMonth = getCurrentMonthName(); 
   return sumReportValues(currentMonth, /Total Table:\s*(\d+)/, (match) => parseInt(match[1], 10), 'total tables');
 }
 
 export async function getSumOfCurrentMonthTotalGuests(): Promise<{ success: boolean; total?: number; message: string }> {
-  const currentMonth = getCurrentMonthName(); // already returns lowercase
+  const currentMonth = getCurrentMonthName(); 
   return sumReportValues(currentMonth, /Total Guest:\s*(\d+)/, (match) => parseInt(match[1], 10), 'total guests');
 }
 
 export async function getSumOfCurrentMonthNetSales(): Promise<{ success: boolean; total?: number; message: string }> {
-  const currentMonth = getCurrentMonthName(); // already returns lowercase
+  const currentMonth = getCurrentMonthName(); 
   return sumReportValues(currentMonth, /Net Sales:\s*\$([0-9.]+)/, (match) => parseFloat(match[1]), 'net sales');
 }
 
 export async function getSumOfCurrentMonthNewChubbyMembers(): Promise<{ success: boolean; total?: number; message: string }> {
-  const currentMonth = getCurrentMonthName(); // already returns lowercase
+  const currentMonth = getCurrentMonthName(); 
   return sumReportValues(currentMonth, /New Chubby Member:\s*(\d+)/, (match) => parseInt(match[1], 10), 'new chubby members');
 }
 
-
-// --- May specific functions (can be deprecated or removed if generic functions are sufficient) ---
-// These functions are kept for now but should ideally be replaced by calling sumReportValues with "may"
-// Or removed if getSumOfCurrentMonth... functions are sufficient and "May" is the current month.
 
 export async function getSumOfMayTotalTables(): Promise<{ success: boolean; totalTables?: number; message: string }> {
   const result = await sumReportValues("May", /Total Table:\s*(\d+)/, (match) => parseInt(match[1], 10), 'May total tables');
@@ -332,8 +339,8 @@ export async function getSumOfMayNewChubbyMembers(): Promise<{ success: boolean;
 }
 
 export type MonthlySalesData = {
-  month: string; // Full month name e.g. "January"
-  shortMonth: string; // Abbreviated month name e.g. "Jan"
+  month: string; 
+  shortMonth: string; 
   netSales: number;
 };
 
@@ -341,7 +348,7 @@ export async function getNetSalesByMonthForAllMonths(year: number = new Date().g
   const monthlySalesArray: MonthlySalesData[] = [];
   const monthNames: string[] = [];
   for (let i = 0; i < 12; i++) {
-    monthNames.push(format(new Date(year, i), 'MMMM')); // "January", "February", ...
+    monthNames.push(format(new Date(year, i), 'MMMM')); 
   }
   
   let overallSuccess = true;
@@ -349,10 +356,8 @@ export async function getNetSalesByMonthForAllMonths(year: number = new Date().g
 
   try {
     for (const monthName of monthNames) {
-      // Pass the full month name (e.g., "January") to sumReportValues.
-      // sumReportValues will handle converting it to lowercase for matching.
       const result = await sumReportValues(
-        monthName, // Pass "January", "February", etc.
+        monthName, 
         /Net Sales:\s*\$([0-9.]+)/,
         (match) => parseFloat(match[1]),
         `${monthName} net sales`
@@ -362,17 +367,12 @@ export async function getNetSalesByMonthForAllMonths(year: number = new Date().g
       if (result.success && typeof result.total === 'number') {
         salesForMonth = result.total;
       } else {
-        // This case handles both !result.success (an error in sumReportValues like readdir failure)
-        // and result.success but result.total is undefined (e.g., no files found for that month).
-        salesForMonth = 0; // Default to 0 sales for the month
+        salesForMonth = 0; 
         if (!result.success) {
-          // Log specific error for the month if sumReportValues indicated a failure
           console.error(`Failed to get net sales for ${monthName}: ${result.message}`);
           errorMessages.push(`Error for ${monthName}: ${result.message}`);
-          overallSuccess = false; // Mark that at least one month had an issue
+          overallSuccess = false; 
         }
-        // If result.success was true but total was undefined (e.g. no files), it's not an "error" for overallSuccess.
-        // It just means 0 sales for that month based on available data.
       }
 
       monthlySalesArray.push({
@@ -382,33 +382,25 @@ export async function getNetSalesByMonthForAllMonths(year: number = new Date().g
       });
     }
 
-    // Ensure monthlySalesArray always has 12 entries. This should be guaranteed by the loop structure.
     if (monthlySalesArray.length !== 12) {
-        // This state indicates a fundamental issue with the loop itself, not data parsing.
         console.error("Internal logic error: Monthly sales array does not have 12 months of data after processing.");
         return { 
-            success: false, // Overall failure due to unexpected structure
-            data: monthlySalesArray, // Return what we have, might be incomplete
+            success: false, 
+            data: monthlySalesArray, 
             message: "Internal error: Did not generate complete data for all 12 months."
         };
     }
     
     return { 
-      success: overallSuccess, // True if all months processed (even if some had 0 sales due to no files), false if any sumReportValues had critical error
+      success: overallSuccess, 
       data: monthlySalesArray, 
       message: overallSuccess ? 'Successfully fetched net sales for all months.' : `Fetched net sales, but some months encountered errors: ${errorMessages.join("; ")}`
     };
 
-  } catch (error) { // This catches errors like monthNames generation, or other unexpected issues outside the loop.
+  } catch (error) { 
     console.error('Critical error in getNetSalesByMonthForAllMonths:', error);
     const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
-    // Return an empty array for data in case of such critical failure, and mark success as false.
     return { success: false, data: [], message: `Failed to fetch net sales for all months: ${errorMessage}` };
   }
 }
     
-
-    
-
-    
-
