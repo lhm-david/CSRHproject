@@ -190,7 +190,7 @@ export default function ReportViewer() {
     }
 
     return (
-      <div key={item.name} className="flex items-center w-full group" style={{ paddingLeft }}>
+      <div key={item.name} className="flex items-center w-full group">
         <Button
           variant="ghost"
           className="flex-grow justify-start text-left py-2 px-3 rounded-md"
@@ -237,11 +237,12 @@ export default function ReportViewer() {
 
 
   return (
-    <div className="flex flex-col md:flex-row gap-4 p-4 md:p-6 h-[calc(100vh-150px)]"> 
-      <Card className="w-full md:w-1/3 shadow-lg min-w-[400px]">
+    // <div className="flex flex-col md:flex-row gap-4 p-4 md:p-6 h-[calc(100vh-150px)]"> 
+    <div className="flex flex-col md:flex-row gap-4 p-4 md:p-6 "> 
+      <Card className="w-full md:w-1/3 shadow-lg min-w-[300px]">
         <CardHeader>
           <CardTitle>Available Reports</CardTitle>
-          <CardDescription>Click a report to view its content.</CardDescription>
+          {/* <CardDescription>Click a report to view its content.</CardDescription> */}
         </CardHeader>
         <CardContent>
           {isLoadingFiles ? (
@@ -254,7 +255,8 @@ export default function ReportViewer() {
           ): reportStructure.length === 0 ? (
             <p className="text-muted-foreground">No reports found.</p>
           ) : (
-            <ScrollArea className="h-[calc(100vh-280px)]"> 
+            // <ScrollArea className="h-[calc(100vh-280px)]"> 
+            <ScrollArea > 
               <Accordion 
                 type="multiple" 
                 value={openFolders}
@@ -268,7 +270,7 @@ export default function ReportViewer() {
         </CardContent>
       </Card>
 
-      <Card className="w-full md:w-1/3 shadow-lg min-w-[800px]">
+      <Card className="w-full md:w-1/3 shadow-lg min-w-[300px] ">
         <CardHeader>
           <CardTitle>Report Content</CardTitle>
           {selectedReportContent === null && !isLoadingContent && !isEditing && <CardDescription>Select a report to see its details.</CardDescription>}

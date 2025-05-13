@@ -220,7 +220,7 @@ export default function ReportForm({ onSuccessfulSubmit, onGoBack }: ReportFormP
 
   const handleGenerateReport = async () => {
     const report = generateReportText();
-    const filename = `daily_report_${formattedDate.replace(/ /g, '_').replace(/,/g, '')}.txt`;
+    const filename = `${formattedDate.replace(/ /g, '_').replace(/,/g, '')}.txt`;
     try {
         const blob = new Blob([report], { type: "text/plain;charset=utf-8" }); 
         const url = window.URL.createObjectURL(blob);
@@ -248,7 +248,7 @@ export default function ReportForm({ onSuccessfulSubmit, onGoBack }: ReportFormP
   
   const handleSubmitReport = async () => {
     const report = generateReportText();
-    const filename = `daily_report_${formattedDate.replace(/ /g, '_').replace(/,/g, '')}.txt`;
+    const filename = `${formattedDate.replace(/ /g, '_').replace(/,/g, '')}.txt`;
     try {
         const result = await saveReportToServer(report, filename);
         if (result.success) {

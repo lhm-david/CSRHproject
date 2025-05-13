@@ -20,7 +20,7 @@ export default function Navbar({ setActiveView }: NavbarProps) {
 
     useEffect(() => {
         const handleResize = () => {
-            const mobileCheck = window.innerWidth < 1290;
+            const mobileCheck = window.innerWidth < 790;
             setIsMobile(mobileCheck);
             if (!mobileCheck && isSheetOpen) {
                 setIsSheetOpen(false);
@@ -62,7 +62,7 @@ export default function Navbar({ setActiveView }: NavbarProps) {
     if (isMobile) {
         return (
             <nav className="w-full p-4 flex justify-between items-center shadow-md mt-2">
-                 <div className="text-lg font-semibold">Chubby Skewers</div>
+                 <div className="text-lg font-semibold">Chubby Skewers Management Platform</div>
                 <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
                     <SheetTrigger asChild>
                         <Button variant="outline" size="icon">

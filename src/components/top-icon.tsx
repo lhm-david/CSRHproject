@@ -14,7 +14,7 @@ export default function TopIcon(){
             />
             
           </div>
-          <h1 className="text-2xl font-bold">Chubby Skewer Management platform</h1>
+          {/* <h1 className="text-2xl font-bold">Chubby Skewer Management platform</h1> */}
         </>
     )
 }
